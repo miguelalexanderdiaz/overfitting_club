@@ -1,0 +1,14 @@
+---
+title: "<span class=\"section-title-with-icon\"><img src=\"assets/nn-animated.svg\" alt=\"logo\"/> The Overfitting Club</span>"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: true
+  filter-ui: true
+page-layout: full
+title-block-banner: true
+---
+
+{{< video https://www.youtube.com/embed/wo9vZccmqwc >}}

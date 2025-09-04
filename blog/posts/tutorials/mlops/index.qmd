@@ -1,0 +1,27 @@
+---
+title: "Coming Soon: MLOps Tutorials"
+author: "Miguel Chitiva"
+date: "2025-01-04"
+categories: [mlops, tutorial, coming-soon]
+description: "Comprehensive MLOps tutorials covering model deployment, monitoring, and production workflows are coming soon."
+---
+
+# MLOps Tutorials
+
+This section will cover essential MLOps practices:
+
+- **Model Deployment**: Containerization, APIs, and serving strategies
+- **Monitoring & Observability**: Tracking model performance in production
+- **CI/CD for ML**: Automated testing and deployment pipelines
+- **Data Versioning**: Managing datasets and model artifacts
+- **Infrastructure**: Cloud platforms and orchestration tools
+
+## Planned Content
+
+- **Docker for ML**: Containerizing models and applications
+- **Model Serving**: REST APIs, batch processing, and real-time inference
+- **Monitoring**: Drift detection, performance tracking, and alerting
+- **Pipelines**: Building reproducible ML workflows
+- **Best Practices**: Security, scalability, and cost optimization
+
+*This is a placeholder post. Detailed tutorials will be added soon.*

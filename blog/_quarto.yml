@@ -1,0 +1,49 @@
+project:
+  type: website
+
+website:
+  title: "The Overfitting Club"
+  favicon: assets/favicon.png
+  navbar:
+    logo: assets/logo.svg
+    search: true
+    left:
+      - text: "Thoughts"
+        href: thoughts.qmd
+      - text: "Tutorials"
+        menu:
+          - text: "All Tutorials"
+            href: tutorials.qmd
+          - text: "Agents"
+            href: agents.qmd
+          - text: "Deep Learning"
+            href: deep_learning.qmd
+          - text: "MLOps"
+            href: mlops.qmd
+      - text: "Papers"
+        href: papers.qmd
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/
+      - icon: linkedin
+        href: https://www.linkedin.com/in/miguel-chitiva/
+  reader-mode: true
+  bread-crumbs: true
+  page-navigation: true
+  back-to-top-navigation: true
+  page-footer:
+    left: "2025, The Overfitting Club by Miguel Chitiva"
+    right:
+      - icon: github
+        href: https://github.com/
+      - icon: linkedin
+        href: https://www.linkedin.com/in/miguel-chitiva/
+format:
+  html:
+    theme: darkly
+    css: assets/styles.css
+
+
+

@@ -1,0 +1,16 @@
+---
+title: "About"
+image: assets/profile.jpeg
+about:
+  template: jolla
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/miguel-chitiva/
+    - icon: medium
+      text: Medium
+      href: https://medium.com/@miguelalexanderdiaz
+
+---
+
+About this blog

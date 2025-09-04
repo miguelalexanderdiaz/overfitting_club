@@ -1,0 +1,17 @@
+---
+title: "<span class=\"section-title-with-icon\"><img src=\"assets/logo.svg\" alt=\"logo\"/> Thoughts</span>"
+listing:
+  contents: posts/thoughts
+  type: default
+  sort: "date desc"
+  filter-ui: [title, description, categories]
+  sort-ui: [date, title, reading-time]
+  page-size: 25
+  fields: [image, title, categories, description, reading-time, date]
+  categories: true
+page-layout: article
+---
+
+Short essays and notes on data science, ML, and engineering.
+
+

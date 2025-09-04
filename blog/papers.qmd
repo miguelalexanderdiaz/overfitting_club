@@ -1,0 +1,17 @@
+---
+title: "<span class=\"section-title-with-icon\"><img src=\"assets/logo.svg\" alt=\"logo\"/> Papers</span>"
+listing:
+  contents: posts/papers
+  type: default
+  sort: "date desc"
+  filter-ui: [title, description, categories]
+  sort-ui: [date, title, reading-time]
+  page-size: 25
+  fields: [image, title, author, categories, description, reading-time, date]
+  categories: true
+page-layout: article
+---
+
+Paper reviews and summaries. Use the category filter (e.g., `papers`, `survey`, `theory`).
+
+
