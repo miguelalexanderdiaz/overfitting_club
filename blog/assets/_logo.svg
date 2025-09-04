@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
+  <defs>
+    <!-- Background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Link stroke -->
+    <linearGradient id="link" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+
+    <!-- Node fill -->
+    <radialGradient id="node" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f4f3ff"/>
+      <stop offset="60%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </radialGradient>
+
+    <!-- Soft glow -->
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="0.9" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Remove this rect for transparent corners -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)"/>
+
+  <!-- Coordinates for layers (3–4–2) -->
+  <!-- Inputs:  (14,14) (14,32) (14,50) -->
+  <!-- Hidden:  (32,12) (32,28) (32,44) (32,58) -->
+  <!-- Outputs: (50,22) (50,42) -->
+
+  <!-- Connections -->
+  <g fill="none" stroke="url(#link)" stroke-width="2" stroke-linecap="round" opacity="0.85">
+    <!-- Input -> Hidden (all-to-all) -->
+    <line x1="14" y1="14" x2="32" y2="12"/>
+    <line x1="14" y1="14" x2="32" y2="28"/>
+    <line x1="14" y1="14" x2="32" y2="44"/>
+    <line x1="14" y1="14" x2="32" y2="58"/>
+
+    <line x1="14" y1="32" x2="32" y2="12"/>
+    <line x1="14" y1="32" x2="32" y2="28"/>
+    <line x1="14" y1="32" x2="32" y2="44"/>
+    <line x1="14" y1="32" x2="32" y2="58"/>
+
+    <line x1="14" y1="50" x2="32" y2="12"/>
+    <line x1="14" y1="50" x2="32" y2="28"/>
+    <line x1="14" y1="50" x2="32" y2="44"/>
+    <line x1="14" y1="50" x2="32" y2="58"/>
+
+    <!-- Hidden -> Output (all-to-all) -->
+    <line x1="32" y1="12" x2="50" y2="22"/>
+    <line x1="32" y1="28" x2="50" y2="22"/>
+    <line x1="32" y1="44" x2="50" y2="22"/>
+    <line x1="32" y1="58" x2="50" y2="22"/>
+
+    <line x1="32" y1="12" x2="50" y2="42"/>
+    <line x1="32" y1="28" x2="50" y2="42"/>
+    <line x1="32" y1="44" x2="50" y2="42"/>
+    <line x1="32" y1="58" x2="50" y2="42"/>
+  </g>
+
+  <!-- Nodes -->
+  <g filter="url(#glow)">
+    <!-- Inputs -->
+    <circle cx="14" cy="14" r="4.3" fill="url(#node)"/>
+    <circle cx="14" cy="32" r="4.3" fill="url(#node)"/>
+    <circle cx="14" cy="50" r="4.3" fill="url(#node)"/>
+    <!-- Hidden -->
+    <circle cx="32" cy="12" r="4.1" fill="url(#node)"/>
+    <circle cx="32" cy="28" r="4.1" fill="url(#node)"/>
+    <circle cx="32" cy="44" r="4.1" fill="url(#node)"/>
+    <circle cx="32" cy="58" r="4.1" fill="url(#node)"/>
+    <!-- Outputs -->
+    <circle cx="50" cy="22" r="4.6" fill="url(#node)"/>
+    <circle cx="50" cy="42" r="4.6" fill="url(#node)"/>
+  </g>
+</svg>
