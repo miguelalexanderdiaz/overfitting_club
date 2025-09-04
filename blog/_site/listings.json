@@ -1,0 +1,52 @@
+[
+  {
+    "listing": "/deep_learning.html",
+    "items": [
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
+    ]
+  },
+  {
+    "listing": "/tutorials.html",
+    "items": [
+      "/posts/tutorials/post-with-code/index.html",
+      "/posts/tutorials/mlops/index.html",
+      "/posts/tutorials/agents/index.html",
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
+    ]
+  },
+  {
+    "listing": "/papers.html",
+    "items": [
+      "/posts/papers/index.html"
+    ]
+  },
+  {
+    "listing": "/agents.html",
+    "items": [
+      "/posts/tutorials/agents/index.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/tutorials/post-with-code/index.html",
+      "/posts/thoughts/welcome/index.html",
+      "/posts/papers/index.html",
+      "/posts/tutorials/mlops/index.html",
+      "/posts/tutorials/agents/index.html",
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
+    ]
+  },
+  {
+    "listing": "/thoughts.html",
+    "items": [
+      "/posts/thoughts/welcome/index.html"
+    ]
+  },
+  {
+    "listing": "/mlops.html",
+    "items": [
+      "/posts/tutorials/mlops/index.html"
+    ]
+  }
+]
