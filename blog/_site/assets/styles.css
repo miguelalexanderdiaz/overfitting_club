@@ -36,3 +36,8 @@
     color: #eef6ff !important;
     font-weight: 800;
 }
+
+/* Custom header background color */
+.navbar {
+    background-color: #121928 !important;
+}
