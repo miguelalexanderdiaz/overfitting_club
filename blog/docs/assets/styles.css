@@ -1,0 +1,43 @@
+/* Navbar logo size */
+.navbar-brand img {
+    height: 28px;
+}
+
+/* Section title icon */
+.section-title-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title-with-icon img {
+    height: 80px;
+}
+
+/* Emphasize document/page titles - dark mode only */
+.quarto-title h1,
+.quarto-title .title {
+    color: #eaf2ff;
+    /* readable on dark banner */
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Match section titles (with icon) to the page title styling */
+.section-title-with-icon {
+    color: #eaf2ff;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+/* Strengthen brand text in navbar */
+.navbar-brand .navbar-title {
+    color: #eef6ff !important;
+    font-weight: 800;
+}
+
+/* Custom header background color */
+.navbar {
+    background-color: #121928 !important;
+}

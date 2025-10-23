@@ -1,0 +1,34 @@
+[
+  {
+    "listing": "/deep_learning.html",
+    "items": []
+  },
+  {
+    "listing": "/tutorials.html",
+    "items": []
+  },
+  {
+    "listing": "/papers.html",
+    "items": []
+  },
+  {
+    "listing": "/agents.html",
+    "items": []
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/thoughts/welcome/index.html"
+    ]
+  },
+  {
+    "listing": "/thoughts.html",
+    "items": [
+      "/posts/thoughts/welcome/index.html"
+    ]
+  },
+  {
+    "listing": "/mlops.html",
+    "items": []
+  }
+]
