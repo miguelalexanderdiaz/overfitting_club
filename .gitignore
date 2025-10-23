@@ -4,6 +4,8 @@
 # Quarto
 /.quarto/
 **/*.quarto_ipynb
+_site/
+_freeze/
 
 # Jupyter
 .ipynb_checkpoints
