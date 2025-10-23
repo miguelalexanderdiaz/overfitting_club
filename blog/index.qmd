@@ -9,5 +9,3 @@ listing:
   filter-ui: true
 page-layout: full
 ---
-
-{{< video https://www.youtube.com/embed/wo9vZccmqwc >}}

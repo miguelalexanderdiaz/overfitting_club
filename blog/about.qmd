@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "Miguel Diaz"
 image: assets/profile.jpeg
 about:
   template: jolla
@@ -13,4 +13,13 @@ about:
 
 ---
 
-About this blog
+*I wrangle messy, real‑world data into products your users actually love—from classical ML to agentic systems—delivered with calm, drama‑free MLOps.*
+
+### Current Interests
+
+- **Deep Learning on the Edge:** Quantization, pruning, distillation, and other tiny sorcery to run big brains on small chips (Federated Learning, Differential Privacy, etc.).
+
+- **Tiny agents on device:** Local LLMs with manners: tool calling, confident with local data, and calling the cloud only when it truly matters.
+
+*Why? Because GPUs don’t grow on trees (tragic), so we build clever, resource savvy systems that do more with less.*
+

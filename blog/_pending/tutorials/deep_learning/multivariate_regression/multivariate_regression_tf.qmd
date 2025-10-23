@@ -1,0 +1,344 @@
+---
+title: "Multivariate Regression"
+subtitle: "Prediction of the Amount of Sun Spots Using a Multivariate Time Series"
+author: "Miguel Alexander Chitiva Diaz"
+date: "2021-06-19"
+categories: [time-series, tensorflow, machine-learning]
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+---
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.ipynb)
+
+In this post, we will explore how to perform multivariate regression with TensorFlow to predict sunspot activity. We'll use a comprehensive approach that includes feature engineering, time series analysis, and deep learning to forecast sunspot counts.
+
+## Configuration
+
+```{python}
+#| echo: true
+window_size = 60
+batch_size = 256
+```
+
+## Imports
+
+```{python}
+#| echo: true
+import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+import warnings
+warnings.filterwarnings(
+    'ignore',
+    category=UserWarning,
+    module=r'^keras(\.|$)'
+)
+
+
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import seaborn as sns
+import kagglehub
+from kagglehub import KaggleDatasetAdapter
+from sklearn.preprocessing import MinMaxScaler
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from sklearn.metrics import mean_absolute_error
+from tensorflow.keras import layers, Model, callbacks, losses
+from datetime import datetime
+
+
+
+```
+
+```{python}
+physical_devices = tf.config.list_physical_devices('GPU')
+if physical_devices:
+    tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
+```
+
+## Download the Dataset
+
+```{python}
+#| echo: true
+
+# Load the sunspots dataset from Kaggle
+df = kagglehub.dataset_load(
+    KaggleDatasetAdapter.PANDAS,
+    "robervalt/sunspots", 
+    "Sunspots.csv",
+)
+df.head()
+```
+
+## Data Preprocessing & Scaling
+
+```{python}
+#| echo: true
+
+df = df.drop(df.columns[0], axis=1)
+df = df.sort_values('Date')
+df = df.rename(columns={df.columns[0]: 'date', df.columns[1]: 'sunspots'})
+
+scaler = MinMaxScaler()
+df['normalized_sunspots'] = scaler.fit_transform(np.expand_dims(df['sunspots'], axis=-1))
+df
+```
+
+## Dataset Exploration
+
+```{python}
+#| echo: true
+#| fig-width: 150
+#| fig-height: 10
+graphs = df.plot(grid=True, figsize=(50,10), fontsize=20, subplots=True)
+[x.legend(prop={'size': 30}) for x in graphs];
+```
+
+```{python}
+#| echo: true
+#| fig-width: 12
+#| fig-height: 5
+f = plt.figure(figsize=(12,5))
+ax1 = f.add_subplot(121)
+ax2 = f.add_subplot(122)
+plot_acf(df['normalized_sunspots'], ax=ax1, title='Autocorrelation Function')
+plot_pacf(df['normalized_sunspots'], ax=ax2, title='Partial Autocorrelation Function')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| echo: true
+#| fig-width: 12
+#| fig-height: 5
+f = plt.figure(figsize=(12,5))
+ax1 = f.add_subplot(121)
+ax2 = f.add_subplot(122)
+plot_acf(df['normalized_sunspots'], ax=ax1, lags=160, title='ACF with Extended Lags')
+plot_pacf(df['normalized_sunspots'], ax=ax2, lags=160, title='PACF with Extended Lags')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+#| echo: true
+lag_pos_corr = np.argmax([df['normalized_sunspots'].autocorr(lag=x) for x in range(110, 130, 1)])
+lag_pos_corr = list(range(110, 130, 1))[lag_pos_corr]
+
+lag_neg_corr = np.argmin([df['normalized_sunspots'].autocorr(lag=x) for x in range(55, 65, 1)])
+lag_neg_corr = list(range(55, 65, 1))[lag_neg_corr]
+
+print(f"Seasonal max correlation: {lag_pos_corr}")
+print(f"Seasonal min correlation: {lag_neg_corr}")
+```
+
+```{python}
+#| echo: true
+lag_pos_corr = np.argmax([df['normalized_sunspots'].autocorr(lag=x) for x in range(110, 130, 1) ])
+lag_pos_corr = list(range(110, 130, 1))[lag_pos_corr]
+
+lag_neg_corr = np.argmin([df['normalized_sunspots'].autocorr(lag=x) for x in range(55, 65, 1) ])
+lag_neg_corr = list(range(55, 65, 1))[lag_neg_corr]
+
+print(f"seasonal max_corr:{lag_pos_corr} \t seasonal min_corr:{lag_neg_corr}")
+```
+
+## Feature Engineering
+
+### Create Moving Averages
+
+```{python}
+#| echo: true
+# Create moving averages over several time windows
+df['MA(t-4)_sunspots'] = df['normalized_sunspots'].rolling(window=5).mean()
+df['MA(t-10)_sunspots'] = df['normalized_sunspots'].rolling(window=11).mean()
+df['MA(t-20)_sunspots'] = df['normalized_sunspots'].rolling(window=21).mean()
+df['MA(t-30)_sunspots'] = df['normalized_sunspots'].rolling(window=61).mean()
+df.tail()
+```
+
+### Remove Seasonality and Create New Features
+
+```{python}
+#| echo: true
+# Create seasonal features
+pos_season = df[0:len(df)-lag_pos_corr]['normalized_sunspots'].values - df[lag_pos_corr:]['normalized_sunspots'].values
+df['pos_season'] = np.concatenate([np.array([np.nan]*(len(df)-len(pos_season))), pos_season])
+
+neg_season = df[0:len(df)-lag_neg_corr]['normalized_sunspots'].values - df[lag_neg_corr:]['normalized_sunspots'].values
+df['neg_season'] = np.concatenate([np.array([np.nan]*(len(df)-len(neg_season))), neg_season])
+```
+
+## Split Train/Validation Dataset
+
+```{python}
+#| echo: true
+train_df = df[0:3000]
+val_df = df[3000:]
+
+# Drop NaN values
+train_df = train_df.dropna()
+val_df = val_df.dropna()
+
+print(f"Training set size: {len(train_df)}")
+print(f"Validation set size: {len(val_df)}")
+train_df.head()
+```
+
+### Check Multivariate Features
+
+```{python}
+#| echo: true
+val_df[val_df.columns[-7:]].plot(figsize=(50,15), fontsize=20, grid=True).legend(prop={'size': 20});
+```
+
+## Naïve Predictions using only the created features
+
+```{python}
+#| echo: true
+for col in val_df.columns[-6:]:
+    print(f"MAE using only '{col}' = {mean_absolute_error(val_df['normalized_sunspots'], val_df[col])}")
+```
+
+## Create TensorFlow Model and Dataset
+
+### Create Windowed Dataset
+
+```{python}
+#| echo: true
+
+train_ds  = tf.data.Dataset.from_tensor_slices(train_df[train_df.columns[-7:]])
+val_ds  = tf.data.Dataset.from_tensor_slices(val_df[val_df.columns[-7:]])
+
+
+def windowed_ds(ds, window_size, pred_window=1, shift=1):
+    ds = ds.window(window_size + pred_window, shift=shift, drop_remainder=True)
+    ds = ds.flat_map(lambda w: w.batch(window_size + pred_window))
+    ds = ds.map(lambda w: (w[:-pred_window],w[-pred_window:][:,0]))
+    return ds
+
+train_ds = windowed_ds(train_ds, window_size).repeat(10).shuffle(500, reshuffle_each_iteration=True).batch(batch_size)
+val_ds = windowed_ds(val_ds, window_size).batch(batch_size).cache()
+```
+
+### Create the model (CNN + RNN)
+
+```{python}
+inputs = layers.Input(shape=(window_size,7))
+x = layers.Conv1D(filters=32, kernel_size=10, padding='causal')(inputs)
+x = layers.Conv1D(filters=64, kernel_size=2)(x)
+x = layers.LSTM(128, return_sequences=True)(x)
+x = layers.LSTM(128)(x)
+x = layers.Dense(64, activation="relu")(x)
+x = layers.Dropout(0.4)(x, training=True)
+x = layers.Dense(1)(x)
+model = Model(inputs, x)
+model.summary()
+```
+
+```{python}
+model.compile(loss=losses.Huber(), optimizer='adam', metrics=['mae'])
+```
+
+```{python}
+early_stop = callbacks.EarlyStopping(monitor='val_mae', min_delta=1e-3, patience=30, mode='min', restore_best_weights=True)
+checkpoint = callbacks.ModelCheckpoint(f'models/sunspots.model.keras', monitor='mae', save_best_only=True, mode='min')
+
+```
+
+```{python}
+history = model.fit(train_ds, validation_data=val_ds, epochs=100, callbacks=[early_stop, checkpoint], verbose=1)
+```
+
+```{python}
+
+y_true = []
+y_pred = []
+for elem in val_ds:
+    y_true.append(elem[1].numpy())
+    y_pred.append(model.predict(elem[0]))
+y_true = np.concatenate(y_true, axis=0)
+y_pred = np.concatenate(y_pred, axis=0)
+
+print('scaled val_MAE:', mean_absolute_error(y_true, y_pred))
+y_true = scaler.inverse_transform(y_true)
+y_pred = scaler.inverse_transform(y_pred)
+print('val_MAE:', mean_absolute_error(y_true, y_pred))
+err = y_true - y_pred
+```
+
+```{python}
+#| echo: true
+
+f = plt.figure(figsize=(50,15))
+ax1 = f.add_subplot(211)
+ax2 = f.add_subplot(212)
+ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_true)
+ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_pred)
+ax1.grid()
+
+sns.boxplot(np.squeeze(err), ax=ax2, orient='h')
+ax1.legend(['y_true', 'y_pred'], prop={'size': 30})
+ax2.set_title('total error distribution', fontsize=30)
+ax1.xaxis.set_tick_params(labelsize=20)
+ax1.yaxis.set_tick_params(labelsize=20)
+ax2.xaxis.set_tick_params(labelsize=20)
+```
+
+# Error Analysis
+
+```{python}
+#| echo: true
+n_experiments = 300
+y_true = []
+y_pred = []
+aux_ds = val_ds.unbatch()
+for elem in aux_ds:
+    y_true.append(elem[1].numpy())
+    # Vectorized MC dropout: tile the input and call the model once with training=True
+    tiled_inputs = tf.tile(tf.expand_dims(elem[0], axis=0), [n_experiments, 1, 1])
+    preds = model(tiled_inputs)
+    y_pred.append(preds)
+
+y_true = np.concatenate(y_true, axis=0)
+y_pred = np.concatenate(y_pred, axis=1)
+```
+
+```{python}
+quantiles = np.quantile(y_pred, [0.5,0.25,0.75,0.05,0.95], axis=0)
+quantiles = scaler.inverse_transform(quantiles)
+quantiles.shape
+```
+
+```{python}
+#| echo: true
+y_true_tr = scaler.inverse_transform(np.expand_dims(y_true, axis=-1))
+y_pred_tr = np.expand_dims(quantiles[0], axis=-1)
+err = (y_true_tr - y_pred_tr).squeeze()
+
+```
+
+```{python}
+#| echo: true
+
+f = plt.figure(figsize=(50,15))
+ax1 = f.add_subplot(211)
+ax2 = f.add_subplot(212)
+ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_true_tr)
+ax1.plot(np.arange(3000, 3000+len(y_true), 1), quantiles[0])
+ax1.fill_between(np.arange(3000, 3000+len(y_true)), quantiles[1], quantiles[2], color='b', alpha=.2)
+ax1.fill_between(np.arange(3000, 3000+len(y_true)), quantiles[3], quantiles[4], color='b', alpha=.1)
+ax1.grid()
+sns.boxplot(x=err, ax=ax2, orient='h')
+ax1.legend(['y_true', 'y_pred'], prop={'size': 30})
+ax2.set_title('total error distribution', fontsize=30)
+ax1.xaxis.set_tick_params(labelsize=20)
+ax1.yaxis.set_tick_params(labelsize=20)
+ax2.xaxis.set_tick_params(labelsize=20)
+```

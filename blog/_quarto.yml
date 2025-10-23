@@ -10,18 +10,18 @@ website:
     left:
       - text: "Thoughts"
         href: thoughts.qmd
-      - text: "Tutorials"
-        menu:
-          - text: "All Tutorials"
-            href: tutorials.qmd
-          - text: "Agents"
-            href: agents.qmd
-          - text: "Deep Learning"
-            href: deep_learning.qmd
-          - text: "MLOps"
-            href: mlops.qmd
-      - text: "Papers"
-        href: papers.qmd
+      # - text: "Tutorials"
+      #   menu:
+      #     - text: "All Tutorials"
+      #       href: tutorials.qmd
+      #     - text: "Agents"
+      #       href: agents.qmd
+      #     - text: "Deep Learning"
+      #       href: deep_learning.qmd
+      #     - text: "MLOps"
+      #       href: mlops.qmd
+      # - text: "Papers"
+      #   href: papers.qmd
       - text: "About"
         href: about.qmd
     right:
