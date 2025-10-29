@@ -1,11 +1,15 @@
 [
   {
     "listing": "/deep_learning.html",
-    "items": []
+    "items": [
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
+    ]
   },
   {
     "listing": "/tutorials.html",
-    "items": []
+    "items": [
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
+    ]
   },
   {
     "listing": "/papers.html",
