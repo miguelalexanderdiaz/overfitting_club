@@ -18,7 +18,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/thoughts/welcome/index.html"
+      "/posts/thoughts/welcome/index.html",
+      "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
     ]
   },
   {

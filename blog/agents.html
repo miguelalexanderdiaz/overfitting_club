@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title> The Overfitting Club – The Overfitting Club</title>
+<title> Agents – The Overfitting Club</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -81,9 +81,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-title','listing-author','listing-categories','listing-description','listing-reading-time','listing-date',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-reading-time-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-title","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -203,23 +203,23 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV3cw==">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGVuc29yZmxvdw==">tensorflow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGltZS1zZXJpZXM=">time-series <span class="quarto-category-count">(1)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="section-title-with-icon"><img src="assets/nn-animated.svg" alt="logo"> The Overfitting Club</span></h1>
+<h1 class="title"><span class="section-title-with-icon"><img src="assets/logo.svg" alt="logo"> Agents</span></h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
   
@@ -231,6 +231,7 @@ window.Quarto = {
 </header>
 
 
+<p>This page lists posts in the “agents” category.</p>
 
 
 
@@ -242,17 +243,20 @@ window.Quarto = {
     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
       <option value="" disabled="" selected="" hidden="">Order By</option>
       <option value="index" data-direction="asc">Default</option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
       <option value="listing-date-sort" data-direction="asc">
         Date - Oldest
       </option>
       <option value="listing-date-sort" data-direction="desc">
         Date - Newest
       </option>
-      <option value="listing-author" data-direction="asc">
-        Author
+      <option value="listing-title" data-direction="asc">
+        Title
+      </option>
+      <option value="listing-reading-time-sort" data-direction="asc">
+        Reading Time (Low to High)
+      </option>
+      <option value="listing-reading-time-sort" data-direction="desc">
+        Reading Time (High to Low)
       </option>
     </select>
   </div>
@@ -262,76 +266,7 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="bmV3cw==" data-listing-date-sort="1761109200000" data-listing-file-modified-sort="1761739970215" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="10">
-<div class="thumbnail"><a href="./posts/thoughts/welcome/index.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/thoughts/welcome/gpu_tree.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/thoughts/welcome/index.html" class="no-external">Welcome To My Blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/thoughts/welcome/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmV3cw=='); return false;">news</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/thoughts/welcome/index.html" class="no-external">
-This is the first test post for my blog. Welcome!
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/thoughts/welcome/index.html" class="no-external">
-<div class="listing-date">
-Oct 22, 2025
-</div>
-<div class="listing-author">
-Miguel Diaz
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="dGltZS1zZXJpZXMlMkN0ZW5zb3JmbG93JTJDbWFjaGluZS1sZWFybmluZw==" data-listing-date-sort="1624078800000" data-listing-file-modified-sort="1761740567830" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="659">
-<div class="thumbnail"><a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf_files/figure-html/cell-7-output-1.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">Multivariate Regression</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">Prediction of the Amount of Sun Spots Using a Multivariate Time Series</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGltZS1zZXJpZXM='); return false;">time-series</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">machine-learning</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">
-In this post, we will explore how to perform multivariate regression with TensorFlow to predict sunspot activity. We’ll use a comprehensive approach that includes feature…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">
-<div class="listing-date">
-Jun 19, 2021
-</div>
-<div class="listing-author">
-Miguel Alexander Chitiva Diaz
-</div>
-</a>
-</div>
-</div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
