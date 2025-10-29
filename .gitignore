@@ -7,6 +7,9 @@
 _site/
 _freeze/
 
+# Keras models
+*.keras
+
 # Jupyter
 .ipynb_checkpoints
 .jupyter_cache
