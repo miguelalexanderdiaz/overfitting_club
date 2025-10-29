@@ -45,6 +45,8 @@ format:
   html:
     theme: darkly
     css: assets/styles.css
+    grid:
+      body-width: 1400px
 
 
 
