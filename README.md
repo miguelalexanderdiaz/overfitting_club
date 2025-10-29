@@ -1,5 +1,7 @@
 # The Overfitting Club
-![the_overfitting][blog/assets/nn-animated.svg]
+<p align="center">
+  <img src="blog/assets/nn-animated.svg" alt="The Overfitting Club" width="400"/>
+</p>
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
 
