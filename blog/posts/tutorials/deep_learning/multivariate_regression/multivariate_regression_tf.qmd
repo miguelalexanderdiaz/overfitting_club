@@ -94,34 +94,45 @@ df
 
 ```{python}
 #| echo: true
-#| fig-width: 150
-#| fig-height: 10
-graphs = df.plot(grid=True, figsize=(50,10), fontsize=20, subplots=True)
-[x.legend(prop={'size': 30}) for x in graphs];
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
+graphs = df.plot(grid=True, figsize=(14,7), fontsize=10, subplots=True)
+[x.legend(prop={'size': 15}) for x in graphs];
 ```
 
 ```{python}
 #| echo: true
-#| fig-width: 12
-#| fig-height: 5
-f = plt.figure(figsize=(12,5))
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
+f = plt.figure(figsize=(14,7))
 ax1 = f.add_subplot(121)
 ax2 = f.add_subplot(122)
 plot_acf(df['normalized_sunspots'], ax=ax1, title='Autocorrelation Function')
 plot_pacf(df['normalized_sunspots'], ax=ax2, title='Partial Autocorrelation Function')
+ax1.grid(True)
+ax2.grid(True)
+ax1.tick_params(labelsize=10)
+ax2.tick_params(labelsize=10)
 plt.tight_layout()
 plt.show()
 ```
 
 ```{python}
 #| echo: true
-#| fig-width: 12
-#| fig-height: 5
-f = plt.figure(figsize=(12,5))
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
+f = plt.figure(figsize=(14,7))
 ax1 = f.add_subplot(121)
 ax2 = f.add_subplot(122)
 plot_acf(df['normalized_sunspots'], ax=ax1, lags=160, title='ACF with Extended Lags')
 plot_pacf(df['normalized_sunspots'], ax=ax2, lags=160, title='PACF with Extended Lags')
+ax1.grid(True)
+ax2.grid(True)
+ax1.tick_params(labelsize=10)
+ax2.tick_params(labelsize=10)
 plt.tight_layout()
 plt.show()
 ```
@@ -195,7 +206,10 @@ train_df.head()
 
 ```{python}
 #| echo: true
-val_df[val_df.columns[-7:]].plot(figsize=(50,15), fontsize=20, grid=True).legend(prop={'size': 20});
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
+val_df[val_df.columns[-7:]].plot(figsize=(14,7), fontsize=10, grid=True).legend(prop={'size': 15});
 ```
 
 ## Naïve Predictions using only the created features
@@ -236,7 +250,7 @@ x = layers.Conv1D(filters=64, kernel_size=2)(x)
 x = layers.LSTM(128, return_sequences=True)(x)
 x = layers.LSTM(128)(x)
 x = layers.Dense(64, activation="relu")(x)
-x = layers.Dropout(0.4)(x, training=True)
+x = layers.Dropout(0.7)(x, training=True)
 x = layers.Dense(1)(x)
 model = Model(inputs, x)
 model.summary()
@@ -253,7 +267,7 @@ checkpoint = callbacks.ModelCheckpoint(f'models/sunspots.model.keras', monitor='
 ```
 
 ```{python}
-history = model.fit(train_ds, validation_data=val_ds, epochs=100, callbacks=[early_stop, checkpoint], verbose=1)
+history = model.fit(train_ds, validation_data=val_ds, epochs=100, callbacks=[early_stop, checkpoint], verbose=0)
 ```
 
 ```{python}
@@ -275,27 +289,30 @@ err = y_true - y_pred
 
 ```{python}
 #| echo: true
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
 
-f = plt.figure(figsize=(50,15))
+f = plt.figure(figsize=(14,7))
 ax1 = f.add_subplot(211)
 ax2 = f.add_subplot(212)
 ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_true)
 ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_pred)
-ax1.grid()
+ax1.grid(True)
 
 sns.boxplot(np.squeeze(err), ax=ax2, orient='h')
-ax1.legend(['y_true', 'y_pred'], prop={'size': 30})
-ax2.set_title('total error distribution', fontsize=30)
-ax1.xaxis.set_tick_params(labelsize=20)
-ax1.yaxis.set_tick_params(labelsize=20)
-ax2.xaxis.set_tick_params(labelsize=20)
+ax1.legend(['y_true', 'y_pred'], prop={'size': 15})
+ax2.set_title('total error distribution', fontsize=10)
+ax1.xaxis.set_tick_params(labelsize=10)
+ax1.yaxis.set_tick_params(labelsize=10)
+ax2.xaxis.set_tick_params(labelsize=10)
 ```
 
 # Error Analysis
 
 ```{python}
 #| echo: true
-n_experiments = 300
+n_experiments = 100
 y_true = []
 y_pred = []
 aux_ds = val_ds.unbatch()
@@ -326,19 +343,22 @@ err = (y_true_tr - y_pred_tr).squeeze()
 
 ```{python}
 #| echo: true
+#| fig-width: 14
+#| fig-height: 7
+#| fig-align: center
 
-f = plt.figure(figsize=(50,15))
+f = plt.figure(figsize=(14,7))
 ax1 = f.add_subplot(211)
 ax2 = f.add_subplot(212)
 ax1.plot(np.arange(3000, 3000+len(y_true), 1), y_true_tr)
 ax1.plot(np.arange(3000, 3000+len(y_true), 1), quantiles[0])
 ax1.fill_between(np.arange(3000, 3000+len(y_true)), quantiles[1], quantiles[2], color='b', alpha=.2)
 ax1.fill_between(np.arange(3000, 3000+len(y_true)), quantiles[3], quantiles[4], color='b', alpha=.1)
-ax1.grid()
+ax1.grid(True)
 sns.boxplot(x=err, ax=ax2, orient='h')
-ax1.legend(['y_true', 'y_pred'], prop={'size': 30})
-ax2.set_title('total error distribution', fontsize=30)
-ax1.xaxis.set_tick_params(labelsize=20)
-ax1.yaxis.set_tick_params(labelsize=20)
-ax2.xaxis.set_tick_params(labelsize=20)
+ax1.legend(['y_true', 'y_pred'], prop={'size': 15})
+ax2.set_title('total error distribution', fontsize=10)
+ax1.xaxis.set_tick_params(labelsize=10)
+ax1.yaxis.set_tick_params(labelsize=10)
+ax2.xaxis.set_tick_params(labelsize=10)
 ```
