@@ -1,0 +1,300 @@
+```{=html}
+<svg id="att-heatmap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- Heatmap: row-by-row glow sweep, everything always visible (12s cycle) --- */
+      /* Each row gets a brief brightness boost as the "scan line" passes through */
+      @keyframes ahScan0  { 0%,2%  { filter:brightness(1) } 5%  { filter:brightness(1.4) } 10% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan1  { 0%,6%  { filter:brightness(1) } 9%  { filter:brightness(1.4) } 14% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan2  { 0%,10% { filter:brightness(1) } 13% { filter:brightness(1.4) } 18% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan3  { 0%,14% { filter:brightness(1) } 17% { filter:brightness(1.4) } 22% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan4  { 0%,18% { filter:brightness(1) } 21% { filter:brightness(1.4) } 26% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan5  { 0%,22% { filter:brightness(1) } 25% { filter:brightness(1.4) } 30% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan6  { 0%,26% { filter:brightness(1) } 29% { filter:brightness(1.4) } 34% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan7  { 0%,30% { filter:brightness(1) } 33% { filter:brightness(1.5) } 38% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan8  { 0%,34% { filter:brightness(1) } 37% { filter:brightness(1.4) } 42% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan9  { 0%,38% { filter:brightness(1) } 41% { filter:brightness(1.4) } 46% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      @keyframes ahScan10 { 0%,42% { filter:brightness(1) } 45% { filter:brightness(1.4) } 50% { filter:brightness(1) } 100% { filter:brightness(1) } }
+      /* "it" row highlight border pulses after scan passes */
+      @keyframes ahHlPulse {
+        0%,30%   { stroke-opacity:0.2; stroke-width:1.5 }
+        33%      { stroke-opacity:1;   stroke-width:3 }
+        50%      { stroke-opacity:0.6; stroke-width:2 }
+        58%      { stroke-opacity:1;   stroke-width:3 }
+        70%,100% { stroke-opacity:0.3; stroke-width:1.5 }
+      }
+
+      #att-heatmap .ah-row0  { animation: ahScan0  12s ease infinite; }
+      #att-heatmap .ah-row1  { animation: ahScan1  12s ease infinite; }
+      #att-heatmap .ah-row2  { animation: ahScan2  12s ease infinite; }
+      #att-heatmap .ah-row3  { animation: ahScan3  12s ease infinite; }
+      #att-heatmap .ah-row4  { animation: ahScan4  12s ease infinite; }
+      #att-heatmap .ah-row5  { animation: ahScan5  12s ease infinite; }
+      #att-heatmap .ah-row6  { animation: ahScan6  12s ease infinite; }
+      #att-heatmap .ah-row7  { animation: ahScan7  12s ease infinite; }
+      #att-heatmap .ah-row8  { animation: ahScan8  12s ease infinite; }
+      #att-heatmap .ah-row9  { animation: ahScan9  12s ease infinite; }
+      #att-heatmap .ah-row10 { animation: ahScan10 12s ease infinite; }
+      #att-heatmap .ah-hl    { animation: ahHlPulse 12s ease infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="440" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="24" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Attention Weight Heatmap (11 × 11)
+  </text>
+
+  <!--
+    Grid layout:
+    - Column headers at y=48, starting x=170, cell width=54
+    - Row labels at x=160 (right-aligned), starting y=75, cell height=32
+    - Cell grid starts at (170, 60)
+  -->
+
+  <!-- Column headers (keys) — always visible -->
+  <text x="197"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,197,50)">The</text>
+  <text x="251"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;" transform="rotate(-45,251,50)">animal</text>
+  <text x="305"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,305,50)">didn't</text>
+  <text x="359"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,359,50)">cross</text>
+  <text x="413"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,413,50)">the</text>
+  <text x="467"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,467,50)">street</text>
+  <text x="521"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,521,50)">because</text>
+  <text x="575"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;" transform="rotate(-45,575,50)">it</text>
+  <text x="629"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,629,50)">was</text>
+  <text x="683"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,683,50)">too</text>
+  <text x="737"  y="50" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;" transform="rotate(-45,737,50)">tired</text>
+
+  <!-- Row labels (queries) — always visible -->
+  <text x="162" y="82"  style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">The</text>
+  <text x="162" y="114" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:end;">animal</text>
+  <text x="162" y="146" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">didn't</text>
+  <text x="162" y="178" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">cross</text>
+  <text x="162" y="210" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">the</text>
+  <text x="162" y="242" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">street</text>
+  <text x="162" y="274" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">because</text>
+  <text x="162" y="306" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:end;">it</text>
+  <text x="162" y="338" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">was</text>
+  <text x="162" y="370" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">too</text>
+  <text x="162" y="402" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">tired</text>
+
+  <!-- Grid lines (always visible) -->
+  <g stroke="#e2e8f0" stroke-width="0.5">
+    <!-- Horizontal lines -->
+    <line x1="170" y1="66"  x2="764" y2="66"/>
+    <line x1="170" y1="98"  x2="764" y2="98"/>
+    <line x1="170" y1="130" x2="764" y2="130"/>
+    <line x1="170" y1="162" x2="764" y2="162"/>
+    <line x1="170" y1="194" x2="764" y2="194"/>
+    <line x1="170" y1="226" x2="764" y2="226"/>
+    <line x1="170" y1="258" x2="764" y2="258"/>
+    <line x1="170" y1="290" x2="764" y2="290"/>
+    <line x1="170" y1="322" x2="764" y2="322"/>
+    <line x1="170" y1="354" x2="764" y2="354"/>
+    <line x1="170" y1="386" x2="764" y2="386"/>
+    <line x1="170" y1="418" x2="764" y2="418"/>
+    <!-- Vertical lines -->
+    <line x1="170" y1="66" x2="170" y2="418"/>
+    <line x1="224" y1="66" x2="224" y2="418"/>
+    <line x1="278" y1="66" x2="278" y2="418"/>
+    <line x1="332" y1="66" x2="332" y2="418"/>
+    <line x1="386" y1="66" x2="386" y2="418"/>
+    <line x1="440" y1="66" x2="440" y2="418"/>
+    <line x1="494" y1="66" x2="494" y2="418"/>
+    <line x1="548" y1="66" x2="548" y2="418"/>
+    <line x1="602" y1="66" x2="602" y2="418"/>
+    <line x1="656" y1="66" x2="656" y2="418"/>
+    <line x1="710" y1="66" x2="710" y2="418"/>
+    <line x1="764" y1="66" x2="764" y2="418"/>
+  </g>
+
+  <!--
+    Heatmap cells — row by row.
+    Color scale: white #ffffff (0.0) → light #e9d5ff (0.15) → medium #c084fc (0.3) → deep #7c3aed (0.5+)
+    Attention weights are illustrative (plausible, not from a trained model).
+
+    Row pattern key:
+      - "The" attends mostly to itself and "animal"
+      - "animal" attends to "The" and "didn't"
+      - "it" attends strongly to "animal" (the key insight)
+      - Diagonal gets moderate self-attention
+  -->
+
+  <!-- Row 0: The -->
+  <g class="ah-row0">
+    <rect x="170" y="66"  width="54" height="32" fill="#c084fc"/><!-- The→The 0.30 -->
+    <rect x="224" y="66"  width="54" height="32" fill="#a855f7"/><!-- The→animal 0.35 -->
+    <rect x="278" y="66"  width="54" height="32" fill="#e9d5ff"/><!-- The→didn't 0.08 -->
+    <rect x="332" y="66"  width="54" height="32" fill="#f3e8ff"/><!-- The→cross 0.05 -->
+    <rect x="386" y="66"  width="54" height="32" fill="#e9d5ff"/><!-- The→the 0.06 -->
+    <rect x="440" y="66"  width="54" height="32" fill="#f3e8ff"/><!-- The→street 0.04 -->
+    <rect x="494" y="66"  width="54" height="32" fill="#f3e8ff"/><!-- The→because 0.03 -->
+    <rect x="548" y="66"  width="54" height="32" fill="#f3e8ff"/><!-- The→it 0.03 -->
+    <rect x="602" y="66"  width="54" height="32" fill="#f3e8ff"/><!-- The→was 0.02 -->
+    <rect x="656" y="66"  width="54" height="32" fill="#faf5ff"/><!-- The→too 0.02 -->
+    <rect x="710" y="66"  width="54" height="32" fill="#faf5ff"/><!-- The→tired 0.02 -->
+  </g>
+
+  <!-- Row 1: animal -->
+  <g class="ah-row1">
+    <rect x="170" y="98"  width="54" height="32" fill="#c084fc"/><!-- animal→The 0.25 -->
+    <rect x="224" y="98"  width="54" height="32" fill="#a855f7"/><!-- animal→animal 0.30 -->
+    <rect x="278" y="98"  width="54" height="32" fill="#c084fc"/><!-- animal→didn't 0.15 -->
+    <rect x="332" y="98"  width="54" height="32" fill="#e9d5ff"/><!-- animal→cross 0.08 -->
+    <rect x="386" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→the 0.04 -->
+    <rect x="440" y="98"  width="54" height="32" fill="#e9d5ff"/><!-- animal→street 0.06 -->
+    <rect x="494" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→because 0.03 -->
+    <rect x="548" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→it 0.03 -->
+    <rect x="602" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→was 0.02 -->
+    <rect x="656" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→too 0.02 -->
+    <rect x="710" y="98"  width="54" height="32" fill="#f3e8ff"/><!-- animal→tired 0.02 -->
+  </g>
+
+  <!-- Row 2: didn't -->
+  <g class="ah-row2">
+    <rect x="170" y="130" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="224" y="130" width="54" height="32" fill="#c084fc"/>
+    <rect x="278" y="130" width="54" height="32" fill="#a855f7"/>
+    <rect x="332" y="130" width="54" height="32" fill="#c084fc"/>
+    <rect x="386" y="130" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="440" y="130" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="494" y="130" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="130" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="602" y="130" width="54" height="32" fill="#faf5ff"/>
+    <rect x="656" y="130" width="54" height="32" fill="#faf5ff"/>
+    <rect x="710" y="130" width="54" height="32" fill="#faf5ff"/>
+  </g>
+
+  <!-- Row 3: cross -->
+  <g class="ah-row3">
+    <rect x="170" y="162" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="224" y="162" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="278" y="162" width="54" height="32" fill="#c084fc"/>
+    <rect x="332" y="162" width="54" height="32" fill="#a855f7"/>
+    <rect x="386" y="162" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="440" y="162" width="54" height="32" fill="#c084fc"/>
+    <rect x="494" y="162" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="162" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="602" y="162" width="54" height="32" fill="#faf5ff"/>
+    <rect x="656" y="162" width="54" height="32" fill="#faf5ff"/>
+    <rect x="710" y="162" width="54" height="32" fill="#faf5ff"/>
+  </g>
+
+  <!-- Row 4: the -->
+  <g class="ah-row4">
+    <rect x="170" y="194" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="224" y="194" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="278" y="194" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="332" y="194" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="386" y="194" width="54" height="32" fill="#c084fc"/>
+    <rect x="440" y="194" width="54" height="32" fill="#a855f7"/>
+    <rect x="494" y="194" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="194" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="602" y="194" width="54" height="32" fill="#faf5ff"/>
+    <rect x="656" y="194" width="54" height="32" fill="#faf5ff"/>
+    <rect x="710" y="194" width="54" height="32" fill="#faf5ff"/>
+  </g>
+
+  <!-- Row 5: street -->
+  <g class="ah-row5">
+    <rect x="170" y="226" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="224" y="226" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="278" y="226" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="332" y="226" width="54" height="32" fill="#c084fc"/>
+    <rect x="386" y="226" width="54" height="32" fill="#c084fc"/>
+    <rect x="440" y="226" width="54" height="32" fill="#a855f7"/>
+    <rect x="494" y="226" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="226" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="602" y="226" width="54" height="32" fill="#faf5ff"/>
+    <rect x="656" y="226" width="54" height="32" fill="#faf5ff"/>
+    <rect x="710" y="226" width="54" height="32" fill="#faf5ff"/>
+  </g>
+
+  <!-- Row 6: because -->
+  <g class="ah-row6">
+    <rect x="170" y="258" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="224" y="258" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="278" y="258" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="332" y="258" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="386" y="258" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="440" y="258" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="494" y="258" width="54" height="32" fill="#a855f7"/>
+    <rect x="548" y="258" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="602" y="258" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="656" y="258" width="54" height="32" fill="#faf5ff"/>
+    <rect x="710" y="258" width="54" height="32" fill="#faf5ff"/>
+  </g>
+
+  <!-- Row 7: it (THE KEY ROW — strong attention to "animal") -->
+  <g class="ah-row7">
+    <rect x="170" y="290" width="54" height="32" fill="#e9d5ff"/><!-- it→The 0.05 -->
+    <rect x="224" y="290" width="54" height="32" fill="#7c3aed"/><!-- it→animal 0.42 ★ -->
+    <rect x="278" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→didn't 0.03 -->
+    <rect x="332" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→cross 0.03 -->
+    <rect x="386" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→the 0.02 -->
+    <rect x="440" y="290" width="54" height="32" fill="#e9d5ff"/><!-- it→street 0.06 -->
+    <rect x="494" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→because 0.04 -->
+    <rect x="548" y="290" width="54" height="32" fill="#c084fc"/><!-- it→it 0.22 -->
+    <rect x="602" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→was 0.03 -->
+    <rect x="656" y="290" width="54" height="32" fill="#f3e8ff"/><!-- it→too 0.03 -->
+    <rect x="710" y="290" width="54" height="32" fill="#e9d5ff"/><!-- it→tired 0.07 -->
+  </g>
+
+  <!-- Row 8: was -->
+  <g class="ah-row8">
+    <rect x="170" y="322" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="224" y="322" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="278" y="322" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="332" y="322" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="386" y="322" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="440" y="322" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="494" y="322" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="548" y="322" width="54" height="32" fill="#c084fc"/>
+    <rect x="602" y="322" width="54" height="32" fill="#a855f7"/>
+    <rect x="656" y="322" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="710" y="322" width="54" height="32" fill="#e9d5ff"/>
+  </g>
+
+  <!-- Row 9: too -->
+  <g class="ah-row9">
+    <rect x="170" y="354" width="54" height="32" fill="#faf5ff"/>
+    <rect x="224" y="354" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="278" y="354" width="54" height="32" fill="#faf5ff"/>
+    <rect x="332" y="354" width="54" height="32" fill="#faf5ff"/>
+    <rect x="386" y="354" width="54" height="32" fill="#faf5ff"/>
+    <rect x="440" y="354" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="494" y="354" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="354" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="602" y="354" width="54" height="32" fill="#c084fc"/>
+    <rect x="656" y="354" width="54" height="32" fill="#a855f7"/>
+    <rect x="710" y="354" width="54" height="32" fill="#c084fc"/>
+  </g>
+
+  <!-- Row 10: tired -->
+  <g class="ah-row10">
+    <rect x="170" y="386" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="224" y="386" width="54" height="32" fill="#c084fc"/>
+    <rect x="278" y="386" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="332" y="386" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="386" y="386" width="54" height="32" fill="#faf5ff"/>
+    <rect x="440" y="386" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="494" y="386" width="54" height="32" fill="#f3e8ff"/>
+    <rect x="548" y="386" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="602" y="386" width="54" height="32" fill="#e9d5ff"/>
+    <rect x="656" y="386" width="54" height="32" fill="#c084fc"/>
+    <rect x="710" y="386" width="54" height="32" fill="#a855f7"/>
+  </g>
+
+  <!-- "it" row highlight border (pulses after all rows appear) -->
+  <rect class="ah-hl" x="170" y="290" width="594" height="32" rx="0"
+        fill="none" stroke="#7c3aed" stroke-width="2"/>
+
+  <!-- Legend -->
+  <text x="400" y="435" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    Darker = higher attention weight · Row "it" highlights: strongest cell is "animal" (confirming Section 1)
+  </text>
+</svg>
+```

@@ -1,0 +1,199 @@
+```{=html}
+<svg id="emb-space" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 430"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1.5em auto;">
+  <defs>
+    <style>
+      /*
+       * 12s cycle — 4 clusters appear sequentially, then cluster regions,
+       * then distance comparisons; hold; fade out; pause.
+       *
+       * ec0: animals     (appear 3-10%)
+       * ec1: movement    (appear 12-19%)
+       * ec2: places      (appear 21-28%)
+       * ec3: feelings    (appear 30-37%)
+       * ec4: regions     (appear 40-46%)
+       * ec5: short dist  (appear 48-53%)
+       * ec6: long dist   (appear 53-58%)
+       * hold 58-78%, fade 78-88%, pause 88-100%
+       */
+      @keyframes ec0 {
+        0%,3%  { opacity:0 } 10% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec1 {
+        0%,12% { opacity:0 } 19% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec2 {
+        0%,21% { opacity:0 } 28% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec3 {
+        0%,30% { opacity:0 } 37% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec4 {
+        0%,40% { opacity:0 } 46% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec5 {
+        0%,48% { opacity:0 } 53% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+      @keyframes ec6 {
+        0%,53% { opacity:0 } 58% { opacity:1 }
+        78%    { opacity:1 } 88% { opacity:0 } 100% { opacity:0 }
+      }
+
+      #emb-space .ec0 { animation:ec0 12s ease infinite; }
+      #emb-space .ec1 { animation:ec1 12s ease infinite; }
+      #emb-space .ec2 { animation:ec2 12s ease infinite; }
+      #emb-space .ec3 { animation:ec3 12s ease infinite; }
+      #emb-space .ec4 { animation:ec4 12s ease infinite; }
+      #emb-space .ec5 { animation:ec5 12s ease infinite; }
+      #emb-space .ec6 { animation:ec6 12s ease infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="430" rx="10"
+        fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="70" y1="365" x2="760" y2="365" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="70" y1="365" x2="70" y2="25" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- Grid ticks -->
+  <line x1="70" y1="280" x2="760" y2="280" stroke="#f1f5f9" stroke-width="0.7"/>
+  <line x1="70" y1="195" x2="760" y2="195" stroke="#f1f5f9" stroke-width="0.7"/>
+  <line x1="70" y1="110" x2="760" y2="110" stroke="#f1f5f9" stroke-width="0.7"/>
+  <line x1="300" y1="365" x2="300" y2="25" stroke="#f1f5f9" stroke-width="0.7"/>
+  <line x1="530" y1="365" x2="530" y2="25" stroke="#f1f5f9" stroke-width="0.7"/>
+
+  <!-- Axis labels -->
+  <text x="415" y="382"
+        style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">Dimension 1</text>
+  <text x="18" y="195" transform="rotate(-90,18,195)"
+        style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">Dimension 2</text>
+
+  <!-- ══════════════════════════════════════════
+       Cluster regions (soft ellipses) — ec4
+       ══════════════════════════════════════════ -->
+  <!-- Animals region -->
+  <ellipse class="ec4" cx="210" cy="125" rx="85" ry="60"
+           fill="#fce7f3" fill-opacity="0.35" stroke="#ec4899" stroke-width="1" stroke-opacity="0.4"/>
+  <text class="ec4" x="135" y="75"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#be185d;text-anchor:start;">Animals</text>
+
+  <!-- Movement region -->
+  <ellipse class="ec4" cx="170" cy="290" rx="75" ry="55"
+           fill="#dbeafe" fill-opacity="0.35" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.4"/>
+  <text class="ec4" x="100" y="340"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#1d4ed8;text-anchor:start;">Movement</text>
+
+  <!-- Places region -->
+  <ellipse class="ec4" cx="540" cy="300" rx="80" ry="50"
+           fill="#dcfce7" fill-opacity="0.35" stroke="#22c55e" stroke-width="1" stroke-opacity="0.4"/>
+  <text class="ec4" x="600" y="345"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#15803d;text-anchor:start;">Places</text>
+
+  <!-- Feelings region -->
+  <ellipse class="ec4" cx="610" cy="120" rx="80" ry="55"
+           fill="#fef3c7" fill-opacity="0.35" stroke="#f59e0b" stroke-width="1" stroke-opacity="0.4"/>
+  <text class="ec4" x="670" y="75"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:start;">Feelings</text>
+
+  <!-- ══════════════════════════════════════════
+       Cluster 0: Animals — ec0
+       ══════════════════════════════════════════ -->
+  <circle class="ec0" cx="195" cy="105" r="5" fill="#ec4899"/>
+  <text class="ec0" x="195" y="98"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#be185d;text-anchor:middle;">cat</text>
+
+  <circle class="ec0" cx="230" cy="130" r="5" fill="#ec4899"/>
+  <text class="ec0" x="248" y="127"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#be185d;text-anchor:start;">kitten</text>
+
+  <circle class="ec0" cx="180" cy="140" r="5" fill="#ec4899"/>
+  <text class="ec0" x="162" y="153"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#be185d;text-anchor:end;">dog</text>
+
+  <circle class="ec0" cx="235" cy="155" r="5" fill="#ec4899"/>
+  <text class="ec0" x="253" y="158"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#be185d;text-anchor:start;">animal</text>
+
+  <!-- ══════════════════════════════════════════
+       Cluster 1: Movement — ec1
+       ══════════════════════════════════════════ -->
+  <circle class="ec1" cx="165" cy="270" r="5" fill="#3b82f6"/>
+  <text class="ec1" x="165" y="262"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#1d4ed8;text-anchor:middle;">cross</text>
+
+  <circle class="ec1" cx="200" cy="295" r="5" fill="#3b82f6"/>
+  <text class="ec1" x="218" y="298"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#1d4ed8;text-anchor:start;">walk</text>
+
+  <circle class="ec1" cx="145" cy="305" r="5" fill="#3b82f6"/>
+  <text class="ec1" x="127" y="318"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#1d4ed8;text-anchor:end;">run</text>
+
+  <!-- ══════════════════════════════════════════
+       Cluster 2: Places — ec2
+       ══════════════════════════════════════════ -->
+  <circle class="ec2" cx="530" cy="280" r="5" fill="#22c55e"/>
+  <text class="ec2" x="530" y="272"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#15803d;text-anchor:middle;">street</text>
+
+  <circle class="ec2" cx="570" cy="305" r="5" fill="#22c55e"/>
+  <text class="ec2" x="588" y="308"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#15803d;text-anchor:start;">road</text>
+
+  <circle class="ec2" cx="520" cy="320" r="5" fill="#22c55e"/>
+  <text class="ec2" x="502" y="330"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#15803d;text-anchor:end;">path</text>
+
+  <!-- ══════════════════════════════════════════
+       Cluster 3: Feelings — ec3
+       ══════════════════════════════════════════ -->
+  <circle class="ec3" cx="590" cy="105" r="5" fill="#f59e0b"/>
+  <text class="ec3" x="590" y="97"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:middle;">tired</text>
+
+  <circle class="ec3" cx="630" cy="125" r="5" fill="#f59e0b"/>
+  <text class="ec3" x="648" y="122"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:start;">sleepy</text>
+
+  <circle class="ec3" cx="600" cy="150" r="5" fill="#f59e0b"/>
+  <text class="ec3" x="600" y="168"
+        style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:middle;">exhausted</text>
+
+  <!-- ══════════════════════════════════════════
+       Distance line: cat ↔ kitten (SHORT = similar) — ec5
+       ══════════════════════════════════════════ -->
+  <line class="ec5" x1="195" y1="105" x2="230" y2="130"
+        stroke="#16a34a" stroke-width="2" stroke-dasharray="4,3"/>
+  <rect class="ec5" x="196" y="107" width="52" height="18" rx="4"
+        fill="#f0fdf4" stroke="#16a34a" stroke-width="0.8"/>
+  <text class="ec5" x="222" y="120"
+        style="font:700 10px/1 'SF Mono',monospace;fill:#15803d;text-anchor:middle;">d = 0.15</text>
+
+  <!-- ══════════════════════════════════════════
+       Distance line: cat ↔ street (LONG = dissimilar) — ec6
+       ══════════════════════════════════════════ -->
+  <line class="ec6" x1="195" y1="105" x2="530" y2="280"
+        stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect class="ec6" x="340" y="180" width="52" height="18" rx="4"
+        fill="#fef2f2" stroke="#dc2626" stroke-width="0.8"/>
+  <text class="ec6" x="366" y="193"
+        style="font:700 10px/1 'SF Mono',monospace;fill:#dc2626;text-anchor:middle;">d = 3.80</text>
+
+  <!-- Bottom label (always visible, two lines) -->
+  <text x="400" y="400"
+        style="font:400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Similar meanings → nearby vectors in embedding space
+  </text>
+  <text x="400" y="418"
+        style="font:400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    "cat" is close to "kitten" but far from "street"
+  </text>
+</svg>
+```

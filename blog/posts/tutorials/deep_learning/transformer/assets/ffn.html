@@ -1,0 +1,114 @@
+```{=html}
+<div style="margin:1.5rem 0;">
+<svg id="ffn-anim" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:600px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      @keyframes signalFlow {
+        0%, 15% { stroke-dashoffset: 300; opacity: 0; }
+        35%, 65% { stroke-dashoffset: 0; opacity: 1; }
+        85%, 100% { stroke-dashoffset: -300; opacity: 0; }
+      }
+      
+      @keyframes activeNodes {
+        0%, 30% { fill: #f1f5f9; stroke: #cbd5e1; }
+        35%, 65% { fill: #fef08a; stroke: #d97706; filter: drop-shadow(0 0 4px #fef08a); }
+        70%, 100% { fill: #f1f5f9; stroke: #cbd5e1; }
+      }
+      
+      @keyframes activeNodesOut {
+        0%, 45% { fill: #f1f5f9; stroke: #cbd5e1; }
+        50%, 80% { fill: #bbf7d0; stroke: #10b981; filter: drop-shadow(0 0 4px #bbf7d0); }
+        85%, 100% { fill: #f1f5f9; stroke: #cbd5e1; }
+      }
+
+      .flow-line {
+        animation: signalFlow 6s ease-in-out infinite;
+        stroke-dasharray: 300;
+        fill: none;
+        stroke-linecap: round;
+      }
+      .node-in { fill: #e2e8f0; stroke: #94a3b8; stroke-width: 2; }
+      .node-mid { animation: activeNodes 6s ease-in-out infinite; stroke-width: 2; }
+      .node-out { animation: activeNodesOut 6s ease-in-out infinite; stroke-width: 2; }
+    </style>
+    
+    <marker id="arrow-flow" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrow-flow-out" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="600" height="350" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="300" y="25" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Position-Wise Feed-Forward Network
+  </text>
+  <text x="300" y="45" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Applied identically but independently to each token's representation
+  </text>
+
+  <!-- Labels -->
+  <text x="100" y="325" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Input (d=512)</text>
+  <text x="300" y="325" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">Hidden Layer (d=2048)</text>
+  <text x="500" y="325" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#10b981;text-anchor:middle;">Output (d=512)</text>
+
+  <text x="200" y="80" style="font:italic 600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#f59e0b;text-anchor:middle;">Expand &amp; Mix (W1 + ReLU)</text>
+  <text x="400" y="80" style="font:italic 600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#10b981;text-anchor:middle;">Compress &amp; Mix (W2)</text>
+
+  <!-- Static Background Connections (Input -> Hidden) -->
+  <path d="M 100,120 L 300,90 M 100,120 L 300,150 M 100,120 L 300,210 M 100,120 L 300,270" stroke="#e2e8f0" stroke-width="1" />
+  <path d="M 100,180 L 300,90 M 100,180 L 300,150 M 100,180 L 300,210 M 100,180 L 300,270" stroke="#e2e8f0" stroke-width="1" />
+  <path d="M 100,240 L 300,90 M 100,240 L 300,150 M 100,240 L 300,210 M 100,240 L 300,270" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Static Background Connections (Hidden -> Output) -->
+  <path d="M 300,90 L 500,120 M 300,90 L 500,180 M 300,90 L 500,240" stroke="#e2e8f0" stroke-width="1" />
+  <path d="M 300,150 L 500,120 M 300,150 L 500,180 M 300,150 L 500,240" stroke="#e2e8f0" stroke-width="1" />
+  <path d="M 300,210 L 500,120 M 300,210 L 500,180 M 300,210 L 500,240" stroke="#e2e8f0" stroke-width="1" />
+  <path d="M 300,270 L 500,120 M 300,270 L 500,180 M 300,270 L 500,240" stroke="#e2e8f0" stroke-width="1" />
+
+  <!-- Animated Flow Lines (Input -> Hidden) -->
+  <path d="M 100,120 L 290,90" class="flow-line" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-flow)" />
+  <path d="M 100,180 L 290,150" class="flow-line" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-flow)" />
+  <path d="M 100,240 L 290,210" class="flow-line" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-flow)" />
+  <path d="M 100,120 L 290,270" class="flow-line" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow-flow)" />
+
+  <!-- Animated Flow Lines (Hidden -> Output) -->
+  <path d="M 300,90 L 490,120" class="flow-line" style="animation-delay: 1.5s;" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-flow-out)" />
+  <path d="M 300,150 L 490,180" class="flow-line" style="animation-delay: 1.5s;" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-flow-out)" />
+  <path d="M 300,210 L 490,240" class="flow-line" style="animation-delay: 1.5s;" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-flow-out)" />
+  <path d="M 300,270 L 490,120" class="flow-line" style="animation-delay: 1.5s;" stroke="#10b981" stroke-width="2" marker-end="url(#arrow-flow-out)" />
+
+  <!-- Nodes (Drawn after lines so they sit on top) -->
+  <!-- Input Nodes -->
+  <circle cx="100" cy="120" r="10" class="node-in" />
+  <circle cx="100" cy="180" r="10" class="node-in" />
+  <circle cx="100" cy="240" r="10" class="node-in" />
+  <circle cx="100" cy="275" r="2" fill="#94a3b8" />
+  <circle cx="100" cy="285" r="2" fill="#94a3b8" />
+  <circle cx="100" cy="295" r="2" fill="#94a3b8" />
+
+  <!-- Hidden Nodes -->
+  <circle cx="300" cy="90" r="12" class="node-mid" />
+  <circle cx="300" cy="150" r="12" class="node-mid" />
+  <circle cx="300" cy="210" r="12" class="node-mid" />
+  <circle cx="300" cy="270" r="12" class="node-mid" />
+  <circle cx="300" cy="290" r="2" fill="#94a3b8" />
+  <circle cx="300" cy="300" r="2" fill="#94a3b8" />
+  <circle cx="300" cy="310" r="2" fill="#94a3b8" />
+
+  <!-- Output Nodes -->
+  <circle cx="500" cy="120" r="10" class="node-out" />
+  <circle cx="500" cy="180" r="10" class="node-out" />
+  <circle cx="500" cy="240" r="10" class="node-out" />
+  <circle cx="500" cy="275" r="2" fill="#94a3b8" />
+  <circle cx="500" cy="285" r="2" fill="#94a3b8" />
+  <circle cx="500" cy="295" r="2" fill="#94a3b8" />
+
+</svg>
+</div>
+```

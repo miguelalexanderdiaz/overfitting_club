@@ -1,0 +1,115 @@
+```{=html}
+<svg id="att-softmax" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- Softmax: wave highlights left→softmax→right (12s cycle) --- */
+      @keyframes sfGlowLeft {
+        0%,2%   { filter:drop-shadow(0 0 0px transparent) }
+        8%      { filter:drop-shadow(0 0 6px #6366f1) }
+        22%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes sfGlowBtn {
+        0%,20%  { filter:drop-shadow(0 0 0px transparent); transform:scale(1) }
+        30%     { filter:drop-shadow(0 0 10px #6366f1); transform:scale(1.08) }
+        42%     { filter:drop-shadow(0 0 0px transparent); transform:scale(1) }
+        100%    { filter:drop-shadow(0 0 0px transparent); transform:scale(1) }
+      }
+      @keyframes sfGlowRight {
+        0%,38%  { filter:drop-shadow(0 0 0px transparent) }
+        48%     { filter:drop-shadow(0 0 6px #16a34a) }
+        62%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes sfGlowSum {
+        0%,58%  { filter:drop-shadow(0 0 0px transparent) }
+        66%     { filter:drop-shadow(0 0 8px #16a34a) }
+        78%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+
+      #att-softmax .sf-left  { animation: sfGlowLeft  12s ease infinite; }
+      #att-softmax .sf-btn   { animation: sfGlowBtn   12s ease infinite; transform-origin:410px 117px; }
+      #att-softmax .sf-right { animation: sfGlowRight  12s ease infinite; }
+      #att-softmax .sf-sum   { animation: sfGlowSum    12s ease infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="240" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="26" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Softmax: Raw Scores → Attention Weights
+  </text>
+
+  <!-- Raw scores (left side) — gray bars -->
+  <g class="sf-left">
+    <text x="30" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;">Raw scores</text>
+
+    <text x="100" y="80"  style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">The</text>
+    <rect x="108" y="68"  width="31"  height="16" rx="3" fill="#cbd5e1"/>
+    <text x="145" y="80"  style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">0.5</text>
+
+    <text x="100" y="104" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:end;">animal</text>
+    <rect x="108" y="92"  width="200" height="16" rx="3" fill="#fed7aa"/>
+    <text x="314" y="104" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;">3.2</text>
+
+    <text x="100" y="128" style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">street</text>
+    <rect x="108" y="116" width="50"  height="16" rx="3" fill="#cbd5e1"/>
+    <text x="164" y="128" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">0.8</text>
+
+    <text x="100" y="152" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:end;">it</text>
+    <rect x="108" y="140" width="131" height="16" rx="3" fill="#ddd6fe"/>
+    <text x="245" y="152" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;">2.1</text>
+
+    <text x="100" y="176" style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">tired</text>
+    <rect x="108" y="164" width="88"  height="16" rx="3" fill="#cbd5e1"/>
+    <text x="202" y="176" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">1.4</text>
+  </g>
+
+  <!-- Softmax button -->
+  <g class="sf-btn">
+    <rect x="370" y="100" width="80" height="34" rx="14" fill="#6366f1" opacity="0.9"/>
+    <text x="410" y="122" style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#fff;text-anchor:middle;">softmax</text>
+  </g>
+
+  <!-- Normalized weights (right side) — colored bars -->
+  <g class="sf-right">
+    <text x="490" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;">Attention weights (α)</text>
+
+    <text x="560" y="80"  style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">The</text>
+    <rect x="568" y="68"  width="18"  height="16" rx="3" fill="#86efac"/>
+    <text x="592" y="80"  style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">0.05</text>
+
+    <text x="560" y="104" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:end;">animal</text>
+    <rect x="568" y="92"  width="130" height="16" rx="3" fill="#22c55e"/>
+    <text x="704" y="104" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;">0.42</text>
+
+    <text x="560" y="128" style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">street</text>
+    <rect x="568" y="116" width="22"  height="16" rx="3" fill="#86efac"/>
+    <text x="596" y="128" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">0.06</text>
+
+    <text x="560" y="152" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:end;">it</text>
+    <rect x="568" y="140" width="85"  height="16" rx="3" fill="#4ade80"/>
+    <text x="659" y="152" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;">0.22</text>
+
+    <text x="560" y="176" style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:end;">tired</text>
+    <rect x="568" y="164" width="38"  height="16" rx="3" fill="#86efac"/>
+    <text x="612" y="176" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;">0.11</text>
+  </g>
+
+  <!-- Sum = 1.0 label -->
+  <g class="sf-sum">
+    <text x="660" y="210" style="font:italic 600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">
+      Σ weights = 1.0
+    </text>
+  </g>
+
+  <!-- Note: only 5 representative tokens shown -->
+  <text x="400" y="232" style="font:italic 400 9px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    (showing 5 representative tokens; remaining 6 share the rest of the probability mass)
+  </text>
+</svg>
+```

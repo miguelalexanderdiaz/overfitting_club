@@ -1,0 +1,124 @@
+```{=html}
+<svg id="att-output" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- Weighted Sum: wave left→scaled→merge→output (12s cycle) --- */
+      @keyframes aoGlowVals {
+        0%,2%   { filter:drop-shadow(0 0 0px transparent) }
+        8%      { filter:drop-shadow(0 0 6px #3b82f6) }
+        22%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes aoGlowScale {
+        0%,20%  { filter:drop-shadow(0 0 0px transparent) }
+        28%     { filter:drop-shadow(0 0 6px #6366f1) }
+        42%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes aoGlowMerge {
+        0%,38%  { filter:drop-shadow(0 0 0px transparent) }
+        46%     { filter:drop-shadow(0 0 6px #6366f1) }
+        58%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes aoGlowOut {
+        0%,54%  { filter:drop-shadow(0 0 0px transparent) }
+        62%     { filter:drop-shadow(0 0 10px #ea580c) }
+        76%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+
+      #att-output .ao-vals   { animation: aoGlowVals  12s ease infinite; }
+      #att-output .ao-scale  { animation: aoGlowScale 12s ease infinite; }
+      #att-output .ao-merge  { animation: aoGlowMerge 12s ease infinite; }
+      #att-output .ao-out    { animation: aoGlowOut   12s ease infinite; }
+    </style>
+    <marker id="ao-arrow" viewBox="0 0 10 7" refX="10" refY="3.5"
+            markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="280" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="28" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Weighted Sum of Value Vectors
+  </text>
+
+  <!-- Value vectors with weight labels -->
+  <g class="ao-vals">
+    <text x="30" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;">Value vectors</text>
+    <text x="195" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;">× weight</text>
+
+    <!-- v_The -->
+    <rect x="30" y="66" width="150" height="26" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+    <text x="105" y="83" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">v_The</text>
+    <text x="200" y="83" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:start;">× 0.05</text>
+
+    <!-- v_animal (largest) -->
+    <rect x="30" y="100" width="150" height="26" rx="5" fill="#eff6ff" stroke="#ea580c" stroke-width="2"/>
+    <text x="105" y="117" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">v_animal</text>
+    <text x="200" y="117" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:start;">× 0.42</text>
+
+    <!-- v_street -->
+    <rect x="30" y="134" width="150" height="26" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+    <text x="105" y="151" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">v_street</text>
+    <text x="200" y="151" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:start;">× 0.06</text>
+
+    <!-- v_it -->
+    <rect x="30" y="168" width="150" height="26" rx="5" fill="#eff6ff" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="105" y="185" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">v_it</text>
+    <text x="200" y="185" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:start;">× 0.22</text>
+
+    <!-- v_tired -->
+    <rect x="30" y="202" width="150" height="26" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1"/>
+    <text x="105" y="219" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">v_tired</text>
+    <text x="200" y="219" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:start;">× 0.11</text>
+  </g>
+
+  <!-- Scaled vectors (shrunk/grown proportional to weight) -->
+  <g class="ao-scale">
+    <text x="290" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;">Scaled</text>
+
+    <rect x="290" y="66"  width="12"  height="26" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="0.5"/>
+    <rect x="290" y="100" width="100" height="26" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+    <rect x="290" y="134" width="14"  height="26" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="0.5"/>
+    <rect x="290" y="168" width="52"  height="26" rx="3" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1"/>
+    <rect x="290" y="202" width="26"  height="26" rx="3" fill="#bfdbfe" stroke="#3b82f6" stroke-width="0.5"/>
+  </g>
+
+  <!-- Merge arrows — each colored to match its source value vector -->
+  <g class="ao-merge">
+    <line x1="302" y1="79"  x2="498" y2="140" stroke="#3b82f6" stroke-width="1" marker-end="url(#ao-arrow)"/><!-- The (blue) -->
+    <line x1="390" y1="113" x2="498" y2="142" stroke="#ea580c" stroke-width="2.5" marker-end="url(#ao-arrow)"/><!-- animal (orange, thickest) -->
+    <line x1="304" y1="147" x2="498" y2="146" stroke="#3b82f6" stroke-width="1" marker-end="url(#ao-arrow)"/><!-- street (blue) -->
+    <line x1="342" y1="181" x2="498" y2="150" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#ao-arrow)"/><!-- it (purple) -->
+    <line x1="316" y1="215" x2="498" y2="153" stroke="#3b82f6" stroke-width="1" marker-end="url(#ao-arrow)"/><!-- tired (blue) -->
+    <text x="430" y="126" style="font:italic 600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Σ</text>
+  </g>
+
+  <!-- Output vector — neutral box, composition bar tells the color story -->
+  <g class="ao-out">
+    <rect x="500" y="120" width="260" height="52" rx="10" fill="#fafafa" stroke="#334155" stroke-width="1.5"/>
+    <text x="630" y="150" style="font:700 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+      Attention(q_it)
+    </text>
+    <text x="630" y="195" style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+      Output: mostly "animal" information
+    </text>
+
+    <!-- Composition indicator — colors match the scaled vectors & merge arrows -->
+    <rect x="510" y="130" width="105" height="6" rx="3" fill="#fed7aa"/><!-- animal (orange, 42%) -->
+    <rect x="615" y="130" width="55"  height="6" rx="3" fill="#ddd6fe"/><!-- it (purple, 22%) -->
+    <rect x="670" y="130" width="28"  height="6" rx="3" fill="#bfdbfe"/><!-- tired (blue, 11%) -->
+    <rect x="698" y="130" width="52"  height="6" rx="3" fill="#e2e8f0"/><!-- The + street + others -->
+  </g>
+
+  <text x="400" y="268" style="font:italic 400 9px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    (showing 5 representative tokens; the full sum includes all 11)
+  </text>
+</svg>
+```

@@ -1,0 +1,124 @@
+```{=html}
+<svg id="qkv-proj" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- QKV Projection: wave-highlight (12s cycle) --- */
+      /* Highlight = brighter fill + drop-shadow glow that sweeps Q→K→V */
+      @keyframes qkvGlowInput {
+        0%,2%   { filter:drop-shadow(0 0 0px transparent) }
+        5%      { filter:drop-shadow(0 0 8px #7c3aed) }
+        15%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes qkvGlowQ {
+        0%,10%  { filter:drop-shadow(0 0 0px transparent) }
+        18%     { filter:drop-shadow(0 0 8px #f43f5e) }
+        30%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes qkvGlowK {
+        0%,30%  { filter:drop-shadow(0 0 0px transparent) }
+        38%     { filter:drop-shadow(0 0 8px #f59e0b) }
+        50%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes qkvGlowV {
+        0%,50%  { filter:drop-shadow(0 0 0px transparent) }
+        58%     { filter:drop-shadow(0 0 8px #3b82f6) }
+        70%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      /* Arrow pulse: stroke brightens as the wave passes */
+      @keyframes qkvArrowPulseQ {
+        0%,8%   { stroke:#64748b; stroke-width:1.5 }
+        14%     { stroke:#f43f5e; stroke-width:3 }
+        24%     { stroke:#64748b; stroke-width:1.5 }
+        100%    { stroke:#64748b; stroke-width:1.5 }
+      }
+      @keyframes qkvArrowPulseK {
+        0%,28%  { stroke:#64748b; stroke-width:1.5 }
+        34%     { stroke:#f59e0b; stroke-width:3 }
+        44%     { stroke:#64748b; stroke-width:1.5 }
+        100%    { stroke:#64748b; stroke-width:1.5 }
+      }
+      @keyframes qkvArrowPulseV {
+        0%,48%  { stroke:#64748b; stroke-width:1.5 }
+        54%     { stroke:#3b82f6; stroke-width:3 }
+        64%     { stroke:#64748b; stroke-width:1.5 }
+        100%    { stroke:#64748b; stroke-width:1.5 }
+      }
+
+      #qkv-proj .qkv-input   { animation: qkvGlowInput 12s ease infinite; }
+      #qkv-proj .qkv-pathQ   { animation: qkvGlowQ     12s ease infinite; }
+      #qkv-proj .qkv-pathK   { animation: qkvGlowK     12s ease infinite; }
+      #qkv-proj .qkv-pathV   { animation: qkvGlowV     12s ease infinite; }
+      #qkv-proj .qkv-lineQ   { animation: qkvArrowPulseQ 12s ease infinite; }
+      #qkv-proj .qkv-lineK   { animation: qkvArrowPulseK 12s ease infinite; }
+      #qkv-proj .qkv-lineV   { animation: qkvArrowPulseV 12s ease infinite; }
+    </style>
+    <marker id="qkv-arrow" viewBox="0 0 10 7" refX="10" refY="3.5"
+            markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="280" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="28" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Q, K, V Projection: X → Q, K, V
+  </text>
+
+  <!-- Input matrix X -->
+  <g class="qkv-input">
+    <rect x="40" y="110" width="120" height="44" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+    <text x="100" y="137" style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">X</text>
+    <text x="100" y="172" style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">input (n × d_model)</text>
+  </g>
+
+  <!-- Q path: arrow → Wq → arrow → Q output -->
+  <line class="qkv-lineQ" x1="160" y1="118" x2="275" y2="62" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+  <g class="qkv-pathQ">
+    <rect x="280" y="40" width="100" height="40" rx="6" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="330" y="65" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">Wq</text>
+    <line x1="380" y1="60" x2="495" y2="60" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+    <rect x="500" y="38" width="110" height="44" rx="8" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/>
+    <text x="555" y="65" style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">Q</text>
+    <text x="680" y="55" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:start;">
+      "What am I looking for?"
+    </text>
+  </g>
+
+  <!-- K path: arrow → Wk → arrow → K output -->
+  <line class="qkv-lineK" x1="160" y1="132" x2="275" y2="132" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+  <g class="qkv-pathK">
+    <rect x="280" y="112" width="100" height="40" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="330" y="137" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">Wk</text>
+    <line x1="380" y1="132" x2="495" y2="132" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+    <rect x="500" y="110" width="110" height="44" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="555" y="137" style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">K</text>
+    <text x="680" y="127" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:start;">
+      "What do I contain?"
+    </text>
+  </g>
+
+  <!-- V path: arrow → Wv → arrow → V output -->
+  <line class="qkv-lineV" x1="160" y1="146" x2="275" y2="202" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+  <g class="qkv-pathV">
+    <rect x="280" y="182" width="100" height="40" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="330" y="207" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">Wv</text>
+    <line x1="380" y1="202" x2="495" y2="202" stroke="#64748b" stroke-width="1.5" marker-end="url(#qkv-arrow)"/>
+    <rect x="500" y="180" width="110" height="44" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
+    <text x="555" y="207" style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">V</text>
+    <text x="680" y="197" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:start;">
+      "What info do I carry?"
+    </text>
+  </g>
+
+  <!-- Dimension annotations -->
+  <text x="100" y="260" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n × d_model</text>
+  <text x="555" y="260" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n × d_k (or n × d_v)</text>
+</svg>
+```

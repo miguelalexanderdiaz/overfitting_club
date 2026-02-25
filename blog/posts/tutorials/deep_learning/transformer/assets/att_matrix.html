@@ -1,0 +1,179 @@
+```{=html}
+<svg id="att-matrix" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 200"
+     style="max-width:900px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- Matrix Pipeline: wave-highlight sweeps step 1→2→3→4→output (12s) --- */
+      @keyframes amGlow1 {
+        0%,2%   { filter:drop-shadow(0 0 0px transparent) }
+        8%      { filter:drop-shadow(0 0 8px #6366f1) }
+        20%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes amGlow2 {
+        0%,16%  { filter:drop-shadow(0 0 0px transparent) }
+        24%     { filter:drop-shadow(0 0 8px #6366f1) }
+        36%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes amGlow3 {
+        0%,32%  { filter:drop-shadow(0 0 0px transparent) }
+        40%     { filter:drop-shadow(0 0 8px #16a34a) }
+        52%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes amGlow4 {
+        0%,48%  { filter:drop-shadow(0 0 0px transparent) }
+        56%     { filter:drop-shadow(0 0 8px #3b82f6) }
+        68%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes amGlowOut {
+        0%,64%  { filter:drop-shadow(0 0 0px transparent) }
+        72%     { filter:drop-shadow(0 0 10px #6366f1) }
+        84%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+
+      #att-matrix .am-step1  { animation: amGlow1   12s ease infinite; }
+      #att-matrix .am-step2  { animation: amGlow2   12s ease infinite; }
+      #att-matrix .am-step3  { animation: amGlow3   12s ease infinite; }
+      #att-matrix .am-step4  { animation: amGlow4   12s ease infinite; }
+      #att-matrix .am-result { animation: amGlowOut  12s ease infinite; }
+    </style>
+    <marker id="am-arrow" viewBox="0 0 10 7" refX="10" refY="3.5"
+            markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="200" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="450" y="20" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Matrix Pipeline: Attention(Q, K, V)
+  </text>
+
+  <!-- ==================== Step 1 dashed group ==================== -->
+  <g class="am-step1">
+    <!-- Dashed container -->
+    <rect x="8" y="30" width="242" height="110" rx="8"
+          fill="#eef2ff" fill-opacity="0.4" stroke="#6366f1" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="129" y="44" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">Step 1</text>
+
+    <!-- Q matrix -->
+    <rect x="16" y="56" width="48" height="64" rx="4" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="40" y="92" style="font:700 12px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">Q</text>
+    <text x="40" y="132" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n×d_k</text>
+
+    <text x="76" y="92" style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">×</text>
+
+    <!-- K^T matrix -->
+    <rect x="90" y="60" width="60" height="52" rx="4" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="120" y="90" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">K^T</text>
+    <text x="120" y="124" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">d_k×n</text>
+
+    <line x1="156" y1="88" x2="174" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+    <!-- Score matrix -->
+    <rect x="180" y="56" width="64" height="64" rx="4" fill="#f1f5f9" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="212" y="92" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">scores</text>
+    <text x="212" y="132" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n×n</text>
+
+    <!-- Legend -->
+    <text x="129" y="155" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">
+      How similar is each query to each key?
+    </text>
+  </g>
+
+  <!-- Connector arrow Step 1 → Step 2 -->
+  <line x1="254" y1="88" x2="268" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+  <!-- ==================== Step 2 dashed group ==================== -->
+  <g class="am-step2">
+    <rect x="272" y="30" width="60" height="110" rx="8"
+          fill="#eef2ff" fill-opacity="0.4" stroke="#6366f1" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="302" y="44" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">Step 2</text>
+
+    <rect x="278" y="74" width="48" height="28" rx="12" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"/>
+    <text x="302" y="92" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">÷ √d_k</text>
+
+    <!-- Legend -->
+    <text x="302" y="155" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">
+      Scale down
+    </text>
+  </g>
+
+  <!-- Connector arrow Step 2 → Step 3 -->
+  <line x1="336" y1="88" x2="350" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+  <!-- ==================== Step 3 dashed group ==================== -->
+  <g class="am-step3">
+    <rect x="354" y="30" width="160" height="110" rx="8"
+          fill="#f0fdf4" fill-opacity="0.4" stroke="#16a34a" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="434" y="44" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">Step 3</text>
+
+    <rect x="364" y="74" width="58" height="28" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="1"/>
+    <text x="393" y="92" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">softmax</text>
+
+    <line x1="426" y1="88" x2="440" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+    <!-- Attention weights matrix -->
+    <rect x="446" y="56" width="60" height="60" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="476" y="82" style="font:600 8px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">attention</text>
+    <text x="476" y="93" style="font:600 8px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">weights</text>
+    <text x="476" y="128" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n×n</text>
+
+    <!-- Legend -->
+    <text x="434" y="155" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#16a34a;text-anchor:middle;">
+      Normalize to probabilities (rows sum to 1)
+    </text>
+  </g>
+
+  <!-- Connector arrow Step 3 → Step 4 -->
+  <line x1="518" y1="88" x2="530" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+  <!-- ==================== Step 4 dashed group ==================== -->
+  <g class="am-step4">
+    <rect x="534" y="30" width="100" height="110" rx="8"
+          fill="#eff6ff" fill-opacity="0.4" stroke="#3b82f6" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="584" y="44" style="font:600 9px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">Step 4</text>
+
+    <text x="548" y="92" style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">×</text>
+
+    <!-- V matrix -->
+    <rect x="560" y="56" width="56" height="64" rx="4" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="588" y="92" style="font:700 12px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">V</text>
+    <text x="588" y="132" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n×d_v</text>
+
+    <!-- Legend -->
+    <text x="584" y="155" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">
+      Weighted sum of values
+    </text>
+  </g>
+
+  <!-- Connector arrow Step 4 → Output -->
+  <line x1="638" y1="88" x2="652" y2="88" stroke="#64748b" stroke-width="1.5" marker-end="url(#am-arrow)"/>
+
+  <!-- ==================== Output dashed group ==================== -->
+  <g class="am-result">
+    <rect x="656" y="30" width="100" height="110" rx="8"
+          fill="#f1f5f9" fill-opacity="0.5" stroke="#334155" stroke-width="1" stroke-dasharray="5,3"/>
+
+    <rect x="668" y="56" width="76" height="60" rx="6" fill="#f1f5f9" stroke="#6366f1" stroke-width="2"/>
+    <text x="706" y="84" style="font:700 11px/1 'Segoe UI',system-ui,sans-serif;fill:#6366f1;text-anchor:middle;">Output</text>
+    <text x="706" y="100" style="font:italic 400 9px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">n×d_v</text>
+
+    <!-- Legend -->
+    <text x="706" y="155" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+      Context-aware representations
+    </text>
+  </g>
+
+  <!-- Bottom summary -->
+  <text x="450" y="190" style="font:italic 400 8px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    Each step's output feeds into the next — one compact formula: softmax(Q K^T / √d_k) V
+  </text>
+</svg>
+```

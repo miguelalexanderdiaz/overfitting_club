@@ -1,0 +1,149 @@
+```{=html}
+<svg id="sa-intuition" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 270"
+     style="max-width:900px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /*
+       * 10s cycle:  0-35% arcs fade in sequentially
+       *            35-65% hold (strong arcs pulse)
+       *            65-78% all fade out
+       *            78-100% pause
+       */
+
+      /* --- per-arc fade-in/out keyframes (10s infinite) --- */
+      /* arc 0: animal (strong) — in at 3%, visible 8-65%, out 78% */
+      @keyframes saA0 {
+        0%,3%   { opacity:0 } 8%  { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 1: The (strong) — in at 6% */
+      @keyframes saA1 {
+        0%,6%   { opacity:0 } 11% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 2: didn't (weak) — in at 9% */
+      @keyframes saA2 {
+        0%,9%   { opacity:0 } 14% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 3: cross — in at 12% */
+      @keyframes saA3 {
+        0%,12%  { opacity:0 } 17% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 4: the — in at 15% */
+      @keyframes saA4 {
+        0%,15%  { opacity:0 } 20% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 5: street (medium) — in at 18% */
+      @keyframes saA5 {
+        0%,18%  { opacity:0 } 23% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 6: because — in at 21% */
+      @keyframes saA6 {
+        0%,21%  { opacity:0 } 26% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 7: was — in at 24% */
+      @keyframes saA7 {
+        0%,24%  { opacity:0 } 29% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 8: too — in at 27% */
+      @keyframes saA8 {
+        0%,27%  { opacity:0 } 32% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* arc 9: tired (medium) — in at 30% */
+      @keyframes saA9 {
+        0%,30%  { opacity:0 } 35% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* label — in at 36% */
+      @keyframes saLbl {
+        0%,36%  { opacity:0 } 40% { opacity:1 }
+        65%     { opacity:1 } 78% { opacity:0 } 100% { opacity:0 }
+      }
+      /* strong-arc pulse overlaid during hold phase */
+      @keyframes saPulse {
+        0%,35%     { stroke-width:3 }
+        42%        { stroke-width:5 }
+        49%        { stroke-width:3 }
+        56%        { stroke-width:5 }
+        63%,100%   { stroke-width:3 }
+      }
+
+      #sa-intuition .sa-a0 { animation: saA0 10s ease infinite, saPulse 10s ease infinite; }
+      #sa-intuition .sa-a1 { animation: saA1 10s ease infinite, saPulse 10s ease infinite; }
+      #sa-intuition .sa-a2 { animation: saA2 10s ease infinite; }
+      #sa-intuition .sa-a3 { animation: saA3 10s ease infinite; }
+      #sa-intuition .sa-a4 { animation: saA4 10s ease infinite; }
+      #sa-intuition .sa-a5 { animation: saA5 10s ease infinite; }
+      #sa-intuition .sa-a6 { animation: saA6 10s ease infinite; }
+      #sa-intuition .sa-a7 { animation: saA7 10s ease infinite; }
+      #sa-intuition .sa-a8 { animation: saA8 10s ease infinite; }
+      #sa-intuition .sa-a9 { animation: saA9 10s ease infinite; }
+      #sa-intuition .sa-label { opacity: 1; }
+    </style>
+  </defs>
+
+  <!-- Light background -->
+  <rect x="0" y="0" width="900" height="270" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Token boxes -->
+  <rect x="15"  y="175" width="70"  height="32" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <rect x="95"  y="175" width="70"  height="32" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <rect x="195" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="285" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="375" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="455" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="545" y="175" width="90"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="645" y="175" width="40"  height="32" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <rect x="700" y="175" width="55"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="765" y="175" width="45"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <rect x="825" y="175" width="60"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+
+  <!-- Token labels -->
+  <text x="50"  y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">The</text>
+  <text x="130" y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">animal</text>
+  <text x="230" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">didn't</text>
+  <text x="320" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">cross</text>
+  <text x="410" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">the</text>
+  <text x="490" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">street</text>
+  <text x="590" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">because</text>
+  <text x="665" y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">it</text>
+  <text x="727" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">was</text>
+  <text x="787" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">too</text>
+  <text x="855" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">tired</text>
+
+  <!-- Arcs from "it" -->
+  <path class="sa-a0" d="M 665,175 Q 397,25 130,175"
+        style="fill:none;stroke:#ea580c;stroke-width:3;stroke-linecap:round;"/>
+  <path class="sa-a1" d="M 665,175 Q 357,35 50,175"
+        style="fill:none;stroke:#ea580c;stroke-width:3;stroke-linecap:round;"/>
+  <path class="sa-a2" d="M 665,175 Q 447,75 230,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a3" d="M 665,175 Q 492,90 320,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a4" d="M 665,175 Q 537,100 410,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a5" d="M 665,175 Q 577,110 490,175"
+        style="fill:none;stroke:#f59e0b;stroke-width:1.8;stroke-linecap:round;"/>
+  <path class="sa-a6" d="M 665,175 Q 627,130 590,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a7" d="M 665,175 Q 696,145 727,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a8" d="M 665,175 Q 726,140 787,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-a9" d="M 665,175 Q 760,130 855,175"
+        style="fill:none;stroke:#f59e0b;stroke-width:1.8;stroke-linecap:round;"/>
+
+  <!-- Label -->
+  <text class="sa-label" x="450" y="255"
+        style="font:400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Line thickness = attention weight — "it" attends most strongly to "The animal"
+  </text>
+</svg>
+```

@@ -1,0 +1,262 @@
+```{=html}
+<svg id="tok-anim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 200"
+     style="max-width:900px;width:100%;height:auto;display:block;margin:1.5em auto;">
+  <defs>
+    <style>
+      /*
+       * 10s cycle — 11 tokens highlight left→right
+       * Each token: word highlights + ID fades in below
+       * 0-66%:  sequential reveal (6% per token)
+       * 66-82%: hold all visible
+       * 82-92%: fade all IDs out
+       * 92-100%: pause
+       */
+      @keyframes tkW0  { 0%,0%   { fill:#334155 } 3%  { fill:#4f46e5 } 8%  { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW1  { 0%,6%   { fill:#334155 } 9%  { fill:#4f46e5 } 14% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW2  { 0%,12%  { fill:#334155 } 15% { fill:#4f46e5 } 20% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW3  { 0%,18%  { fill:#334155 } 21% { fill:#4f46e5 } 26% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW4  { 0%,24%  { fill:#334155 } 27% { fill:#4f46e5 } 32% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW5  { 0%,30%  { fill:#334155 } 33% { fill:#4f46e5 } 38% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW6  { 0%,36%  { fill:#334155 } 39% { fill:#4f46e5 } 44% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW7  { 0%,42%  { fill:#334155 } 45% { fill:#4f46e5 } 50% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW8  { 0%,48%  { fill:#334155 } 51% { fill:#4f46e5 } 56% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW9  { 0%,54%  { fill:#334155 } 57% { fill:#4f46e5 } 62% { fill:#334155 } 100% { fill:#334155 } }
+      @keyframes tkW10 { 0%,60%  { fill:#334155 } 63% { fill:#4f46e5 } 68% { fill:#334155 } 100% { fill:#334155 } }
+
+      @keyframes tkI0  { 0%,2%   { opacity:0 } 5%  { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI1  { 0%,8%   { opacity:0 } 11% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI2  { 0%,14%  { opacity:0 } 17% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI3  { 0%,20%  { opacity:0 } 23% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI4  { 0%,26%  { opacity:0 } 29% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI5  { 0%,32%  { opacity:0 } 35% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI6  { 0%,38%  { opacity:0 } 41% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI7  { 0%,44%  { opacity:0 } 47% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI8  { 0%,50%  { opacity:0 } 53% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI9  { 0%,56%  { opacity:0 } 59% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkI10 { 0%,62%  { opacity:0 } 65% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+
+      /* Arrow fade-in synced with ID */
+      @keyframes tkA0  { 0%,2%   { opacity:0 } 5%  { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA1  { 0%,8%   { opacity:0 } 11% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA2  { 0%,14%  { opacity:0 } 17% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA3  { 0%,20%  { opacity:0 } 23% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA4  { 0%,26%  { opacity:0 } 29% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA5  { 0%,32%  { opacity:0 } 35% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA6  { 0%,38%  { opacity:0 } 41% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA7  { 0%,44%  { opacity:0 } 47% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA8  { 0%,50%  { opacity:0 } 53% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA9  { 0%,56%  { opacity:0 } 59% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+      @keyframes tkA10 { 0%,62%  { opacity:0 } 65% { opacity:1 } 82% { opacity:1 } 90% { opacity:0 } 100% { opacity:0 } }
+
+      /* Box highlight synced with word */
+      @keyframes tkB0  { 0%,0%   { stroke:#e2e8f0 } 3%  { stroke:#4f46e5 } 8%  { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB1  { 0%,6%   { stroke:#e2e8f0 } 9%  { stroke:#4f46e5 } 14% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB2  { 0%,12%  { stroke:#e2e8f0 } 15% { stroke:#4f46e5 } 20% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB3  { 0%,18%  { stroke:#e2e8f0 } 21% { stroke:#4f46e5 } 26% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB4  { 0%,24%  { stroke:#e2e8f0 } 27% { stroke:#4f46e5 } 32% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB5  { 0%,30%  { stroke:#e2e8f0 } 33% { stroke:#4f46e5 } 38% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB6  { 0%,36%  { stroke:#e2e8f0 } 39% { stroke:#4f46e5 } 44% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB7  { 0%,42%  { stroke:#e2e8f0 } 45% { stroke:#4f46e5 } 50% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB8  { 0%,48%  { stroke:#e2e8f0 } 51% { stroke:#4f46e5 } 56% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB9  { 0%,54%  { stroke:#e2e8f0 } 57% { stroke:#4f46e5 } 62% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+      @keyframes tkB10 { 0%,60%  { stroke:#e2e8f0 } 63% { stroke:#4f46e5 } 68% { stroke:#e2e8f0 } 100% { stroke:#e2e8f0 } }
+
+      #tok-anim .tw0  { animation:tkW0  10s ease infinite; }
+      #tok-anim .tw1  { animation:tkW1  10s ease infinite; }
+      #tok-anim .tw2  { animation:tkW2  10s ease infinite; }
+      #tok-anim .tw3  { animation:tkW3  10s ease infinite; }
+      #tok-anim .tw4  { animation:tkW4  10s ease infinite; }
+      #tok-anim .tw5  { animation:tkW5  10s ease infinite; }
+      #tok-anim .tw6  { animation:tkW6  10s ease infinite; }
+      #tok-anim .tw7  { animation:tkW7  10s ease infinite; }
+      #tok-anim .tw8  { animation:tkW8  10s ease infinite; }
+      #tok-anim .tw9  { animation:tkW9  10s ease infinite; }
+      #tok-anim .tw10 { animation:tkW10 10s ease infinite; }
+
+      #tok-anim .ti0  { animation:tkI0  10s ease infinite; }
+      #tok-anim .ti1  { animation:tkI1  10s ease infinite; }
+      #tok-anim .ti2  { animation:tkI2  10s ease infinite; }
+      #tok-anim .ti3  { animation:tkI3  10s ease infinite; }
+      #tok-anim .ti4  { animation:tkI4  10s ease infinite; }
+      #tok-anim .ti5  { animation:tkI5  10s ease infinite; }
+      #tok-anim .ti6  { animation:tkI6  10s ease infinite; }
+      #tok-anim .ti7  { animation:tkI7  10s ease infinite; }
+      #tok-anim .ti8  { animation:tkI8  10s ease infinite; }
+      #tok-anim .ti9  { animation:tkI9  10s ease infinite; }
+      #tok-anim .ti10 { animation:tkI10 10s ease infinite; }
+
+      #tok-anim .ta0  { animation:tkA0  10s ease infinite; }
+      #tok-anim .ta1  { animation:tkA1  10s ease infinite; }
+      #tok-anim .ta2  { animation:tkA2  10s ease infinite; }
+      #tok-anim .ta3  { animation:tkA3  10s ease infinite; }
+      #tok-anim .ta4  { animation:tkA4  10s ease infinite; }
+      #tok-anim .ta5  { animation:tkA5  10s ease infinite; }
+      #tok-anim .ta6  { animation:tkA6  10s ease infinite; }
+      #tok-anim .ta7  { animation:tkA7  10s ease infinite; }
+      #tok-anim .ta8  { animation:tkA8  10s ease infinite; }
+      #tok-anim .ta9  { animation:tkA9  10s ease infinite; }
+      #tok-anim .ta10 { animation:tkA10 10s ease infinite; }
+
+      #tok-anim .tb0  { animation:tkB0  10s ease infinite; }
+      #tok-anim .tb1  { animation:tkB1  10s ease infinite; }
+      #tok-anim .tb2  { animation:tkB2  10s ease infinite; }
+      #tok-anim .tb3  { animation:tkB3  10s ease infinite; }
+      #tok-anim .tb4  { animation:tkB4  10s ease infinite; }
+      #tok-anim .tb5  { animation:tkB5  10s ease infinite; }
+      #tok-anim .tb6  { animation:tkB6  10s ease infinite; }
+      #tok-anim .tb7  { animation:tkB7  10s ease infinite; }
+      #tok-anim .tb8  { animation:tkB8  10s ease infinite; }
+      #tok-anim .tb9  { animation:tkB9  10s ease infinite; }
+      #tok-anim .tb10 { animation:tkB10 10s ease infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="900" height="200" rx="10"
+        fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Row labels -->
+  <text x="22" y="58"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:start;">word</text>
+  <text x="22" y="160"
+        style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:start;">token ID</text>
+
+  <!-- ══ Token 0: "The" ══ -->
+  <rect class="tb0" x="62" y="34" width="62" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw0" x="93" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">The</text>
+  <line class="ta0" x1="93" y1="72" x2="93" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti0" x="68" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti0" x="93" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">1996</text>
+
+  <!-- ══ Token 1: "animal" ══ -->
+  <rect class="tb1" x="132" y="34" width="72" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw1" x="168" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">animal</text>
+  <line class="ta1" x1="168" y1="72" x2="168" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti1" x="143" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti1" x="168" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">4102</text>
+
+  <!-- ══ Token 2: "didn't" ══ -->
+  <rect class="tb2" x="212" y="34" width="70" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw2" x="247" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">didn't</text>
+  <line class="ta2" x1="247" y1="72" x2="247" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti2" x="222" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti2" x="247" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">1352</text>
+
+  <!-- ══ Token 3: "cross" ══ -->
+  <rect class="tb3" x="290" y="34" width="64" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw3" x="322" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">cross</text>
+  <line class="ta3" x1="322" y1="72" x2="322" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti3" x="297" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti3" x="322" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">5765</text>
+
+  <!-- ══ Token 4: "the" ══ -->
+  <rect class="tb4" x="362" y="34" width="52" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw4" x="388" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">the</text>
+  <line class="ta4" x1="388" y1="72" x2="388" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti4" x="363" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti4" x="388" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">1996</text>
+
+  <!-- ══ Token 5: "street" ══ -->
+  <rect class="tb5" x="422" y="34" width="66" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw5" x="455" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">street</text>
+  <line class="ta5" x1="455" y1="72" x2="455" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti5" x="430" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti5" x="455" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">3714</text>
+
+  <!-- ══ Token 6: "because" ══ -->
+  <rect class="tb6" x="496" y="34" width="82" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw6" x="537" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">because</text>
+  <line class="ta6" x1="537" y1="72" x2="537" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti6" x="512" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti6" x="537" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">2138</text>
+
+  <!-- ══ Token 7: "it" ══ -->
+  <rect class="tb7" x="586" y="34" width="42" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw7" x="607" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">it</text>
+  <line class="ta7" x1="607" y1="72" x2="607" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti7" x="582" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti7" x="607" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">2009</text>
+
+  <!-- ══ Token 8: "was" ══ -->
+  <rect class="tb8" x="636" y="34" width="52" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw8" x="662" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">was</text>
+  <line class="ta8" x1="662" y1="72" x2="662" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti8" x="637" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti8" x="662" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">1108</text>
+
+  <!-- ══ Token 9: "too" ══ -->
+  <rect class="tb9" x="696" y="34" width="50" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw9" x="721" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">too</text>
+  <line class="ta9" x1="721" y1="72" x2="721" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti9" x="696" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti9" x="721" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">5765</text>
+
+  <!-- ══ Token 10: "tired" ══ -->
+  <rect class="tb10" x="754" y="34" width="62" height="34" rx="6"
+        fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text class="tw10" x="785" y="56"
+        style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">tired</text>
+  <line class="ta10" x1="785" y1="72" x2="785" y2="132"
+        stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect class="ti10" x="760" y="140" width="50" height="26" rx="5"
+        fill="#eef2ff" stroke="#a5b4fc" stroke-width="1"/>
+  <text class="ti10" x="785" y="158"
+        style="font:700 13px/1 'SF Mono',monospace;fill:#4f46e5;text-anchor:middle;">7841</text>
+
+  <!-- Bottom label -->
+  <text x="450" y="188"
+        style="font:400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    Each word is looked up in a vocabulary table to get its integer ID
+  </text>
+</svg>
+```

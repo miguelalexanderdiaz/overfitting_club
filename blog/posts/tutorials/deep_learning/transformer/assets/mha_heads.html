@@ -1,0 +1,180 @@
+```{=html}
+<div style="margin:1.5rem 0;">
+<svg id="mha-heads" viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:720px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      @keyframes seqFade1 { 0%,0%  {opacity:0} 4% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+      @keyframes seqFade2 { 0%,4%  {opacity:0} 8% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+      @keyframes seqFade3 { 0%,8%  {opacity:0} 12% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+      @keyframes seqFade4 { 0%,12% {opacity:0} 16% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+      @keyframes seqFade5 { 0%,16% {opacity:0} 20% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+      @keyframes seqFadeL { 0%,20% {opacity:0} 24% {opacity:1} 85% {opacity:1} 90%,100% {opacity:0} }
+
+      .seq-1 { animation: seqFade1 12s ease infinite; }
+      .seq-2 { animation: seqFade2 12s ease infinite; }
+      .seq-3 { animation: seqFade3 12s ease infinite; }
+      .seq-4 { animation: seqFade4 12s ease infinite; }
+      .seq-5 { animation: seqFade5 12s ease infinite; }
+      .seq-lbl { animation: seqFadeL 12s ease infinite; }
+
+      @keyframes mhhPulse1-s { 0%,25%{stroke-width:3.5} 30%{stroke-width:6} 35%{stroke-width:3.5} 40%{stroke-width:6} 45%,100%{stroke-width:3.5} }
+      @keyframes mhhPulse1-w { 0%,25%{stroke-width:0.5} 30%{stroke-width:1.5} 35%{stroke-width:0.5} 40%{stroke-width:1.5} 45%,100%{stroke-width:0.5} }
+
+      @keyframes mhhPulse2-s { 0%,45%{stroke-width:3} 50%{stroke-width:5} 55%{stroke-width:3} 60%{stroke-width:5} 65%,100%{stroke-width:3} }
+      @keyframes mhhPulse2-m { 0%,45%{stroke-width:2} 50%{stroke-width:3.5} 55%{stroke-width:2} 60%{stroke-width:3.5} 65%,100%{stroke-width:2} }
+      @keyframes mhhPulse2-w { 0%,45%{stroke-width:0.5} 50%{stroke-width:1.5} 55%{stroke-width:0.5} 60%{stroke-width:1.5} 65%,100%{stroke-width:0.5} }
+
+      @keyframes mhhPulse3-m { 0%,65%{stroke-width:2} 70%{stroke-width:3.5} 75%{stroke-width:2} 80%{stroke-width:3.5} 85%,100%{stroke-width:2} }
+      @keyframes mhhPulse3-w { 0%,65%{stroke-width:0.5} 70%{stroke-width:1.5} 75%{stroke-width:0.5} 80%{stroke-width:1.5} 85%,100%{stroke-width:0.5} }
+
+      .p1-s { animation: mhhPulse1-s 12s ease infinite; stroke: #f43f5e; fill: none; stroke-linecap: round; }
+      .p1-w { animation: mhhPulse1-w 12s ease infinite; stroke: #f43f5e; fill: none; stroke-linecap: round; opacity: 0.4; }
+
+      .p2-s { animation: mhhPulse2-s 12s ease infinite; stroke: #d97706; fill: none; stroke-linecap: round; }
+      .p2-m { animation: mhhPulse2-m 12s ease infinite; stroke: #d97706; fill: none; stroke-linecap: round; }
+      .p2-w { animation: mhhPulse2-w 12s ease infinite; stroke: #d97706; fill: none; stroke-linecap: round; opacity: 0.4; }
+
+      .p3-m { animation: mhhPulse3-m 12s ease infinite; stroke: #3b82f6; fill: none; stroke-linecap: round; }
+      .p3-w { animation: mhhPulse3-w 12s ease infinite; stroke: #3b82f6; fill: none; stroke-linecap: round; opacity: 0.4; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="720" height="300" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="360" y="20" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    What Different Heads Learn
+  </text>
+
+  <!-- ===== Row 1: Coreference (rose) ===== -->
+  <g class="mhh-row1">
+    <rect x="10" y="32" width="700" height="72" rx="8"
+          fill="#fff1f2" fill-opacity="0.4" stroke="#f43f5e" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="100" y="63" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">Head 1: Coreference</text>
+
+    <!-- Token pills -->
+    <rect x="190" y="47" width="50" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="215" y="62" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">The</text>
+    <rect x="260" y="47" width="60" height="22" rx="11" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+    <text x="290" y="62" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">animal</text>
+    <rect x="340" y="47" width="55" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="367.5" y="62" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">street</text>
+    <rect x="415" y="47" width="35" height="22" rx="11" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="432.5" y="62" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">it</text>
+    <rect x="470" y="47" width="42" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="491" y="62" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">was</text>
+    <rect x="532" y="47" width="50" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="557" y="62" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">tired</text>
+
+    <!-- Attention arcs from "it" -->
+    <g class="seq-1">
+      <path class="p1-w" d="M 432.5,69 Q 323.75,94 215,69" />
+    </g>
+    <g class="seq-2">
+      <path class="p1-s" d="M 432.5,69 Q 361.25,87 290,69" />
+    </g>
+    <g class="seq-3">
+      <path class="p1-w" d="M 432.5,69 Q 400,81 367.5,69" />
+    </g>
+    <g class="seq-4">
+      <path class="p1-w" d="M 432.5,69 Q 461.75,81 491,69" />
+    </g>
+    <g class="seq-5">
+      <path class="p1-w" d="M 432.5,69 Q 494.75,87 557,69" />
+    </g>
+    <g class="seq-lbl">
+      <text x="310" y="100" style="font:italic 600 8px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">strong</text>
+    </g>
+  </g>
+
+  <!-- ===== Row 2: Syntax (amber) ===== -->
+  <g class="mhh-row2">
+    <rect x="10" y="116" width="700" height="72" rx="8"
+          fill="#fffbeb" fill-opacity="0.4" stroke="#d97706" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="100" y="147" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">Head 2: Syntax</text>
+
+    <!-- Token pills -->
+    <rect x="190" y="131" width="50" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="215" y="146" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">The</text>
+    <rect x="260" y="131" width="60" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="290" y="146" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">animal</text>
+    <rect x="340" y="131" width="55" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="367.5" y="146" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">street</text>
+    <rect x="415" y="131" width="35" height="22" rx="11" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="432.5" y="146" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">it</text>
+    <rect x="470" y="131" width="42" height="22" rx="11" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="491" y="146" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">was</text>
+    <rect x="532" y="131" width="50" height="22" rx="11" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="557" y="146" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">tired</text>
+
+    <!-- Attention arcs from "it" -->
+    <g class="seq-1">
+      <path class="p2-w" d="M 432.5,153 Q 323.75,178 215,153" />
+    </g>
+    <g class="seq-2">
+      <path class="p2-w" d="M 432.5,153 Q 361.25,171 290,153" />
+    </g>
+    <g class="seq-3">
+      <path class="p2-w" d="M 432.5,153 Q 400,165 367.5,153" />
+    </g>
+    <g class="seq-4">
+      <path class="p2-s" d="M 432.5,153 Q 461.75,165 491,153" />
+    </g>
+    <g class="seq-5">
+      <path class="p2-m" d="M 432.5,153 Q 494.75,171 557,153" />
+    </g>
+    <g class="seq-lbl">
+      <text x="524" y="184" style="font:italic 600 8px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">local grammar</text>
+    </g>
+  </g>
+
+  <!-- ===== Row 3: Semantics (blue) ===== -->
+  <g class="mhh-row3">
+    <rect x="10" y="200" width="700" height="72" rx="8"
+          fill="#eff6ff" fill-opacity="0.4" stroke="#3b82f6" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="100" y="231" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">Head 3: Semantics</text>
+
+    <!-- Token pills -->
+    <rect x="190" y="215" width="50" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="215" y="230" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">The</text>
+    <rect x="260" y="215" width="60" height="22" rx="11" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="290" y="230" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">animal</text>
+    <rect x="340" y="215" width="55" height="22" rx="11" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+    <text x="367.5" y="230" style="font:600 10px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">street</text>
+    <rect x="415" y="215" width="35" height="22" rx="11" fill="#f5f3ff" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="432.5" y="230" style="font:700 10px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">it</text>
+    <rect x="470" y="215" width="42" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="491" y="230" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">was</text>
+    <rect x="532" y="215" width="50" height="22" rx="11" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="557" y="230" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">tired</text>
+
+    <!-- Attention arcs from "it" -->
+    <g class="seq-1">
+      <path class="p3-w" d="M 432.5,237 Q 323.75,262 215,237" />
+    </g>
+    <g class="seq-2">
+      <path class="p3-m" d="M 432.5,237 Q 361.25,255 290,237" />
+    </g>
+    <g class="seq-3">
+      <path class="p3-m" d="M 432.5,237 Q 400,249 367.5,237" />
+    </g>
+    <g class="seq-4">
+      <path class="p3-w" d="M 432.5,237 Q 461.75,249 491,237" />
+    </g>
+    <g class="seq-5">
+      <path class="p3-w" d="M 432.5,237 Q 494.75,255 557,237" />
+    </g>
+    <g class="seq-lbl">
+      <text x="328" y="268" style="font:italic 600 8px/1 'Segoe UI',system-ui,sans-serif;fill:#3b82f6;text-anchor:middle;">meaning-based spread</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <text x="360" y="290" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">
+    Each head learns to attend to different relationships · "it" resolves differently depending on what the head specializes in
+  </text>
+</svg>
+</div>
+```

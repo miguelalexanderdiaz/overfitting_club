@@ -1,0 +1,120 @@
+```{=html}
+<div style="margin:1.5rem 0;">
+<svg id="residual-connections" viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:600px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      @keyframes inputPulse {
+        0%, 10% { transform: translateY(0); opacity: 1; }
+        45% { transform: translateY(-70px); opacity: 0; }
+        46%, 100% { transform: translateY(0); opacity: 0; }
+      }
+      
+      @keyframes sublayerPulse {
+        0%, 30% { opacity: 0; transform: translateY(20px) scale(0.95); }
+        40%, 60% { opacity: 1; transform: translateY(0) scale(1); }
+        70%, 100% { opacity: 0; transform: translateY(-20px) scale(1.05); }
+      }
+      
+      @keyframes residualPulse {
+        0%, 15% { stroke-dashoffset: 400; opacity: 0; }
+        45%, 65% { stroke-dashoffset: 0; opacity: 1; stroke-width: 5; stroke: #3b82f6; }
+        70%, 100% { stroke-dashoffset: 0; opacity: 0; }
+      }
+      
+      @keyframes addPulse {
+        0%, 55% { transform: scale(1); filter: drop-shadow(0 0 0px transparent); }
+        60% { transform: scale(1.2); filter: drop-shadow(0 0 10px #3b82f6); }
+        65%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px transparent); }
+      }
+      
+      @keyframes outputPulse {
+        0%, 60% { opacity: 0; transform: translateY(10px); }
+        70%, 90% { opacity: 1; transform: translateY(-30px); }
+        95%, 100% { opacity: 0; transform: translateY(-40px); }
+      }
+
+      .pulse-input { animation: inputPulse 4s ease-in-out infinite; }
+      .pulse-sublayer { animation: sublayerPulse 4s ease-in-out infinite; }
+      .pulse-residual { 
+        animation: residualPulse 4s ease-in-out infinite;
+        stroke-dasharray: 400;
+        stroke-linecap: round;
+        fill: none;
+      }
+      .pulse-add { animation: addPulse 4s ease-in-out infinite; transform-origin: center; }
+      .pulse-output { animation: outputPulse 4s ease-in-out infinite; }
+    </style>
+    
+    <marker id="arrow" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="600" height="350" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Labels -->
+  <text x="300" y="25" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Residual Connection Data Flow
+  </text>
+  
+  <text x="110" y="180" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Skip Connection bypasses
+  </text>
+  <text x="110" y="195" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    the complex transformation
+  </text>
+
+  <!-- Static Paths (Base structure) -->
+  <path d="M 300,280 L 300,230" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow)" />
+  <path d="M 300,160 L 300,110" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow)" />
+  <path d="M 300,70 L 300,30" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow)" />
+  
+  <!-- The Residual Skip Path (Static background) -->
+  <path d="M 300,260 L 200,260 A 20 20 0 0 1 180 240 L 180,110 A 20 20 0 0 1 200 90 L 280,90" 
+        fill="none" stroke="#e2e8f0" stroke-width="4" stroke-dasharray="8,4" />
+
+  <!-- The Processing Block (Sublayer) -->
+  <rect x="230" y="160" width="140" height="70" rx="8" fill="#fff" stroke="#94a3b8" stroke-width="2" />
+  <text x="300" y="195" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Sublayer</text>
+  <text x="300" y="215" style="font:400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">(e.g. Self-Attention)</text>
+
+  <!-- The Addition Node -->
+  <circle cx="300" cy="90" r="20" fill="#fff" stroke="#94a3b8" stroke-width="2" class="pulse-add" />
+  <path d="M 290,90 L 310,90 M 300,80 L 300,100" stroke="#64748b" stroke-width="3" stroke-linecap="round" class="pulse-add" />
+  
+  <!-- ==================== ANIMATED ELEMENTS ==================== -->
+
+  <!-- 1. Input Data Flowing Up -->
+  <g class="pulse-input">
+    <rect x="260" y="270" width="80" height="24" rx="4" fill="#3b82f6" />
+    <text x="300" y="286" style="font:600 12px/1 monospace;fill:#fff;text-anchor:middle;">x</text>
+  </g>
+
+  <!-- 2. Transformed Data coming out of Sublayer -->
+  <g class="pulse-sublayer">
+    <rect x="250" y="125" width="100" height="24" rx="4" fill="#8b5cf6" />
+    <text x="300" y="141" style="font:600 12px/1 monospace;fill:#fff;text-anchor:middle;">Sublayer(x)</text>
+  </g>
+
+  <!-- 3. Residual Path Animation -->
+  <path class="pulse-residual" d="M 300,260 L 200,260 A 20 20 0 0 1 180 240 L 180,110 A 20 20 0 0 1 200 90 L 275,90" marker-end="url(#arrow-blue)" />
+
+  <!-- 4. Final Output Data Flowing Up -->
+  <g class="pulse-output">
+    <rect x="235" y="45" width="130" height="24" rx="4" fill="#10b981" />
+    <text x="300" y="61" style="font:600 12px/1 monospace;fill:#fff;text-anchor:middle;">x + Sublayer(x)</text>
+  </g>
+
+  <!-- Equations -->
+  <rect x="420" y="130" width="150" height="60" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" />
+  <text x="495" y="155" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Formula:</text>
+  <text x="495" y="175" style="font:400 14px/1 monospace;fill:#3b82f6;text-anchor:middle;">Out = x + f(x)</text>
+
+</svg>
+</div>
+```

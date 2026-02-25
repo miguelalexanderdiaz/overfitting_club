@@ -1,0 +1,169 @@
+```{=html}
+<svg id="arch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 500"
+     style="max-width:440px;width:100%;height:auto;display:block;margin:1.5em auto;">
+  <defs>
+    <style>
+      /* ── Wave animation: 8s cycle, 6 blocks pulse bottom→top ── */
+      @keyframes aw0 {
+        0%,2%  { transform:scale(1) } 7%  { transform:scale(1.04) }
+        12%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      @keyframes aw1 {
+        0%,12% { transform:scale(1) } 17% { transform:scale(1.04) }
+        22%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      @keyframes aw2 {
+        0%,22% { transform:scale(1) } 27% { transform:scale(1.04) }
+        32%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      @keyframes aw3 {
+        0%,32% { transform:scale(1) } 37% { transform:scale(1.04) }
+        42%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      @keyframes aw4 {
+        0%,42% { transform:scale(1) } 47% { transform:scale(1.04) }
+        52%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      @keyframes aw5 {
+        0%,52% { transform:scale(1) } 57% { transform:scale(1.04) }
+        62%    { transform:scale(1) } 100%{ transform:scale(1) }
+      }
+      #arch .aw0 { animation:aw0 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+      #arch .aw1 { animation:aw1 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+      #arch .aw2 { animation:aw2 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+      #arch .aw3 { animation:aw3 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+      #arch .aw4 { animation:aw4 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+      #arch .aw5 { animation:aw5 8s ease infinite; transform-box:fill-box; transform-origin:center; }
+
+      /* Subtle pulse on the highlighted "Inputs" pill */
+      @keyframes inputPulse {
+        0%,100% { filter:brightness(1); } 50% { filter:brightness(1.12); }
+      }
+      #arch .input-hl { animation:inputPulse 3s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="460" height="500" rx="10"
+        fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- ════════════════════════════════════════════════════════
+       BOTTOM → TOP  (high y → low y)
+       ════════════════════════════════════════════════════════ -->
+
+  <!-- ── "Inputs" highlighted pill ── -->
+  <g class="input-hl">
+    <rect x="155" y="460" width="120" height="28" rx="14"
+          fill="#818cf8" stroke="#4f46e5" stroke-width="1.5"/>
+    <text x="215" y="479"
+          style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#fff;text-anchor:middle;">Inputs</text>
+  </g>
+
+  <!-- Arrow: Inputs → Input Embedding -->
+  <line x1="215" y1="458" x2="215" y2="448" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,450 L 215,444 L 219,450" fill="#94a3b8"/>
+
+  <!-- ── Input Embedding (amber) ── -->
+  <g class="aw0">
+    <rect x="110" y="404" width="210" height="38" rx="6"
+          fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+    <text x="215" y="428"
+          style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#78350f;text-anchor:middle;">Input Embedding</text>
+  </g>
+
+  <!-- Arrow: Embedding → ⊕ -->
+  <line x1="215" y1="402" x2="215" y2="390" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,392 L 215,386 L 219,392" fill="#94a3b8"/>
+
+  <!-- ── ⊕ Positional Encoding addition ── -->
+  <g class="aw1">
+    <circle cx="215" cy="372" r="13"
+            fill="#fff" stroke="#475569" stroke-width="1.5"/>
+    <text x="215" y="377"
+          style="font:700 16px/1 sans-serif;fill:#475569;text-anchor:middle;">+</text>
+  </g>
+  <!-- PE label -->
+  <text x="248" y="368"
+        style="font:italic 600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:start;">Positional</text>
+  <text x="248" y="380"
+        style="font:italic 600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:start;">Encoding</text>
+
+  <!-- Arrow: ⊕ → Multi-Head Attention -->
+  <line x1="215" y1="358" x2="215" y2="342" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,344 L 215,338 L 219,344" fill="#94a3b8"/>
+
+  <!-- ╔══════════════════════════════════════════════════════╗
+       ║             N× ENCODER BLOCK                        ║
+       ╚══════════════════════════════════════════════════════╝ -->
+
+  <!-- Nx dashed box -->
+  <rect x="92" y="74" width="244" height="268" rx="8"
+        fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- Nx label -->
+  <text x="84" y="212"
+        style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">N×</text>
+
+  <!-- ── Multi-Head Attention (orange) ── -->
+  <g class="aw2">
+    <rect x="110" y="298" width="210" height="38" rx="6"
+          fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+    <text x="215" y="322"
+          style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#7c2d12;text-anchor:middle;">Multi-Head Attention</text>
+  </g>
+
+  <!-- Residual: MHA bypass → Add & Norm (1) -->
+  <path d="M 320,338 L 350,338 L 350,258 L 320,258"
+        fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <path d="M 324,254 L 318,258 L 324,262" fill="#94a3b8"/>
+
+  <!-- Arrow: MHA → Add & Norm (1) -->
+  <line x1="215" y1="296" x2="215" y2="282" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,284 L 215,278 L 219,284" fill="#94a3b8"/>
+
+  <!-- ── Add & Norm 1 (yellow) ── -->
+  <g class="aw3">
+    <rect x="110" y="238" width="210" height="38" rx="6"
+          fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+    <text x="215" y="262"
+          style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#713f12;text-anchor:middle;">Add &amp; Norm</text>
+  </g>
+
+  <!-- Arrow: Add & Norm (1) → Feed Forward -->
+  <line x1="215" y1="236" x2="215" y2="222" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,224 L 215,218 L 219,224" fill="#94a3b8"/>
+
+  <!-- ── Feed Forward (blue) ── -->
+  <g class="aw4">
+    <rect x="110" y="178" width="210" height="38" rx="6"
+          fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+    <text x="215" y="202"
+          style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#1e3a5f;text-anchor:middle;">Feed Forward</text>
+  </g>
+
+  <!-- Residual: FFN bypass → Add & Norm (2) -->
+  <path d="M 320,218 L 350,218 L 350,138 L 320,138"
+        fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <path d="M 324,134 L 318,138 L 324,142" fill="#94a3b8"/>
+
+  <!-- Arrow: FFN → Add & Norm (2) -->
+  <line x1="215" y1="176" x2="215" y2="162" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,164 L 215,158 L 219,164" fill="#94a3b8"/>
+
+  <!-- ── Add & Norm 2 (yellow) ── -->
+  <g class="aw5">
+    <rect x="110" y="118" width="210" height="38" rx="6"
+          fill="#fef9c3" stroke="#a16207" stroke-width="1.5"/>
+    <text x="215" y="142"
+          style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#713f12;text-anchor:middle;">Add &amp; Norm</text>
+  </g>
+
+  <!-- Arrow: Add & Norm (2) → Encoder Output -->
+  <line x1="215" y1="116" x2="215" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M 211,100 L 215,94 L 219,100" fill="#94a3b8"/>
+
+  <!-- ── Encoder Output label ── -->
+  <text x="215" y="78"
+        style="font:700 14px/1 'Segoe UI',system-ui,sans-serif;fill:#1e293b;text-anchor:middle;">Encoder Output</text>
+</svg>
+```

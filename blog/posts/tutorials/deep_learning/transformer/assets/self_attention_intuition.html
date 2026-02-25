@@ -1,0 +1,106 @@
+<svg id="sa-intuition" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 270"
+     style="max-width:900px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* Animations only — all visual styles are inline to avoid page-CSS conflicts */
+      #sa-intuition .sa-arc { opacity: 0; }
+      #sa-intuition .sa-a0  { animation: saFade 0.5s 0.3s forwards; }
+      #sa-intuition .sa-a1  { animation: saFade 0.5s 0.6s forwards; }
+      #sa-intuition .sa-a2  { animation: saFade 0.5s 0.9s forwards; }
+      #sa-intuition .sa-a3  { animation: saFade 0.5s 1.2s forwards; }
+      #sa-intuition .sa-a4  { animation: saFade 0.5s 1.5s forwards; }
+      #sa-intuition .sa-a5  { animation: saFade 0.5s 1.8s forwards; }
+      #sa-intuition .sa-a6  { animation: saFade 0.5s 2.1s forwards; }
+      #sa-intuition .sa-a7  { animation: saFade 0.5s 2.4s forwards; }
+      #sa-intuition .sa-a8  { animation: saFade 0.5s 2.7s forwards; }
+      #sa-intuition .sa-a9  { animation: saFade 0.5s 3.0s forwards; }
+      #sa-intuition .sa-pulse {
+        animation: saFade 0.5s 0.6s forwards, saPulse 1.6s 3.6s ease-in-out infinite;
+      }
+      #sa-intuition .sa-label { opacity: 0; animation: saFade 0.6s 3.4s forwards; }
+
+      @keyframes saFade  { to { opacity: 1; } }
+      @keyframes saPulse {
+        0%, 100% { opacity: 1; stroke-width: 3; }
+        50%      { opacity: 0.5; stroke-width: 5; }
+      }
+    </style>
+  </defs>
+
+  <!-- Light background so the graphic is self-contained on any theme -->
+  <rect x="0" y="0" width="900" height="270" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- ── Token boxes ── -->
+  <!-- "The" -->
+  <rect x="15"  y="175" width="70"  height="32" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <!-- "animal" -->
+  <rect x="95"  y="175" width="70"  height="32" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <!-- "didn't" -->
+  <rect x="195" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "cross" -->
+  <rect x="285" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "the" -->
+  <rect x="375" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "street" -->
+  <rect x="455" y="175" width="70"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "because" -->
+  <rect x="545" y="175" width="90"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "it" (highlighted) -->
+  <rect x="645" y="175" width="40"  height="32" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <!-- "was" -->
+  <rect x="700" y="175" width="55"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "too" -->
+  <rect x="765" y="175" width="45"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+  <!-- "tired" -->
+  <rect x="825" y="175" width="60"  height="32" rx="6" fill="#f1f5f9" stroke="none"/>
+
+  <!-- ── Token labels ── -->
+  <text x="50"  y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">The</text>
+  <text x="130" y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">animal</text>
+  <text x="230" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">didn't</text>
+  <text x="320" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">cross</text>
+  <text x="410" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">the</text>
+  <text x="490" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">street</text>
+  <text x="590" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">because</text>
+  <text x="665" y="196" style="font:700 15px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">it</text>
+  <text x="727" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">was</text>
+  <text x="787" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">too</text>
+  <text x="855" y="196" style="font:400 15px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">tired</text>
+
+  <!-- ── Arcs from "it" (x=665) to each other token ── -->
+  <!-- Strong: "animal" and "The" -->
+  <path class="sa-arc sa-pulse sa-a0" d="M 665,175 Q 397,25 130,175"
+        style="fill:none;stroke:#ea580c;stroke-width:3;stroke-linecap:round;"/>
+  <path class="sa-arc sa-pulse sa-a1" d="M 665,175 Q 357,35 50,175"
+        style="fill:none;stroke:#ea580c;stroke-width:3;stroke-linecap:round;"/>
+
+  <!-- Weak -->
+  <path class="sa-arc sa-a2" d="M 665,175 Q 447,75 230,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-arc sa-a3" d="M 665,175 Q 492,90 320,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-arc sa-a4" d="M 665,175 Q 537,100 410,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+
+  <!-- Medium: "street" -->
+  <path class="sa-arc sa-a5" d="M 665,175 Q 577,110 490,175"
+        style="fill:none;stroke:#f59e0b;stroke-width:1.8;stroke-linecap:round;"/>
+
+  <!-- Weak -->
+  <path class="sa-arc sa-a6" d="M 665,175 Q 627,130 590,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-arc sa-a7" d="M 665,175 Q 696,145 727,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+  <path class="sa-arc sa-a8" d="M 665,175 Q 726,140 787,175"
+        style="fill:none;stroke:#94a3b8;stroke-width:1;stroke-linecap:round;"/>
+
+  <!-- Medium: "tired" -->
+  <path class="sa-arc sa-a9" d="M 665,175 Q 760,130 855,175"
+        style="fill:none;stroke:#f59e0b;stroke-width:1.8;stroke-linecap:round;"/>
+
+  <!-- Explanatory label -->
+  <text class="sa-label" x="450" y="255"
+        style="font:400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Line thickness = attention weight — "it" attends most strongly to "The animal"
+  </text>
+</svg>

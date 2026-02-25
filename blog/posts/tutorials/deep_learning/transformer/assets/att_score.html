@@ -1,0 +1,142 @@
+```{=html}
+<svg id="att-score" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300"
+     style="max-width:800px;width:100%;height:auto;display:block;margin:1em auto;">
+  <defs>
+    <style>
+      /* --- Attention Scores: wave-highlight sweeps through each key row (12s cycle) --- */
+      @keyframes asHL0 {
+        0%,5%   { filter:drop-shadow(0 0 0px transparent) }
+        10%     { filter:drop-shadow(0 0 6px #94a3b8) }
+        20%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes asHL1 {
+        0%,15%  { filter:drop-shadow(0 0 0px transparent) }
+        22%     { filter:drop-shadow(0 0 8px #ea580c) }
+        32%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes asHL2 {
+        0%,28%  { filter:drop-shadow(0 0 0px transparent) }
+        34%     { filter:drop-shadow(0 0 6px #94a3b8) }
+        44%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes asHL3 {
+        0%,40%  { filter:drop-shadow(0 0 0px transparent) }
+        46%     { filter:drop-shadow(0 0 6px #7c3aed) }
+        56%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      @keyframes asHL4 {
+        0%,52%  { filter:drop-shadow(0 0 0px transparent) }
+        58%     { filter:drop-shadow(0 0 6px #94a3b8) }
+        68%     { filter:drop-shadow(0 0 0px transparent) }
+        100%    { filter:drop-shadow(0 0 0px transparent) }
+      }
+      /* Dashed line brightens with its row */
+      @keyframes asDash0 {
+        0%,5%  { stroke:#94a3b8;stroke-width:1 } 10% { stroke:#6366f1;stroke-width:2 }
+        20%    { stroke:#94a3b8;stroke-width:1 } 100% { stroke:#94a3b8;stroke-width:1 }
+      }
+      @keyframes asDash1 {
+        0%,15% { stroke:#ea580c;stroke-width:2 } 22% { stroke:#f43f5e;stroke-width:3 }
+        32%    { stroke:#ea580c;stroke-width:2 } 100% { stroke:#ea580c;stroke-width:2 }
+      }
+      @keyframes asDash2 {
+        0%,28% { stroke:#94a3b8;stroke-width:1 } 34% { stroke:#6366f1;stroke-width:2 }
+        44%    { stroke:#94a3b8;stroke-width:1 } 100% { stroke:#94a3b8;stroke-width:1 }
+      }
+      @keyframes asDash3 {
+        0%,40% { stroke:#7c3aed;stroke-width:1.5 } 46% { stroke:#6366f1;stroke-width:2.5 }
+        56%    { stroke:#7c3aed;stroke-width:1.5 } 100% { stroke:#7c3aed;stroke-width:1.5 }
+      }
+      @keyframes asDash4 {
+        0%,52% { stroke:#94a3b8;stroke-width:1 } 58% { stroke:#6366f1;stroke-width:2 }
+        68%    { stroke:#94a3b8;stroke-width:1 } 100% { stroke:#94a3b8;stroke-width:1 }
+      }
+
+      #att-score .as-row0  { animation: asHL0  12s ease infinite; }
+      #att-score .as-row1  { animation: asHL1  12s ease infinite; }
+      #att-score .as-row2  { animation: asHL2  12s ease infinite; }
+      #att-score .as-row3  { animation: asHL3  12s ease infinite; }
+      #att-score .as-row4  { animation: asHL4  12s ease infinite; }
+      #att-score .as-dash0 { animation: asDash0 12s ease infinite; }
+      #att-score .as-dash1 { animation: asDash1 12s ease infinite; }
+      #att-score .as-dash2 { animation: asDash2 12s ease infinite; }
+      #att-score .as-dash3 { animation: asDash3 12s ease infinite; }
+      #att-score .as-dash4 { animation: asDash4 12s ease infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="800" height="300" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="400" y="28" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Attention Scores: q_it · k_j for each token j
+  </text>
+
+  <!-- Query vector (left) -->
+  <g>
+    <rect x="30" y="125" width="120" height="44" rx="8" fill="#fff1f2" stroke="#f43f5e" stroke-width="2"/>
+    <text x="90" y="152" style="font:600 15px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">q_it</text>
+    <text x="90" y="112" style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#f43f5e;text-anchor:middle;">Query ("it")</text>
+  </g>
+
+  <!-- Key vectors (right column) — always visible -->
+  <rect x="460" y="48"  width="110" height="34" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="515" y="70"  style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">k_The</text>
+
+  <rect x="460" y="92"  width="110" height="34" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="515" y="114" style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">k_animal</text>
+
+  <rect x="460" y="136" width="110" height="34" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="515" y="158" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">k_street</text>
+
+  <rect x="460" y="180" width="110" height="34" rx="6" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="515" y="202" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">k_it</text>
+
+  <rect x="460" y="224" width="110" height="34" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="515" y="246" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#d97706;text-anchor:middle;">k_tired</text>
+
+  <!-- Dashed lines + score pills — always visible, highlight sweeps through -->
+  <!-- The → 0.5 -->
+  <g class="as-row0">
+    <line class="as-dash0" x1="150" y1="140" x2="458" y2="65" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+    <rect x="610" y="50" width="60" height="28" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="640" y="69" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">0.5</text>
+  </g>
+  <!-- animal → 3.2 (highlighted) -->
+  <g class="as-row1">
+    <line class="as-dash1" x1="150" y1="143" x2="458" y2="109" stroke="#ea580c" stroke-width="2" stroke-dasharray="4,3"/>
+    <rect x="610" y="94" width="60" height="28" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+    <text x="640" y="113" style="font:700 13px/1 'Segoe UI',system-ui,sans-serif;fill:#ea580c;text-anchor:middle;">3.2</text>
+  </g>
+  <!-- street → 0.8 -->
+  <g class="as-row2">
+    <line class="as-dash2" x1="150" y1="147" x2="458" y2="153" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+    <rect x="610" y="138" width="60" height="28" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="640" y="157" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">0.8</text>
+  </g>
+  <!-- it → 2.1 -->
+  <g class="as-row3">
+    <line class="as-dash3" x1="150" y1="150" x2="458" y2="197" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <rect x="610" y="182" width="60" height="28" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="640" y="201" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#7c3aed;text-anchor:middle;">2.1</text>
+  </g>
+  <!-- tired → 1.4 -->
+  <g class="as-row4">
+    <line class="as-dash4" x1="150" y1="153" x2="458" y2="241" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+    <rect x="610" y="226" width="60" height="28" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="640" y="245" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">1.4</text>
+  </g>
+
+  <!-- Scale annotation -->
+  <text x="700" y="160" style="font:italic 400 11px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:start;">÷ √d_k</text>
+
+  <!-- Column labels -->
+  <text x="515" y="280" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">Keys</text>
+  <text x="640" y="280" style="font:italic 400 10px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:middle;">Scores</text>
+</svg>
+```

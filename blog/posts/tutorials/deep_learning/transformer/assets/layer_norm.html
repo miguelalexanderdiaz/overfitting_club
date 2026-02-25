@@ -1,0 +1,144 @@
+```{=html}
+<div style="margin:1.5rem 0;">
+<svg id="layer-norm-anim" viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:720px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      /* Token 1: Starts wide and shifted left */
+      @keyframes lnCurve1 {
+        0%, 15%  { transform: translate(-100px, 0) scale(1.5, 0.6); }
+        35%, 55% { transform: translate(0px, 0) scale(1, 1); }
+        75%, 90% { transform: translate(40px, 0) scale(1.1, 1.2); }
+        100%     { transform: translate(-100px, 0) scale(1.5, 0.6); }
+      }
+      /* Token 2: Starts narrow and shifted right */
+      @keyframes lnCurve2 {
+        0%, 15%  { transform: translate(120px, 0) scale(0.6, 1.5); }
+        35%, 55% { transform: translate(0px, 0) scale(1, 1); }
+        75%, 90% { transform: translate(40px, 0) scale(1.1, 1.2); }
+        100%     { transform: translate(120px, 0) scale(0.6, 1.5); }
+      }
+      /* Token 3: Starts medium and slightly right */
+      @keyframes lnCurve3 {
+        0%, 15%  { transform: translate(40px, 0) scale(1.2, 0.8); }
+        35%, 55% { transform: translate(0px, 0) scale(1, 1); }
+        75%, 90% { transform: translate(40px, 0) scale(1.1, 1.2); }
+        100%     { transform: translate(40px, 0) scale(1.2, 0.8); }
+      }
+
+      /* Text Fades */
+      @keyframes fadeStep1 {
+        0%, 15% { opacity: 1; } 20%, 100% { opacity: 0; }
+      }
+      @keyframes fadeStep2 {
+        0%, 30% { opacity: 0; } 35%, 55% { opacity: 1; } 60%, 100% { opacity: 0; }
+      }
+      @keyframes fadeStep3 {
+        0%, 70% { opacity: 0; } 75%, 90% { opacity: 1; } 95%, 100% { opacity: 0; }
+      }
+
+      .ln-c1 { animation: lnCurve1 12s ease-in-out infinite; }
+      .ln-c2 { animation: lnCurve2 12s ease-in-out infinite; }
+      .ln-c3 { animation: lnCurve3 12s ease-in-out infinite; }
+      
+      .step1-text { animation: fadeStep1 12s ease-in-out infinite; }
+      .step2-text { animation: fadeStep2 12s ease-in-out infinite; }
+      .step3-text { animation: fadeStep3 12s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="720" height="380" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="360" y="25" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Layer Normalization (Z-Normalization per Token)
+  </text>
+
+  <!-- Dynamic Subtitles -->
+  <text x="360" y="50" class="step1-text" style="font:600 16px/1 'Segoe UI',system-ui,sans-serif;fill:#ef4444;text-anchor:middle;">
+    1. Unnormalized: Each token's features have different means (μ) and variances (σ²)
+  </text>
+  <text x="360" y="50" class="step2-text" style="font:600 16px/1 'Segoe UI',system-ui,sans-serif;fill:#10b981;text-anchor:middle;">
+    2. Standardized: All tokens centered at μ = 0, with variance σ² = 1
+  </text>
+  <text x="360" y="50" class="step3-text" style="font:600 16px/1 'Segoe UI',system-ui,sans-serif;fill:#8b5cf6;text-anchor:middle;">
+    3. Scaled &amp; Shifted: Learned parameters (γ, β) shift the distribution to optimal range
+  </text>
+
+  <!-- Cartesian Plane -->
+  <g transform="translate(360, 290)">
+    <!-- Grid lines -->
+    <line x1="-300" y1="-50" x2="300" y2="-50" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4" />
+    <line x1="-300" y1="-100" x2="300" y2="-100" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4" />
+    <line x1="-300" y1="-150" x2="300" y2="-150" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4" />
+    <line x1="-300" y1="-200" x2="300" y2="-200" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4" />
+    
+    <!-- Y Axis -->
+    <line x1="0" y1="10" x2="0" y2="-210" stroke="#94a3b8" stroke-width="2" />
+    <text x="-10" y="-215" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">Density</text>
+    
+    <!-- X Axis -->
+    <line x1="-320" y1="0" x2="320" y2="0" stroke="#94a3b8" stroke-width="2" />
+    <text x="310" y="-15" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:end;">Feature Value (Activation)</text>
+    
+    <!-- X Axis Ticks -->
+    <line x1="0" y1="0" x2="0" y2="5" stroke="#94a3b8" stroke-width="2" />
+    <text x="0" y="20" style="font:600 12px/1 monospace;fill:#334155;text-anchor:middle;">0</text>
+    
+    <line x1="-150" y1="0" x2="-150" y2="5" stroke="#94a3b8" stroke-width="2" />
+    <text x="-150" y="20" style="font:400 12px/1 monospace;fill:#64748b;text-anchor:middle;">-1</text>
+    
+    <line x1="150" y1="0" x2="150" y2="5" stroke="#94a3b8" stroke-width="2" />
+    <text x="150" y="20" style="font:400 12px/1 monospace;fill:#64748b;text-anchor:middle;">+1</text>
+
+    <!-- Gaussian Curves -->
+    <!-- Base Path: M -150,0 C -75,0 -45,-150 0,-150 C 45,-150 75,0 150,0 -->
+    
+    <!-- Token 1 (Rose) -->
+    <g class="ln-c1">
+      <path d="M -150,0 C -75,0 -45,-150 0,-150 C 45,-150 75,0 150,0" 
+            fill="#ffe4e6" fill-opacity="0.5" stroke="#f43f5e" stroke-width="3" />
+      <line x1="0" y1="0" x2="0" y2="-150" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3" />
+    </g>
+
+    <!-- Token 2 (Amber) -->
+    <g class="ln-c2">
+      <path d="M -150,0 C -75,0 -45,-150 0,-150 C 45,-150 75,0 150,0" 
+            fill="#fef3c7" fill-opacity="0.5" stroke="#d97706" stroke-width="3" />
+      <line x1="0" y1="0" x2="0" y2="-150" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,3" />
+    </g>
+
+    <!-- Token 3 (Blue) -->
+    <g class="ln-c3">
+      <path d="M -150,0 C -75,0 -45,-150 0,-150 C 45,-150 75,0 150,0" 
+            fill="#dbeafe" fill-opacity="0.5" stroke="#3b82f6" stroke-width="3" />
+      <line x1="0" y1="0" x2="0" y2="-150" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3,3" />
+    </g>
+  </g>
+
+  <!-- Token Legend -->
+  <g transform="translate(20, 80)">
+    <rect x="0" y="0" width="85" height="70" rx="4" fill="#fff" stroke="#e2e8f0" stroke-width="1" />
+    <line x1="10" y1="20" x2="25" y2="20" stroke="#f43f5e" stroke-width="3" />
+    <text x="35" y="24" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;">Token 1</text>
+    
+    <line x1="10" y1="40" x2="25" y2="40" stroke="#d97706" stroke-width="3" />
+    <text x="35" y="44" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;">Token 2</text>
+    
+    <line x1="10" y1="60" x2="25" y2="60" stroke="#3b82f6" stroke-width="3" />
+    <text x="35" y="64" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;">Token 3</text>
+  </g>
+
+  <!-- Legend / Equations -->
+  <rect x="20" y="315" width="160" height="50" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="100" y="335" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Standardization:</text>
+  <text x="100" y="353" style="font:400 12px/1 monospace;fill:#3b82f6;text-anchor:middle;">z = (x - μ) / σ</text>
+
+  <rect x="540" y="315" width="160" height="50" rx="6" fill="#fff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="620" y="335" style="font:600 11px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">Scale &amp; Shift:</text>
+  <text x="620" y="353" style="font:400 12px/1 monospace;fill:#8b5cf6;text-anchor:middle;">y = γ * z + β</text>
+
+</svg>
+</div>
+```
