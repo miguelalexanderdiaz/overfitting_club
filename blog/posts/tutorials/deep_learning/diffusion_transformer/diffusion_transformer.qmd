@@ -1,0 +1,41 @@
+---
+title: "Diffusion Transformer (DiT)"
+subtitle: "Building a Diffusion Transformer from Scratch for Image Generation"
+author: "Miguel Alexander Chitiva Diaz"
+date: "2026-02-24"
+categories: [diffusion, transformer, deep-learning, generative-models]
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+---
+
+In this series we build a Diffusion Transformer (DiT) from scratch, covering
+every building block from the ground up. The tutorial is split into five parts
+that progressively assemble the full generative pipeline.
+
+## Table of Contents
+
+1. [**Transformer Architecture**](../transformer/transformer.qmd) — Multi-head
+   self-attention, feed-forward blocks, layer normalization, and residual
+   connections. The foundation that everything else builds on.
+
+2. **Autoencoder Architecture** — Convolutional encoder and decoder that
+   compress pixel-space images into a compact latent representation and
+   reconstruct them back. This separates "what the image looks like" from
+   "how to generate it".
+
+3. **The Diffusion Paradigm** — Forward noising process, noise schedules
+   (linear and cosine), the reparameterization trick, and DDPM reverse
+   sampling. How we turn the generation problem into a denoising problem.
+
+4. **ViT: Vision Transformer** — Patch embedding, positional encoding, and
+   the full Vision Transformer. Adapting the transformer architecture to
+   operate on images by treating them as sequences of patches.
+
+5. **DiT: Diffusion Transformer** *(current entry)* — Adaptive Layer Norm
+   (adaLN), timestep and label conditioning, DiT blocks, and the complete
+   latent-space denoising network. Putting it all together to generate
+   FashionMNIST images.
