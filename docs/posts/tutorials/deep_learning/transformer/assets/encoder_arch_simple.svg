@@ -1,0 +1,99 @@
+<svg id="encoder-arch-simple" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:500px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <marker id="arrow-simple" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="6" markerHeight="6" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="500" height="600" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Encoder Block Boundary (drawn in background) -->
+  <rect x="120" y="100" width="260" height="285" rx="10" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,4" />
+  <text x="370" y="115" style="font:italic 600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#94a3b8;text-anchor:end;">Nx Blocks</text>
+
+  <!-- Title -->
+  <text x="250" y="25" style="font:600 16px/1 'Segoe UI',system-ui,sans-serif;fill:#334155;text-anchor:middle;">
+    Transformer Encoder Architecture
+  </text>
+  <text x="250" y="45" style="font:italic 400 12px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">
+    Simplified Overview
+  </text>
+
+  <!-- Connecting Arrows (drawn before nodes so they sit behind) -->
+  
+  <!-- Inputs to Embeddings -->
+  <path d="M 250,530 L 250,500" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+  
+  <!-- Embeddings to Plus -->
+  <path d="M 250,460 L 250,422" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Positional Encoding to Plus -->
+  <path d="M 310,410 L 262,410" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Plus to Block/MHA -->
+  <path d="M 250,398 L 250,355" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Inside Block: MHA to Add&Norm -->
+  <path d="M 250,305 L 250,275" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Inside Block: Add&Norm to FFN -->
+  <path d="M 250,245 L 250,220" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Inside Block: FFN to Add&Norm 2 -->
+  <path d="M 250,180 L 250,145" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Block to Output -->
+  <path d="M 250,115 L 250,90" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+  <!-- Residual Connections -->
+  <!-- Residual 1 -->
+  <!-- Starts at y=375 (below MHA), ends at Add&Norm1 y=260 -->
+  <path d="M 250,375 L 150,375 A 10 10 0 0 1 140 365 L 140,270 A 10 10 0 0 1 150 260 L 180,260" fill="none" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+  
+  <!-- Residual 2 -->
+  <!-- Starts at y=230 (below FFN), ends at Add&Norm2 y=130 -->
+  <path d="M 250,230 L 150,230 A 10 10 0 0 1 140 220 L 140,140 A 10 10 0 0 1 150 130 L 180,130" fill="none" stroke="#cbd5e1" stroke-width="3" marker-end="url(#arrow-simple)" />
+
+
+  <!-- Nodes -->
+
+  <!-- Output Section -->
+  <rect x="180" y="50" width="140" height="40" rx="6" fill="#bbf7d0" stroke="#10b981" stroke-width="2" />
+  <text x="250" y="75" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#047857;text-anchor:middle;">Encoded Features</text>
+
+  <!-- Add & Norm 2 -->
+  <rect x="180" y="115" width="140" height="30" rx="15" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
+  <text x="250" y="135" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">Add &amp; Norm</text>
+
+  <!-- Feed Forward -->
+  <rect x="180" y="180" width="140" height="40" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+  <text x="250" y="205" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#1d4ed8;text-anchor:middle;">Feed Forward</text>
+
+  <!-- Add & Norm 1 -->
+  <rect x="180" y="245" width="140" height="30" rx="15" fill="#f1f5f9" stroke="#64748b" stroke-width="2" />
+  <text x="250" y="265" style="font:600 12px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">Add &amp; Norm</text>
+
+  <!-- Multi-Head Attention -->
+  <rect x="180" y="305" width="140" height="50" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <text x="250" y="330" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:middle;">Multi-Head</text>
+  <text x="250" y="345" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:middle;">Attention</text>
+
+  <!-- Plus Circle -->
+  <circle cx="250" cy="410" r="12" fill="#fff" stroke="#94a3b8" stroke-width="2" />
+  <text x="250" y="416" style="font:600 16px/1 'Segoe UI',system-ui,sans-serif;fill:#64748b;text-anchor:middle;">+</text>
+
+  <!-- Positional Encoding -->
+  <rect x="310" y="390" width="150" height="40" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2" />
+  <text x="385" y="415" style="font:600 13px/1 'Segoe UI',system-ui,sans-serif;fill:#b45309;text-anchor:middle;">Positional Encoding</text>
+
+  <!-- Input Embedding -->
+  <rect x="180" y="460" width="140" height="40" rx="6" fill="#ffe4e6" stroke="#f43f5e" stroke-width="2" />
+  <text x="250" y="485" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#be123c;text-anchor:middle;">Input Embedding</text>
+
+  <!-- Input Section -->
+  <rect x="180" y="530" width="140" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" />
+  <text x="250" y="555" style="font:600 14px/1 'Segoe UI',system-ui,sans-serif;fill:#475569;text-anchor:middle;">Inputs</text>
+
+</svg>

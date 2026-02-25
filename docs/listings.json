@@ -2,12 +2,16 @@
   {
     "listing": "/deep_learning.html",
     "items": [
+      "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",
+      "/posts/tutorials/deep_learning/transformer/transformer.html",
       "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
     ]
   },
   {
     "listing": "/tutorials.html",
     "items": [
+      "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",
+      "/posts/tutorials/deep_learning/transformer/transformer.html",
       "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
     ]
   },
@@ -22,6 +26,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",
+      "/posts/tutorials/deep_learning/transformer/transformer.html",
       "/posts/thoughts/welcome/index.html",
       "/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html"
     ]
