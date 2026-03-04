@@ -16,7 +16,7 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "Miguel Diaz",
+    "title": "Miguel ChitivaDiaz",
     "section": "",
     "text": "I wrangle messy, real‑world data into products your users actually love—from classical ML to agentic systems—delivered with calm, drama‑free MLOps.\n\nCurrent Interests\n\nDeep Learning on the Edge: Quantization, pruning, distillation, and other tiny sorcery to run big brains on small chips (Federated Learning, Differential Privacy, etc.).\nTiny agents on device: Local LLMs with manners: tool calling, confident with local data, and calling the cloud only when it truly matters.\n\nWhy? Because GPUs don’t grow on trees (tragic), so we build clever, resource savvy systems that do more with less.\n\n\n\n Back to top"
   },
