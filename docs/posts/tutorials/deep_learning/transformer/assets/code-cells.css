@@ -1,0 +1,33 @@
+/* Card-style wrapper for Jupyter code cells */
+.cell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #4A90D9;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+
+/* Style the fold toggle to look clickable */
+.cell details.code-fold > summary {
+  font-weight: 600;
+  opacity: 0.85;
+  padding: 0.2rem 0;
+  cursor: pointer;
+}
+
+.cell details.code-fold > summary:hover {
+  opacity: 1;
+}
+
+/* Give cell outputs a subtle top separator */
+.cell .cell-output {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+/* Remove redundant outer margin from code blocks inside card */
+.cell .sourceCode {
+  margin: 0;
+}

@@ -1,0 +1,21 @@
+---
+title: "{{cookiecutter.post_title}}"
+subtitle: "{{cookiecutter.post_subtitle}}"
+author: "{{cookiecutter.author}}"
+date: today
+categories: [{{cookiecutter.categories}}]
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left-body
+    toc-title: "Table of Contents"
+    number-sections: true
+    code-fold: true
+    code-tools: true
+jupyter: python3
+---
+
+## Introduction
+
+Start writing here.

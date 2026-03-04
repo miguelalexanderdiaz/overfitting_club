@@ -1,0 +1,13 @@
+[project]
+name = "overfitting-club"
+version = "0.1.0"
+description = "The Overfitting Club - A blog about deep learning, AI, and more"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jupyter>=1.1.1",
+    "nbclient>=0.10.4",
+    "nbformat>=5.10.4",
+    "pyyaml>=6.0.3",
+    "ipykernel>=7.2.0",
+]

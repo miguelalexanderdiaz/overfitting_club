@@ -11,8 +11,12 @@ format:
     toc-location: left-body
     toc-title: "Table of Contents"
     number-sections: true
-    code-fold: false
     code-tools: true
+    highlight-style: atom-one
+    code-block-bg: true
+    code-block-border-left: "#4A90D9"
+    code-copy: hover
+jupyter: python3
 ---
 
 This is the first entry in our series building a Diffusion Transformer (DiT)
@@ -59,19 +63,6 @@ This shift from static learned weights to dynamically computed, input-dependent 
 Comparison between static weights in traditional networks and dynamically computed activations in Transformers.
 :::
 
-## Roadmap {.unnumbered}
-
-- **Self-Attention Intuition** — Why each token needs to look at every other token.
-- **Tokenization** — Splitting raw text into tokens and mapping them to integer IDs.
-- **Embedding** — Converting token IDs into dense vectors the model can learn from.
-- **Positional Encoding** — Injecting word-order information with sinusoidal signals.
-- **Self-Attention in Detail (Q, K, V)** — Queries, Keys, Values and the scaled dot-product.
-- **Matrix Calculation of Self-Attention** — The full computation in one matrix formula.
-- **Multi-Head Attention** — Running several attention heads in parallel.
-- **Residual Connections and Layer Normalization** — Skip connections and normalization.
-- **The Feed-Forward Network** — The position-wise MLP inside each encoder block.
-- **Putting It All Together — The Encoder Block** — Stacking everything into a complete encoder.
-
 
 ## Self-Attention Intuition
 
@@ -108,6 +99,48 @@ let's see how raw text gets converted into something a model can actually work
 with.
 
 
+```{python}
+#| code-fold: true
+#| code-summary: "Setup: imports and configuration"
+
+import math
+import torch
+import torch.nn as nn
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+
+console = Console()
+torch.manual_seed(42)
+d_model = 32   # small for demonstration (original paper uses 512)
+
+
+def shape_table(title: str, rows: list[tuple[str, tuple, str]]):
+    """Display a Tensor / Shape / Description table."""
+    t = Table(title=title)
+    t.add_column("Tensor", style="cyan")
+    t.add_column("Shape", style="green")
+    t.add_column("Description", style="dim")
+    for name, shape, desc in rows:
+        t.add_row(name, str(shape), desc)
+    console.print(t)
+
+
+def pipeline_table(title: str, rows: list[tuple[str, str, tuple]]):
+    """Display a Step / Tensor / Shape table."""
+    t = Table(title=title)
+    t.add_column("Step", style="cyan")
+    t.add_column("Tensor", style="magenta")
+    t.add_column("Shape", style="green")
+    for step, name, shape in rows:
+        t.add_row(step, name, str(shape))
+    console.print(t)
+```
+
 ## Tokenization
 
 Before a transformer can process text, the raw string must be converted into a
@@ -124,7 +157,7 @@ This post uses **text tokens** to teach the mechanics, but the encoder math is t
 - **Token IDs + embedding lookup** ↔ **Patch embedding** (a linear projection of patch pixels/latents into $d_{\text{model}}$)
 - **1D positional encoding** ↔ **2D positional encoding** (or learned 2D position embeddings)
 
-So when you see “token,” you can mentally substitute “patch” if you’re reading this for DiT.
+So when you see "token," you can mentally substitute "patch" if you're reading this for DiT.
 ::::
 
 A simple word-level tokenizer would split our example sentence into:
@@ -156,6 +189,24 @@ bottom. As we work through the post, each block will light up.
 The Transformer encoder architecture.
 :::
 
+Let's implement this in PyTorch. We split the sentence into words, build a
+vocabulary mapping each unique token to an integer ID, and convert the full
+sequence into a tensor of IDs:
+
+```{python}
+sentence = "The animal didn't cross the street because it was too tired"
+tokens = sentence.split()
+vocab = {tok: i for i, tok in enumerate(sorted(set(tokens)))}
+token_ids = torch.tensor([vocab[t] for t in tokens], dtype=torch.long)
+
+t = Table(title="Tokenization")
+t.add_column("Position", style="cyan", justify="center")
+t.add_column("Token", style="magenta")
+t.add_column("ID", style="green", justify="center")
+for i, (tok, id_val) in enumerate(zip(tokens, token_ids.tolist())):
+    t.add_row(str(i), tok, str(id_val))
+console.print(t)
+```
 
 ## Embedding
 
@@ -200,6 +251,18 @@ These vectors are **learned** during training. The model adjusts them so that
 tokens appearing in similar contexts drift towards similar regions of the
 embedding space.
 
+In PyTorch, `nn.Embedding` is exactly this lookup table — we pass in our token
+IDs and get back one dense vector per token:
+
+```{python}
+embedding_layer = nn.Embedding(num_embeddings=len(vocab), embedding_dim=d_model)
+X_embed = embedding_layer(token_ids)
+
+shape_table("Embedding", [
+    ("token_ids", tuple(token_ids.shape), "[N] — integer IDs"),
+    ("X_embed",   tuple(X_embed.shape),   "[N, d_model] — dense vectors"),
+])
+```
 
 ## Positional Encoding
 
@@ -262,8 +325,32 @@ the self-attention mechanism.
 
 :::: {.callout-tip}
 ## So what changed?
-We turned each token embedding from “meaning only” into “meaning + position,” because attention alone can’t tell *where* tokens are in the sequence.
+We turned each token embedding from "meaning only" into "meaning + position," because attention alone can't tell *where* tokens are in the sequence.
 ::::
+
+Here is the sinusoidal formula translated directly into PyTorch. We generate the
+full $\text{PE}$ matrix and add it element-wise to our embeddings:
+
+```{python}
+def sinusoidal_positional_encoding(seq_len: int, d_model: int) -> torch.Tensor:
+    pe = torch.zeros(seq_len, d_model)
+    position = torch.arange(seq_len, dtype=torch.float32).unsqueeze(1)
+    div_term = torch.exp(
+        torch.arange(0, d_model, 2, dtype=torch.float32) * (-math.log(10000.0) / d_model)
+    )
+    pe[:, 0::2] = torch.sin(position * div_term)
+    pe[:, 1::2] = torch.cos(position * div_term)
+    return pe
+
+PE = sinusoidal_positional_encoding(len(tokens), d_model)
+X = X_embed + PE
+
+shape_table("Positional Encoding", [
+    ("X_embed", tuple(X_embed.shape), "[N, d_model] — token embeddings"),
+    ("PE",      tuple(PE.shape),      "[N, d_model] — sinusoidal positions"),
+    ("X",       tuple(X.shape),       "[N, d_model] — embedding + position"),
+])
+```
 
 ## Self-Attention in Detail (Q, K, V)
 
@@ -274,7 +361,7 @@ relevant? The answer lies in three learned projections: **Query**, **Key**, and
 **Value**.
 
 At this point, each token is represented by its **position-aware** vector
-$\mathbf{z}_i = \mathbf{x}_i + \mathbf{PE}(i)$. We’ll use that vector as the
+$\mathbf{z}_i = \mathbf{x}_i + \mathbf{PE}(i)$. We'll use that vector as the
 input to attention. For every token vector $\mathbf{z}_i$ the model computes:
 
 $$
@@ -399,6 +486,38 @@ information from the entire sequence.
 Each token gets upgraded from a standalone vector into a **context-aware** vector by taking a weighted mixture of information from all other tokens.
 ::::
 
+Let's wire up the full self-attention pipeline in PyTorch — project into Q, K, V,
+compute scaled dot-product scores, apply softmax, and produce the weighted
+output:
+
+```{python}
+# Linear projections
+q_proj = nn.Linear(d_model, d_model)
+k_proj = nn.Linear(d_model, d_model)
+v_proj = nn.Linear(d_model, d_model)
+
+Q = q_proj(X)   # [N, d_model]
+K = k_proj(X)
+V = v_proj(X)
+
+# Scaled dot-product attention
+scores = Q @ K.transpose(-2, -1) / math.sqrt(d_model)   # [N, N]
+weights = torch.softmax(scores, dim=-1)                   # [N, N]
+attention_output = weights @ V                             # [N, d_model]
+
+pipeline_table("Self-Attention Pipeline", [
+    ("Project",      "Q",      tuple(Q.shape)),
+    ("Project",      "K",      tuple(K.shape)),
+    ("Project",      "V",      tuple(V.shape)),
+    ("Dot product",  "scores", tuple(scores.shape)),
+    ("Weighted sum", "output", tuple(attention_output.shape)),
+])
+console.print(Panel(
+    f"Row 0 sums to [bold green]{weights[0].sum().item():.4f}[/] — valid probability distribution",
+    title="Softmax check",
+))
+```
+
 ## Matrix Calculation of Self-Attention
 
 So far we've traced attention for a single query — computing one row of scores,
@@ -466,6 +585,21 @@ a token attends to itself. Off-diagonal dark cells reveal which *other* tokens
 each position finds most relevant — these are the interesting linguistic
 relationships the model discovers.
 :::
+
+We can visualize the full $N \times N$ weight matrix as a heatmap using Plotly:
+
+```{python}
+fig = px.imshow(
+    weights.detach().numpy(),
+    x=[f"{i}:{t}" for i, t in enumerate(tokens)],
+    y=[f"{i}:{t}" for i, t in enumerate(tokens)],
+    labels={"x": "Key Token", "y": "Query Token", "color": "Weight"},
+    title="Self-Attention Heatmap [N, N]",
+    color_continuous_scale="Purples",
+)
+fig.update_xaxes(side="top")
+fig.show()
+```
 
 ## Multi-Head Attention {#multi-head-attention}
 
@@ -542,6 +676,49 @@ diversity*!
 Instead of forcing one attention pattern to capture *everything*, we learn several smaller attention patterns in parallel and then combine them.
 :::
 
+Here's multi-head attention in practice. We reuse the same projection weights but
+reshape into `[num_heads, N, head_dim]` so each head operates on its own
+subspace, then concatenate and project back:
+
+```{python}
+num_heads = 4
+head_dim = d_model // num_heads
+
+# Project and split into heads: [N, d_model] → [num_heads, N, head_dim]
+Q_mha = q_proj(X).reshape(len(tokens), num_heads, head_dim).transpose(0, 1)
+K_mha = k_proj(X).reshape(len(tokens), num_heads, head_dim).transpose(0, 1)
+V_mha = v_proj(X).reshape(len(tokens), num_heads, head_dim).transpose(0, 1)
+
+# Parallel attention across all heads
+scores_mha = Q_mha @ K_mha.transpose(-2, -1) / math.sqrt(head_dim)  # [h, N, N]
+weights_mha = torch.softmax(scores_mha, dim=-1)
+out_mha = weights_mha @ V_mha                                        # [h, N, head_dim]
+
+# Concatenate heads and project back
+out_concat = out_mha.transpose(0, 1).reshape(len(tokens), d_model)   # [N, d_model]
+out_proj = nn.Linear(d_model, d_model)
+out_mha_final = out_proj(out_concat)
+
+pipeline_table("Multi-Head Attention", [
+    ("Split heads", "Q per head", tuple(Q_mha.shape)),
+    ("Attention",   "scores",     tuple(scores_mha.shape)),
+    ("Concat",      "out_concat", tuple(out_concat.shape)),
+    ("Output proj", "out_final",  tuple(out_mha_final.shape)),
+])
+
+# Visualize per-head attention for "it"
+query_idx = 7
+fig = make_subplots(rows=1, cols=num_heads,
+                    subplot_titles=[f"Head {h}" for h in range(num_heads)])
+for h in range(num_heads):
+    fig.add_trace(
+        go.Bar(x=tokens, y=weights_mha[h, query_idx].detach().numpy(), showlegend=False),
+        row=1, col=h + 1,
+    )
+fig.update_layout(title=f"Per-head attention for '{tokens[query_idx]}'", height=300)
+fig.show()
+```
+
 ## Residual Connections and Layer Normalization
 
 Deep neural networks often suffer from the **vanishing gradient problem**: as gradients are backpropagated through many layers, they can become so small that the early layers fail to learn. The Transformer mitigates this using a critical architectural feature called **Residual Connections** (also known as skip connections), originally popularized by ResNets.
@@ -610,6 +787,30 @@ LayerNorm ensures that the values within the token vector don't explode or colla
 Residual connections preserve a clean information/gradient path, and LayerNorm keeps activations well-scaled—together they make deep stacks of attention blocks train reliably.
 ::::
 
+The residual connection is just an addition, and `nn.LayerNorm` handles the
+normalization. Notice how the mean snaps to ~0 and std to ~1 after LayerNorm:
+
+```{python}
+ln = nn.LayerNorm(d_model)
+
+# 1. Residual connection: add MHA output back to input
+residual_out = X + out_mha_final                # [N, d_model]
+
+# 2. Layer normalization
+normed_out = ln(residual_out)                    # [N, d_model]
+
+tok_idx = 7
+raw = residual_out[tok_idx].detach()
+normed = normed_out[tok_idx].detach()
+t = Table(title=f"LayerNorm Effect on '{tokens[tok_idx]}'")
+t.add_column("Stage", style="cyan")
+t.add_column("Mean", style="green", justify="right")
+t.add_column("Std", style="green", justify="right")
+t.add_row("Pre-LN", f"{raw.mean():.4f}", f"{raw.std():.4f}")
+t.add_row("Post-LN", f"{normed.mean():.4f}", f"{normed.std():.4f}")
+console.print(t)
+```
+
 ## The Feed-Forward Network
 
 After the Multi-Head Attention sublayer (and its residual connection and LayerNorm), the token representations pass through a **Position-wise Feed-Forward Network (FFN)**. 
@@ -653,6 +854,26 @@ Just like the Multi-Head Attention sublayer, the FFN is also surrounded by a res
 Attention mixes information **between tokens**; the FFN then adds nonlinearity and feature mixing **within each token** (independently at every position).
 ::::
 
+Two linear layers with GELU in between — the first expands to $4 \times
+d_{\text{model}}$, the second compresses back:
+
+```{python}
+hidden_dim = 4 * d_model
+
+fc1 = nn.Linear(d_model, hidden_dim)
+act = nn.GELU()
+fc2 = nn.Linear(hidden_dim, d_model)
+
+hidden_states = act(fc1(normed_out))   # [N, 4*d_model]  (expansion)
+ffn_out = fc2(hidden_states)            # [N, d_model]    (compression)
+
+shape_table("Feed-Forward Network", [
+    ("Input",  tuple(normed_out.shape),    "[N, d_model]"),
+    ("Hidden", tuple(hidden_states.shape), "[N, 4*d_model] — expanded"),
+    ("Output", tuple(ffn_out.shape),       "[N, d_model] — compressed"),
+])
+```
+
 ## Putting It All Together — The Encoder Block
 
 We have now built all the individual components of the Transformer Encoder. Let's see how they fit together into a single, unified **Encoder Block**.
@@ -676,6 +897,68 @@ The complete architecture of a single Transformer Encoder Block. The signal flow
 :::
 
 By stacking these blocks, the model builds increasingly complex representations. The lower layers might learn basic syntax and local grammar, while the higher layers can resolve complex coreferences and understand deep semantic meaning.
+
+Finally, let's wrap everything into clean `nn.Module` classes. The
+`TransformerEncoderBlock` chains attention → add & norm → FFN → add & norm,
+exactly mirroring the diagram above:
+
+```{python}
+class MultiHeadAttention(nn.Module):
+    def __init__(self, embed_dim: int, num_heads: int):
+        super().__init__()
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        self.q_proj = nn.Linear(embed_dim, embed_dim)
+        self.k_proj = nn.Linear(embed_dim, embed_dim)
+        self.v_proj = nn.Linear(embed_dim, embed_dim)
+        self.out_proj = nn.Linear(embed_dim, embed_dim)
+
+    def forward(self, x: torch.Tensor):
+        B, N, D = x.shape
+        Q = self.q_proj(x).reshape(B, N, self.num_heads, self.head_dim).transpose(1, 2)
+        K = self.k_proj(x).reshape(B, N, self.num_heads, self.head_dim).transpose(1, 2)
+        V = self.v_proj(x).reshape(B, N, self.num_heads, self.head_dim).transpose(1, 2)
+
+        scores = Q @ K.transpose(-2, -1) / math.sqrt(self.head_dim)
+        weights = torch.softmax(scores, dim=-1)
+        out = (weights @ V).transpose(1, 2).reshape(B, N, D)
+        return self.out_proj(out), weights
+
+class FeedForward(nn.Module):
+    def __init__(self, embed_dim: int, hidden_dim: int):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(embed_dim, hidden_dim), nn.GELU(), nn.Linear(hidden_dim, embed_dim),
+        )
+
+    def forward(self, x: torch.Tensor):
+        return self.net(x)
+
+class TransformerEncoderBlock(nn.Module):
+    def __init__(self, embed_dim: int, num_heads: int, mlp_hidden_dim: int):
+        super().__init__()
+        self.norm1 = nn.LayerNorm(embed_dim)
+        self.norm2 = nn.LayerNorm(embed_dim)
+        self.attn = MultiHeadAttention(embed_dim, num_heads)
+        self.ffn = FeedForward(embed_dim, mlp_hidden_dim)
+
+    def forward(self, x: torch.Tensor):
+        attn_out, attn_w = self.attn(self.norm1(x))
+        x = x + attn_out
+        x = x + self.ffn(self.norm2(x))
+        return x, attn_w
+
+# Run a forward pass  [1, N, d_model]
+X_batch = X.unsqueeze(0)
+encoder_block = TransformerEncoderBlock(d_model, num_heads=4, mlp_hidden_dim=4 * d_model)
+final_output, final_weights = encoder_block(X_batch)
+
+shape_table("Encoder Block", [
+    ("Input",        tuple(X_batch.shape),       "[Batch, N, d_model]"),
+    ("Output",       tuple(final_output.shape),  "[Batch, N, d_model]"),
+    ("Attn weights", tuple(final_weights.shape), "[Batch, Heads, N, N]"),
+])
+```
 
 ### What's Next?
 

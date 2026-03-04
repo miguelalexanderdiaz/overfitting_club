@@ -1,0 +1,9 @@
+{
+  "post_title": "My New Post",
+  "post_slug": "{{ cookiecutter.post_title.lower().replace(' ', '_').replace('-', '_') }}",
+  "post_subtitle": "A short description of the post",
+  "author": "Miguel Diaz",
+  "categories": "deep-learning",
+  "python_version": "3.12",
+  "_oc_render_path": "../../../../oc-render"
+}

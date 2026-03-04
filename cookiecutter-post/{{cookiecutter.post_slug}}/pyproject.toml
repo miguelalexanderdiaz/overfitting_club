@@ -1,0 +1,11 @@
+[project]
+name = "{{cookiecutter.post_slug}}"
+version = "0.1.0"
+description = "{{cookiecutter.post_subtitle}}"
+requires-python = ">={{cookiecutter.python_version}}"
+dependencies = [
+    "oc-render",
+]
+
+[tool.uv.sources]
+oc-render = { path = "{{cookiecutter._oc_render_path}}", editable = true }

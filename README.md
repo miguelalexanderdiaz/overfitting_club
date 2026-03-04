@@ -37,6 +37,33 @@ overfitting_club/
 └── docs/                    # Generated website output
 ```
 
+## Creating a New Blog Post
+
+Each blog post lives in its own directory with an independent `uv` environment. Use the included [cookiecutter](https://github.com/cookiecutter/cookiecutter) template to scaffold a new post:
+
+```bash
+# One-time setup: install cookiecutter
+uv add cookiecutter
+
+# Navigate to the target category directory
+cd blog/posts/tutorials/deep_learning/
+
+# Create a new post (you'll be prompted for title, subtitle, etc.)
+cookiecutter ../../../../cookiecutter-post
+```
+
+> If your post is at a different directory depth relative to the repo root, override `_oc_render_path` during creation to point to the `oc-render/` package.
+
+Then set up the environment and render:
+
+```bash
+cd my_new_post/
+uv sync          # creates .venv and installs dependencies
+uv run render    # renders the .qmd file with Quarto
+```
+
+The `render` command is provided by the shared `oc-render` package (located at `oc-render/` in the repo root). All posts reference it via a relative path dependency, so updating `oc-render/src/oc_render/__init__.py` updates the render logic everywhere.
+
 ## License
 
 This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License - see the [LICENSE](LICENSE) file for details.

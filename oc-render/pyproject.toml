@@ -1,0 +1,13 @@
+[project]
+name = "oc-render"
+version = "0.1.0"
+description = "Shared quarto render command for Overfitting Club blog posts"
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+render = "oc_render:main"
