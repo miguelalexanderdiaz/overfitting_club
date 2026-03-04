@@ -5,7 +5,10 @@ project:
 website:
   site-url: https://overfitting.club
   title: "The Overfitting Club"
+  description: "Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI."
   favicon: assets/favicon.png
+  open-graph: true
+  twitter-card: true
   navbar:
     logo: assets/logo.svg
     search: true
