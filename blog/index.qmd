@@ -1,5 +1,6 @@
 ---
 title: "<span class=\"section-title-with-icon\"><img src=\"assets/nn-animated.svg\" alt=\"logo\"/> The Overfitting Club</span>"
+description: "Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI."
 listing:
   contents: posts
   sort: "date desc"

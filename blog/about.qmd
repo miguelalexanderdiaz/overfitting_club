@@ -1,5 +1,5 @@
 ---
-title: "Miguel Diaz"
+title: "Miguel ChitivaDiaz"
 image: assets/profile.jpeg
 about:
   template: jolla
