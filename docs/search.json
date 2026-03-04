@@ -25,7 +25,7 @@
     "href": "posts/tutorials/deep_learning/transformer/transformer.html",
     "title": "Transformer Architecture",
     "section": "",
-    "text": "1 Introduction: The Biological Inspiration of Visual Attention\n  \n  1.1 From Static to Dynamic Computation\n  \n  2 Self-Attention Intuition\n  3 Tokenization\n  4 Embedding\n  5 Positional Encoding\n  6 Self-Attention in Detail (Q, K, V)\n  \n  6.1 Computing Attention Scores\n  6.2 Softmax → Attention Weights\n  6.3 Weighted Sum of Values\n  \n  7 Matrix Calculation of Self-Attention\n  \n  7.1 The Attention Heatmap\n  \n  8 Multi-Head Attention\n  9 Residual Connections and Layer Normalization\n  \n  9.1 How Residual Connections Work\n  9.2 Why this matters\n  9.3 Layer Normalization\n  \n  10 The Feed-Forward Network\n  \n  10.1 Position-Wise Processing\n  10.2 The Expansion and Compression Strategy\n  \n  11 Putting It All Together — The Encoder Block\n  \n  11.1 What’s Next?\nThis is the first entry in our series building a Diffusion Transformer (DiT) from scratch. We start with the core building block: the encoder side of the Transformer architecture introduced in Attention Is All You Need (Vaswani et al., 2017). We focus on the encoder because it is the foundation reused by vision transformers, DiT, and most modern architectures."
+    "text": "1 Introduction: The Biological Inspiration of Visual Attention\n  \n  1.1 From Static to Dynamic Computation\n  \n  2 Self-Attention Intuition\n  3 Tokenization\n  4 Embedding\n  5 Positional Encoding\n  6 Self-Attention in Detail (Q, K, V)\n  \n  6.1 Computing Attention Scores\n  6.2 Softmax → Attention Weights\n  6.3 Weighted Sum of Values\n  \n  7 Matrix Calculation of Self-Attention\n  \n  7.1 The Attention Heatmap\n  \n  8 Multi-Head Attention\n  9 Residual Connections and Layer Normalization\n  \n  9.1 How Residual Connections Work\n  9.2 Why this matters\n  9.3 Layer Normalization\n  \n  10 The Feed-Forward Network\n  \n  10.1 Position-Wise Processing\n  10.2 The Expansion and Compression Strategy\n  \n  11 Putting It All Together — The Encoder Block\n  \n  11.1 What’s Next?\n  \n  12 Acknowledgements\nThis is the first entry in our series building a Diffusion Transformer (DiT) from scratch. We start with the core building block: the encoder side of the Transformer architecture introduced in Attention Is All You Need (Vaswani et al. 2017). We focus on the encoder because it is the foundation reused by vision transformers, DiT, and most modern architectures."
   },
   {
     "objectID": "posts/tutorials/deep_learning/transformer/transformer.html#introduction-the-biological-inspiration-of-visual-attention",
@@ -229,5 +229,12 @@
     "title": " MLOps",
     "section": "",
     "text": "This page lists posts in the MLOps category.\n\n\n\n\n\n\n   \n    \n    \n      Order By\n      Default\n      \n        Date - Oldest\n      \n      \n        Date - Newest\n      \n      \n        Title\n      \n      \n        Reading Time (Low to High)\n      \n      \n        Reading Time (High to Low)\n      \n    \n  \n    \n      \n      \n    \n\n\n\n\nNo matching items\n Back to top"
+  },
+  {
+    "objectID": "posts/tutorials/deep_learning/transformer/transformer.html#acknowledgements",
+    "href": "posts/tutorials/deep_learning/transformer/transformer.html#acknowledgements",
+    "title": "Transformer Architecture",
+    "section": "12 Acknowledgements",
+    "text": "12 Acknowledgements\nThis post was heavily inspired by Jay Alammar’s excellent visual guide (Alammar 2018), which remains one of the best introductions to the Transformer architecture."
   }
 ]

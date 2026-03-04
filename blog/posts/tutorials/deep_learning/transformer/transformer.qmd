@@ -16,13 +16,14 @@ format:
     code-block-bg: true
     code-block-border-left: "#4A90D9"
     code-copy: hover
+bibliography: references.bib
 jupyter: python3
 ---
 
 This is the first entry in our series building a Diffusion Transformer (DiT)
 from scratch. We start with the core building block: the **encoder** side of the
 Transformer architecture introduced in *Attention Is All You Need*
-(Vaswani et al., 2017). We focus on the encoder because it is the foundation
+[@vaswani2017attention]. We focus on the encoder because it is the foundation
 reused by vision transformers, DiT, and most modern architectures.
 
 ::: {#fig-encoder-arch-simple}
@@ -965,3 +966,7 @@ shape_table("Encoder Block", [
 In this post, we have thoroughly covered the **Encoder** half of the Transformer, which is the exact same architecture used by modern models like BERT or Vision Transformers. 
 
 In the next post of this series, we will transition to the **Decoder** and introduce **Cross-Attention**, taking us one step closer to building our Diffusion Transformer (DiT) from scratch!
+
+## Acknowledgements
+
+This post was heavily inspired by Jay Alammar's excellent visual guide [@alammar2018illustrated], which remains one of the best introductions to the Transformer architecture.
