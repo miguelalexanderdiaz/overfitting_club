@@ -3,6 +3,7 @@ project:
   output-dir: ../docs
 
 website:
+  site-url: https://overfitting.club
   title: "The Overfitting Club"
   favicon: assets/favicon.png
   navbar:
