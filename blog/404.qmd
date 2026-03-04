@@ -1,0 +1,307 @@
+---
+title: "404"
+pagetitle: "Page Not Found | The Overfitting Club"
+search: false
+---
+
+```{=html}
+<style>
+  .page-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 1rem;
+  }
+
+  /* Floating particles */
+  .page-404::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, rgba(34,211,238,0.3) 50%, transparent 50%),
+      radial-gradient(1px 1px at 30% 65%, rgba(139,92,246,0.25) 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 55% 15%, rgba(34,211,238,0.2) 50%, transparent 50%),
+      radial-gradient(1px 1px at 75% 80%, rgba(139,92,246,0.3) 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 85% 35%, rgba(34,211,238,0.25) 50%, transparent 50%),
+      radial-gradient(1px 1px at 20% 85%, rgba(139,92,246,0.2) 50%, transparent 50%),
+      radial-gradient(1.5px 1.5px at 65% 50%, rgba(34,211,238,0.15) 50%, transparent 50%),
+      radial-gradient(1px 1px at 45% 90%, rgba(139,92,246,0.2) 50%, transparent 50%);
+    animation: drift 20s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes drift {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-15px, -20px); }
+  }
+
+  .page-404 > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SVG Chart */
+  .loss-chart {
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Curve starts hidden, JS drives the draw */
+  .loss-curve {
+    transition: none;
+  }
+
+  /* 404 glow pulse after animation ends */
+  .text-404-glow-pulse {
+    animation: pulse-glow 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; }
+    50%      { opacity: 0.6; }
+  }
+
+  /* Axis tick animation */
+  .axis-element {
+    opacity: 0;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    to { opacity: 1; }
+  }
+
+  /* Message */
+  .error-headline {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #eaf2ff;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.35), 0 4px 12px rgba(0,0,0,0.25);
+    margin: 0 0 0.5rem 0;
+    opacity: 0;
+    animation: fade-in 0.8s ease-out 4.2s forwards;
+  }
+
+  .error-subtext {
+    font-size: 1.05rem;
+    color: rgba(234,242,255,0.6);
+    margin: 0 0 2rem 0;
+    opacity: 0;
+    animation: fade-in 0.8s ease-out 4.5s forwards;
+  }
+
+  .error-subtext code {
+    color: #22d3ee;
+    background: rgba(34,211,238,0.1);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+
+  /* Home button */
+  .home-btn {
+    display: inline-block;
+    padding: 0.7rem 1.8rem;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #22d3ee, #8b5cf6);
+    color: #fff !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    opacity: 0;
+    animation: fade-in 0.8s ease-out 4.8s forwards;
+  }
+
+  .home-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(34,211,238,0.3), 0 3px 10px rgba(139,92,246,0.2);
+  }
+
+  /* Hide default quarto title block */
+  #title-block-header { display: none; }
+</style>
+
+<div class="page-404">
+  <svg class="loss-chart" viewBox="0 -10 500 370" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+    <defs>
+      <linearGradient id="curveGrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#22d3ee"/>
+        <stop offset="100%" stop-color="#8b5cf6"/>
+      </linearGradient>
+      <!-- Animated flowing gradient using the site's color palette -->
+      <linearGradient id="curveGradAnim" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="500" y2="0">
+        <stop offset="0%"   stop-color="#22d3ee"><animate attributeName="stop-color" values="#22d3ee;#8b5cf6;#a78bfa;#22d3ee" dur="4s" repeatCount="indefinite"/></stop>
+        <stop offset="25%"  stop-color="#8b5cf6"><animate attributeName="stop-color" values="#8b5cf6;#a78bfa;#22d3ee;#8b5cf6" dur="4s" repeatCount="indefinite"/></stop>
+        <stop offset="50%"  stop-color="#a78bfa"><animate attributeName="stop-color" values="#a78bfa;#22d3ee;#8b5cf6;#a78bfa" dur="4s" repeatCount="indefinite"/></stop>
+        <stop offset="75%"  stop-color="#22d3ee"><animate attributeName="stop-color" values="#22d3ee;#8b5cf6;#a78bfa;#22d3ee" dur="4s" repeatCount="indefinite"/></stop>
+        <stop offset="100%" stop-color="#8b5cf6"><animate attributeName="stop-color" values="#8b5cf6;#a78bfa;#22d3ee;#8b5cf6" dur="4s" repeatCount="indefinite"/></stop>
+      </linearGradient>
+      <filter id="glow404" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="6" result="blur"/>
+        <feMerge>
+          <feMergeNode in="blur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+      <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="12"/>
+      </filter>
+    </defs>
+
+    <!-- Y axis -->
+    <line class="axis-element" style="animation-delay:0.2s"
+      x1="70" y1="30" x2="70" y2="290"
+      stroke="rgba(234,242,255,0.25)" stroke-width="1.5"/>
+    <!-- X axis -->
+    <line class="axis-element" style="animation-delay:0.3s"
+      x1="70" y1="290" x2="460" y2="290"
+      stroke="rgba(234,242,255,0.25)" stroke-width="1.5"/>
+
+    <!-- Y axis label -->
+    <text class="axis-element" style="animation-delay:0.4s"
+      x="30" y="165" fill="rgba(234,242,255,0.45)"
+      font-size="13" font-family="sans-serif" text-anchor="middle"
+      transform="rotate(-90,30,165)">Loss</text>
+
+    <!-- X axis label -->
+    <text class="axis-element" style="animation-delay:0.5s"
+      x="265" y="325" fill="rgba(234,242,255,0.45)"
+      font-size="13" font-family="sans-serif" text-anchor="middle">Epochs</text>
+
+    <!-- Y tick marks -->
+    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="225" x2="70" y2="225" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="160" x2="70" y2="160" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="95" x2="70" y2="95" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+
+    <!-- X tick marks -->
+    <line class="axis-element" style="animation-delay:0.4s" x1="170" y1="290" x2="170" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.4s" x1="265" y1="290" x2="265" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.4s" x1="360" y1="290" x2="360" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"/>
+
+    <!-- Grid lines (subtle) -->
+    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="225" x2="460" y2="225" stroke="rgba(234,242,255,0.05)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="160" x2="460" y2="160" stroke="rgba(234,242,255,0.05)" stroke-width="1"/>
+    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="95" x2="460" y2="95"  stroke="rgba(234,242,255,0.05)" stroke-width="1"/>
+
+    <!-- Noisy diverging loss curve (smooth spline) -->
+    <defs>
+      <path id="losspath"
+        d="M 80,260
+           C 90,264 98,252 108,256
+           S 122,262 132,254
+           S 148,248 158,252
+           S 172,242 182,246
+           S 196,238 206,243
+           S 220,234 230,239
+           S 244,232 254,236
+           S 268,230 278,234
+           S 290,232 298,236
+           S 306,234 312,240
+           S 320,236 328,244
+           S 336,238 342,250
+           S 350,242 356,236
+           S 362,226 368,218
+           S 375,210 380,198
+           S 388,188 393,175
+           S 400,162 406,148
+           S 414,132 420,118
+           S 428,100 434,84
+           S 442,66 450,48"/>
+    </defs>
+
+    <!-- Glow version (behind) -->
+    <use id="curveGlow" href="#losspath" fill="none" stroke="url(#curveGrad)" stroke-width="8"
+      stroke-linecap="round" stroke-linejoin="round"
+      opacity="0.15" filter="url(#softGlow)"/>
+
+    <!-- Main curve -->
+    <use id="curveMain" href="#losspath" fill="none" stroke="url(#curveGrad)" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Animated rainbow curve (hidden until draw completes) -->
+    <use id="curveRainbow" href="#losspath" fill="none" stroke="url(#curveGradAnim)" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round" opacity="0" style="transition: opacity 0.8s ease-in"/>
+    <use id="curveRainbowGlow" href="#losspath" fill="none" stroke="url(#curveGradAnim)" stroke-width="8"
+      stroke-linecap="round" stroke-linejoin="round" opacity="0" filter="url(#softGlow)" style="transition: opacity 0.8s ease-in"/>
+
+    <!-- 404 text that follows the curve tip -->
+    <text id="label404glow" filter="url(#softGlow)"
+      font-size="32" font-weight="800" font-family="sans-serif"
+      text-anchor="middle" fill="#8b5cf6" opacity="0.4">404</text>
+    <text id="label404" filter="url(#glow404)"
+      font-size="32" font-weight="800" font-family="sans-serif"
+      text-anchor="middle" fill="#eaf2ff">404</text>
+  </svg>
+
+  <script>
+  (function() {
+    const path = document.getElementById('losspath');
+    const curveMain = document.getElementById('curveMain');
+    const curveGlow = document.getElementById('curveGlow');
+    const label = document.getElementById('label404');
+    const labelGlow = document.getElementById('label404glow');
+    const totalLen = path.getTotalLength();
+    const duration = 4000;
+
+    // Hide curves initially
+    [curveMain, curveGlow].forEach(function(el) {
+      el.style.strokeDasharray = totalLen;
+      el.style.strokeDashoffset = totalLen;
+    });
+
+    // Position label at start
+    var startPt = path.getPointAtLength(0);
+    [label, labelGlow].forEach(function(el) {
+      el.setAttribute('x', startPt.x);
+      el.setAttribute('y', startPt.y - 22);
+    });
+
+    var startTime = null;
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function animate(ts) {
+      if (!startTime) startTime = ts;
+      var raw = Math.min((ts - startTime) / duration, 1);
+      var t = easeOut(raw);
+      var drawn = t * totalLen;
+
+      // Draw curve
+      var offset = totalLen - drawn;
+      curveMain.style.strokeDashoffset = offset;
+      curveGlow.style.strokeDashoffset = offset;
+
+      // Move 404 label to curve tip
+      var pt = path.getPointAtLength(drawn);
+      label.setAttribute('x', pt.x);
+      label.setAttribute('y', pt.y - 22);
+      labelGlow.setAttribute('x', pt.x);
+      labelGlow.setAttribute('y', pt.y - 22);
+
+      if (raw < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        labelGlow.classList.add('text-404-glow-pulse');
+        // Fade in the animated rainbow gradient over the static curve
+        document.getElementById('curveRainbow').setAttribute('opacity', '1');
+        document.getElementById('curveRainbowGlow').setAttribute('opacity', '0.15');
+      }
+    }
+
+    requestAnimationFrame(animate);
+  })();
+  </script>
+
+  <h1 class="error-headline">Training diverged.</h1>
+  <p class="error-subtext">The page you're looking for overfit to <code>/dev/null</code>.</p>
+  <a href="/" class="home-btn">Back to Home</a>
+</div>
+```
