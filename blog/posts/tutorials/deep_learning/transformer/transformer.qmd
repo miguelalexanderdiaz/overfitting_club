@@ -20,6 +20,8 @@ bibliography: references.bib
 jupyter: python3
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/transformer/transformer.ipynb)
+
 This is the first entry in our series building a Diffusion Transformer (DiT)
 from scratch. We start with the core building block: the **encoder** side of the
 Transformer architecture introduced in *Attention Is All You Need*
