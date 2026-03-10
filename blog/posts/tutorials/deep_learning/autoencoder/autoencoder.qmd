@@ -1,0 +1,898 @@
+---
+title: "Autoencoder Architecture"
+subtitle: "From Pixel Space to Latent Space — Learning to Compress and Reconstruct Images"
+author: "Miguel Diaz"
+date: "2026-03-09"
+categories: [deep-learning, autoencoder, vae, pytorch]
+image: assets/autoencoder_thumbnail.svg
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left-body
+    toc-title: "Table of Contents"
+    number-sections: true
+    code-tools: true
+    highlight-style: atom-one
+    code-block-bg: true
+    code-block-border-left: "#4A90D9"
+    code-copy: hover
+bibliography: references.bib
+resources:
+  - assets/hummingbird.png
+jupyter: python3
+---
+
+This is the second entry in our series building a
+[Diffusion Transformer (DiT) from scratch](../diffusion_transformer/diffusion_transformer.qmd).
+Autoencoders are one of the oldest and most elegant ideas in deep learning — a
+network that learns to compress data into a compact representation and
+reconstruct it back. In this tutorial we build three increasingly powerful
+autoencoders for images: a fully connected bottleneck, a convolutional
+autoencoder, and a Variational Autoencoder (VAE), showing how each improvement
+unlocks new capabilities — from simple reconstruction to smooth latent-space
+generation.
+
+::: {#fig-ae-arch-simple}
+![](assets/autoencoder_thumbnail.svg)
+
+Simplified overview of the Autoencoder architecture. An encoder compresses the
+input image into a compact latent vector **z**, and a decoder reconstructs the
+image from that representation alone.
+:::
+
+## Why Compress Images?
+
+What does a computer actually see when it looks at an image? Not shapes or
+objects — just a grid of numbers. Use the magnifying glass below to inspect the
+individual pixels of this hummingbird and notice how neighboring pixels almost
+always share similar colors. That redundancy is the key insight behind
+compression.
+
+::: {#fig-pixel-redundancy}
+{{< include assets/pixel_redundancy.html >}}
+
+An image is just a grid of colored pixels. Hover to inspect — neighboring pixels
+share similar colors, which means most of the raw data is redundant.
+:::
+
+A 28×28 grayscale image has 784 pixels — but not all of those pixels carry
+unique information. As you saw above, neighboring pixels are highly correlated:
+large patches share near-identical values, and transitions follow predictable
+edge patterns. Most of the 784 numbers are **redundant**.
+
+Traditional codecs like JPEG exploit this redundancy with hand-crafted rules:
+discrete cosine transforms, quantization tables, and Huffman coding. These work
+well, but they are designed by humans and optimized for perceptual quality, not
+for *understanding* the content.
+
+**Autoencoders** take a different approach: let a neural network **learn** the
+compression. An encoder maps the input to a low-dimensional **latent vector**
+$\mathbf{z}$, and a decoder reconstructs the input from $\mathbf{z}$ alone. The
+network is trained end-to-end to minimize the reconstruction error, so the
+latent representation must capture whatever matters most about the data — the
+network discovers the compression rules on its own.
+
+::: {#fig-ae-mapping}
+![](assets/ae_mapping.svg)
+
+The autoencoder as a pair of functions. The encoder $f$ maps 784 pixels into a
+compact 32-dimensional latent space; the decoder $g$ maps back. Many input
+dimensions collapse into fewer latent dimensions — information must be
+compressed.
+:::
+
+This learned latent space turns out to be useful far beyond compression:
+
+- **Denoising** — reconstruct clean images from noisy inputs
+- **Anomaly detection** — outliers reconstruct poorly, revealing defects
+- **Feature learning** — the latent vectors are compact features for downstream classifiers
+- **Generation** — sample from the latent space to create new data (we'll get to this with VAEs)
+
+### Our Running Dataset: FashionMNIST
+
+Throughout this tutorial we use **FashionMNIST** [@bank2023autoencoders]: 70,000
+grayscale images of clothing items at 28×28 resolution, split into 10 classes
+(T-shirt, trouser, pullover, dress, coat, sandal, shirt, sneaker, bag, ankle
+boot). It's small enough to train on a laptop in seconds, visual enough to
+inspect reconstructions by eye, and varied enough to challenge a bottleneck.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Setup: imports and configuration"
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import numpy as np
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+torch.manual_seed(42)
+np.random.seed(42)
+
+DEVICE = torch.device(
+    "cuda" if torch.cuda.is_available()
+    else "mps" if torch.backends.mps.is_available()
+    else "cpu"
+)
+BATCH_SIZE = 256
+
+CLASS_NAMES = [
+    "T-shirt/top", "Trouser", "Pullover", "Dress", "Coat",
+    "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot",
+]
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Load FashionMNIST and create dataloaders"
+
+transform = transforms.Compose([transforms.ToTensor()])
+
+train_dataset = datasets.FashionMNIST(
+    root="./data", train=True, download=True, transform=transform
+)
+test_dataset = datasets.FashionMNIST(
+    root="./data", train=False, download=True, transform=transform
+)
+
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
+
+t = Table(title="FashionMNIST Dataset")
+t.add_column("Split", style="cyan")
+t.add_column("Samples", style="green")
+t.add_column("Image Size", style="magenta")
+t.add_column("Classes", style="dim")
+t.add_row("Train", str(len(train_dataset)), "28 × 28 × 1", "10")
+t.add_row("Test", str(len(test_dataset)), "28 × 28 × 1", "10")
+console.print(t)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Display a sample grid of FashionMNIST images"
+
+# Grab one batch and pick 20 samples (2 per class)
+sample_images, sample_labels = next(iter(test_loader))
+
+# Select 2 examples per class for a nice grid
+indices = []
+for c in range(10):
+    class_idx = (sample_labels == c).nonzero(as_tuple=True)[0][:2]
+    indices.extend(class_idx.tolist())
+indices = indices[:20]
+
+fig = make_subplots(
+    rows=2, cols=10,
+    subplot_titles=[CLASS_NAMES[sample_labels[i].item()] for i in indices],
+    vertical_spacing=0.08,
+    horizontal_spacing=0.02,
+)
+
+for pos, idx in enumerate(indices):
+    row = pos // 10 + 1
+    col = pos % 10 + 1
+    img = sample_images[idx].squeeze().numpy()
+    fig.add_trace(
+        go.Heatmap(
+            z=img[::-1],
+            colorscale="Gray_r",
+            showscale=False,
+            hovertemplate="pixel (%{x}, %{y}): %{z:.2f}<extra></extra>",
+        ),
+        row=row, col=col,
+    )
+    fig.update_xaxes(showticklabels=False, row=row, col=col)
+    fig.update_yaxes(showticklabels=False, row=row, col=col)
+
+fig.update_layout(
+    title_text="FashionMNIST — Sample Grid (2 per class)",
+    height=320,
+    width=900,
+    margin=dict(t=60, b=10, l=10, r=10),
+)
+fig.show()
+```
+
+
+## The Simplest Autoencoder — A Fully Connected Bottleneck
+
+The autoencoder has two halves. An **encoder** $f_\theta$ maps the input
+$\mathbf{x} \in \mathbb{R}^{784}$ to a latent vector
+$\mathbf{z} \in \mathbb{R}^{d}$, and a **decoder** $g_\phi$ maps it back:
+
+$$
+\mathbf{z} = f_\theta(\mathbf{x}), \qquad \hat{\mathbf{x}} = g_\phi(\mathbf{z})
+$$
+
+We train both jointly to minimize the **reconstruction error**:
+
+$$
+\mathcal{L}(\theta, \phi) = \frac{1}{N}\sum_{i=1}^{N} \|\mathbf{x}_i - \hat{\mathbf{x}}_i\|^2
+$$
+
+The key design choice is the **bottleneck dimension** $d$. Our images live in
+$\mathbb{R}^{784}$ (28×28 pixels), and we will compress them down to just
+$d = 32$ — a **24.5× compression ratio**. Since the decoder must reconstruct the
+full image from these 32 numbers alone, the encoder is forced to learn a compact
+summary of what matters.
+
+:::: {.callout-tip}
+## The bottleneck is the teacher
+The network isn't told *what* to encode — it discovers which features matter by
+being forced through a narrow bottleneck. A wider bottleneck makes reconstruction
+easier but the representation less compressed; a narrower one forces harder
+decisions about what to keep.
+::::
+
+::: {#fig-bottleneck}
+{{< include assets/bottleneck_compression.html >}}
+
+Animated overview of the autoencoder bottleneck. Data flows from the
+high-dimensional input through a narrow latent space and back out to a
+reconstruction. Each layer is labeled with its output dimension.
+:::
+
+```{python}
+#| code-fold: true
+#| code-summary: "LinearAutoencoder model definition"
+
+LATENT_DIM = 32
+
+class LinearAutoencoder(nn.Module):
+    """Fully connected autoencoder: 784 → 256 → 64 → 32 → 64 → 256 → 784."""
+
+    def __init__(self, latent_dim: int = LATENT_DIM):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(784, 256), nn.ReLU(),
+            nn.Linear(256, 64),  nn.ReLU(),
+            nn.Linear(64, latent_dim),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 64),  nn.ReLU(),
+            nn.Linear(64, 256),         nn.ReLU(),
+            nn.Linear(256, 784),        nn.Sigmoid(),
+        )
+
+    def forward(self, x):
+        z = self.encoder(x)
+        x_hat = self.decoder(z)
+        return x_hat.view(-1, 1, 28, 28), z
+
+fc_ae = LinearAutoencoder().to(DEVICE)
+optimizer = optim.Adam(fc_ae.parameters(), lr=1e-3)
+criterion = nn.MSELoss()
+
+t = Table(title="Linear Autoencoder Architecture")
+t.add_column("Component", style="cyan")
+t.add_column("Layer", style="magenta")
+t.add_column("Output Shape", style="green")
+for name, layer, shape in [
+    ("Encoder", "Input",              "784"),
+    ("",        "Linear + ReLU",      "256"),
+    ("",        "Linear + ReLU",      "64"),
+    ("",        "Linear (bottleneck)","32"),
+    ("Decoder", "Linear + ReLU",      "64"),
+    ("",        "Linear + ReLU",      "256"),
+    ("",        "Linear + Sigmoid",   "784 → 1×28×28"),
+]:
+    t.add_row(name, layer, shape)
+console.print(t)
+
+total_params = sum(p.numel() for p in fc_ae.parameters())
+console.print(f"\n[bold]Total parameters:[/bold] {total_params:,}  |  "
+              f"[bold]Compression:[/bold] 784 → {LATENT_DIM} ({784/LATENT_DIM:.1f}×)")
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Train the linear autoencoder (20 epochs)"
+
+EPOCHS_FC = 20
+fc_history = []
+
+for epoch in range(EPOCHS_FC):
+    fc_ae.train()
+    epoch_loss = 0.0
+    for images, _ in train_loader:
+        images = images.to(DEVICE)
+        x_hat, _ = fc_ae(images)
+        loss = criterion(x_hat, images)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        epoch_loss += loss.item() * images.size(0)
+    avg_loss = epoch_loss / len(train_dataset)
+    fc_history.append(avg_loss)
+
+# Plot loss curve
+fig = go.Figure()
+fig.add_trace(go.Scatter(
+    x=list(range(1, EPOCHS_FC + 1)), y=fc_history,
+    mode="lines+markers",
+    line=dict(color="#3b82f6", width=2),
+    marker=dict(size=6),
+    name="Train MSE",
+))
+fig.update_layout(
+    title="Linear Autoencoder — Training Loss",
+    xaxis_title="Epoch",
+    yaxis_title="MSE Loss",
+    height=350, width=700,
+    margin=dict(t=50, b=50, l=60, r=20),
+    template="plotly_white",
+)
+fig.show()
+
+console.print(f"[bold green]Final train loss:[/bold green] {fc_history[-1]:.6f}")
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Reconstructions: original vs. linear autoencoder output"
+
+fc_ae.eval()
+with torch.no_grad():
+    test_batch, test_labels = next(iter(test_loader))
+    test_batch = test_batch.to(DEVICE)
+    fc_recon, fc_latents = fc_ae(test_batch)
+
+# Pick 10 varied samples (one per class)
+show_idx = []
+for c in range(10):
+    match = (test_labels == c).nonzero(as_tuple=True)[0]
+    if len(match) > 0:
+        show_idx.append(match[0].item())
+
+n = len(show_idx)
+fig = make_subplots(
+    rows=2, cols=n,
+    row_titles=["Original", "Reconstruction"],
+    vertical_spacing=0.06,
+    horizontal_spacing=0.02,
+    subplot_titles=[CLASS_NAMES[test_labels[i].item()] for i in show_idx],
+)
+
+for pos, idx in enumerate(show_idx):
+    col = pos + 1
+    orig = test_batch[idx].squeeze().cpu().numpy()
+    recon = fc_recon[idx].squeeze().cpu().numpy()
+    for row, img in enumerate([orig, recon], 1):
+        fig.add_trace(
+            go.Heatmap(
+                z=img[::-1], colorscale="Gray_r", showscale=False,
+                hovertemplate="(%{x}, %{y}): %{z:.2f}<extra></extra>",
+            ),
+            row=row, col=col,
+        )
+        fig.update_xaxes(showticklabels=False, row=row, col=col)
+        fig.update_yaxes(showticklabels=False, row=row, col=col)
+
+fig.update_layout(
+    title_text="Linear Autoencoder — Reconstructions (32-d bottleneck)",
+    height=350, width=900,
+    margin=dict(t=60, b=10, l=60, r=10),
+)
+fig.show()
+
+test_mse = criterion(fc_recon, test_batch).item()
+console.print(f"[bold]Test MSE:[/bold] {test_mse:.6f}")
+```
+
+An interesting connection: a **linear** autoencoder trained with MSE loss learns
+exactly the same subspace as PCA [@hinton2006reducing]. Our nonlinear version
+(with ReLU activations) can capture richer structure, but the principle is the
+same — find the most important directions in the data. So what does this
+32-dimensional latent space actually look like? We can project it down to 2D
+with t-SNE and color each point by its class.
+
+```{python}
+#| code-fold: true
+#| code-summary: "t-SNE projection of the FC autoencoder latent space"
+
+from sklearn.manifold import TSNE
+
+# Encode the full test set
+fc_ae.eval()
+all_latents, all_labels = [], []
+with torch.no_grad():
+    for images, labels in test_loader:
+        _, z = fc_ae(images.to(DEVICE))
+        all_latents.append(z.cpu().numpy())
+        all_labels.append(labels.numpy())
+
+all_latents = np.concatenate(all_latents)
+all_labels = np.concatenate(all_labels)
+
+# t-SNE to 2D
+tsne = TSNE(n_components=2, perplexity=30, max_iter=1000, random_state=42)
+latents_2d = tsne.fit_transform(all_latents)
+
+# 10-class color palette
+colors = [
+    "#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6",
+    "#ec4899", "#06b6d4", "#84cc16", "#f97316", "#6366f1",
+]
+
+fig = go.Figure()
+for c in range(10):
+    mask = all_labels == c
+    fig.add_trace(go.Scattergl(
+        x=latents_2d[mask, 0], y=latents_2d[mask, 1],
+        mode="markers",
+        marker=dict(size=3, color=colors[c], opacity=0.6),
+        name=CLASS_NAMES[c],
+    ))
+
+fig.update_layout(
+    title="FC Autoencoder — Latent Space (t-SNE of 32-d → 2-d)",
+    xaxis_title="t-SNE 1", yaxis_title="t-SNE 2",
+    height=500, width=700,
+    margin=dict(t=50, b=50, l=50, r=20),
+    template="plotly_white",
+    legend=dict(itemsizing="constant"),
+)
+fig.show()
+```
+
+
+## Convolutional Autoencoder — Respecting Spatial Structure
+
+Our FC autoencoder has a fundamental problem: the very first thing it does is
+`nn.Flatten()`, which turns a 28×28 grid into a 784-long vector. Two pixels that
+were neighbors in the image are now just two numbers in a list — the network has
+no idea they were adjacent. It must re-learn spatial relationships entirely from
+data, wasting capacity on something we already know.
+
+**Convolutional layers** solve this by operating on local spatial patches.
+A 3×3 kernel slides across the image, so the network *always* knows which pixels
+are neighbors. Strided convolutions ($\text{stride} = 2$) downsample spatially
+while increasing the number of channels, compressing the spatial dimensions at
+each layer:
+
+$$
+\text{1×28×28} \xrightarrow{\text{conv}} \text{16×14×14} \xrightarrow{\text{conv}} \text{32×7×7} \xrightarrow{\text{flatten}} \text{1568} \xrightarrow{\text{linear}} \text{32}
+$$
+
+The decoder reverses this with **transposed convolutions** (`ConvTranspose2d`),
+which upsample the spatial dimensions back to the original size.
+
+::: {#fig-conv-vs-fc}
+{{< include assets/conv_vs_fc_spatial.html >}}
+
+Fully connected autoencoders flatten the spatial structure of images, while
+convolutional autoencoders preserve spatial relationships through feature maps.
+:::
+
+:::: {.callout-note}
+## From feature maps to visual tokens
+Each spatial position in a convolutional feature map summarizes a local patch of
+the input — not unlike how Vision Transformers (ViTs) split images into patch
+tokens. The key idea is the same: represent images as a collection of local
+features rather than a flat bag of pixels.
+::::
+
+```{python}
+#| code-fold: true
+#| code-summary: "ConvAutoencoder model definition"
+
+class ConvAutoencoder(nn.Module):
+    """Convolutional autoencoder: 1×28×28 → 32-d latent → 1×28×28."""
+
+    def __init__(self, latent_dim: int = LATENT_DIM):
+        super().__init__()
+        self.encoder_conv = nn.Sequential(
+            nn.Conv2d(1, 16, 3, stride=2, padding=1),  # → 16×14×14
+            nn.BatchNorm2d(16), nn.ReLU(),
+            nn.Conv2d(16, 32, 3, stride=2, padding=1), # → 32×7×7
+            nn.BatchNorm2d(32), nn.ReLU(),
+        )
+        self.encoder_fc = nn.Linear(32 * 7 * 7, latent_dim)
+
+        self.decoder_fc = nn.Linear(latent_dim, 32 * 7 * 7)
+        self.decoder_conv = nn.Sequential(
+            nn.ConvTranspose2d(32, 16, 3, stride=2, padding=1, output_padding=1),  # → 16×14×14
+            nn.BatchNorm2d(16), nn.ReLU(),
+            nn.ConvTranspose2d(16, 1, 3, stride=2, padding=1, output_padding=1),   # → 1×28×28
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x):
+        h = self.encoder_conv(x)
+        z = self.encoder_fc(h.view(h.size(0), -1))
+        h_dec = self.decoder_fc(z).view(-1, 32, 7, 7)
+        x_hat = self.decoder_conv(h_dec)
+        return x_hat, z
+
+conv_ae = ConvAutoencoder().to(DEVICE)
+conv_optimizer = optim.Adam(conv_ae.parameters(), lr=1e-3)
+
+t = Table(title="Convolutional Autoencoder Architecture")
+t.add_column("Component", style="cyan")
+t.add_column("Layer", style="magenta")
+t.add_column("Output Shape", style="green")
+for name, layer, shape in [
+    ("Encoder", "Input",                        "1×28×28"),
+    ("",        "Conv2d(1→16, 3×3, s=2) + BN + ReLU",  "16×14×14"),
+    ("",        "Conv2d(16→32, 3×3, s=2) + BN + ReLU", "32×7×7"),
+    ("",        "Flatten + Linear",             "32"),
+    ("Decoder", "Linear + Reshape",             "32×7×7"),
+    ("",        "ConvT2d(32→16, 3×3, s=2) + BN + ReLU","16×14×14"),
+    ("",        "ConvT2d(16→1, 3×3, s=2) + Sigmoid",   "1×28×28"),
+]:
+    t.add_row(name, layer, shape)
+console.print(t)
+
+total_params = sum(p.numel() for p in conv_ae.parameters())
+fc_params = sum(p.numel() for p in fc_ae.parameters())
+console.print(f"\n[bold]Total parameters:[/bold] {total_params:,}  "
+              f"(FC had {fc_params:,})")
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Train the convolutional autoencoder (20 epochs)"
+
+EPOCHS_CONV = 20
+conv_history = []
+
+for epoch in range(EPOCHS_CONV):
+    conv_ae.train()
+    epoch_loss = 0.0
+    for images, _ in train_loader:
+        images = images.to(DEVICE)
+        x_hat, _ = conv_ae(images)
+        loss = criterion(x_hat, images)
+        conv_optimizer.zero_grad()
+        loss.backward()
+        conv_optimizer.step()
+        epoch_loss += loss.item() * images.size(0)
+    avg_loss = epoch_loss / len(train_dataset)
+    conv_history.append(avg_loss)
+
+# Plot both loss curves
+fig = go.Figure()
+fig.add_trace(go.Scatter(
+    x=list(range(1, EPOCHS_FC + 1)), y=fc_history,
+    mode="lines+markers", line=dict(color="#94a3b8", width=2, dash="dot"),
+    marker=dict(size=5), name="FC Autoencoder",
+))
+fig.add_trace(go.Scatter(
+    x=list(range(1, EPOCHS_CONV + 1)), y=conv_history,
+    mode="lines+markers", line=dict(color="#10b981", width=2),
+    marker=dict(size=6), name="Conv Autoencoder",
+))
+fig.update_layout(
+    title="Training Loss — FC vs. Convolutional Autoencoder",
+    xaxis_title="Epoch", yaxis_title="MSE Loss",
+    height=350, width=700,
+    margin=dict(t=50, b=50, l=60, r=20),
+    template="plotly_white",
+)
+fig.show()
+
+console.print(f"[bold green]Conv final loss:[/bold green] {conv_history[-1]:.6f}  "
+              f"(FC was {fc_history[-1]:.6f})")
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Reconstructions: FC vs. Convolutional autoencoder"
+
+conv_ae.eval()
+with torch.no_grad():
+    conv_recon, conv_latents = conv_ae(test_batch)
+
+n = len(show_idx)
+fig = make_subplots(
+    rows=3, cols=n,
+    row_titles=["Original", "FC Recon.", "Conv Recon."],
+    vertical_spacing=0.06,
+    horizontal_spacing=0.02,
+    subplot_titles=[CLASS_NAMES[test_labels[i].item()] for i in show_idx],
+)
+
+for pos, idx in enumerate(show_idx):
+    col = pos + 1
+    orig = test_batch[idx].squeeze().cpu().numpy()
+    fc_r = fc_recon[idx].squeeze().cpu().numpy()
+    conv_r = conv_recon[idx].squeeze().cpu().numpy()
+    for row, img in enumerate([orig, fc_r, conv_r], 1):
+        fig.add_trace(
+            go.Heatmap(
+                z=img[::-1], colorscale="Gray_r", showscale=False,
+                hovertemplate="(%{x}, %{y}): %{z:.2f}<extra></extra>",
+            ),
+            row=row, col=col,
+        )
+        fig.update_xaxes(showticklabels=False, row=row, col=col)
+        fig.update_yaxes(showticklabels=False, row=row, col=col)
+
+fig.update_layout(
+    title_text="Reconstructions — FC vs. Convolutional (both 32-d bottleneck)",
+    height=480, width=900,
+    margin=dict(t=60, b=10, l=60, r=10),
+)
+fig.show()
+
+conv_test_mse = criterion(conv_recon, test_batch).item()
+console.print(f"[bold]Test MSE — FC:[/bold] {test_mse:.6f}  |  "
+              f"[bold]Conv:[/bold] {conv_test_mse:.6f}")
+```
+
+The convolutional autoencoder should produce noticeably sharper reconstructions
+— edges are crisper and fine details like shirt patterns and shoe shapes are
+better preserved. By respecting the spatial structure of images, the network
+spends its capacity learning *what* to encode rather than *where* things are.
+
+How does the convolutional latent space compare to the FC one? Let's project
+both into 2D with t-SNE side by side.
+
+```{python}
+#| code-fold: true
+#| code-summary: "t-SNE projection of FC vs. Conv latent spaces"
+
+# Encode full test set with the conv autoencoder
+conv_ae.eval()
+conv_all_latents, conv_all_labels = [], []
+with torch.no_grad():
+    for images, labels in test_loader:
+        _, z = conv_ae(images.to(DEVICE))
+        conv_all_latents.append(z.cpu().numpy())
+        conv_all_labels.append(labels.numpy())
+
+conv_all_latents = np.concatenate(conv_all_latents)
+conv_all_labels = np.concatenate(conv_all_labels)
+
+# t-SNE for conv latents
+conv_tsne = TSNE(n_components=2, perplexity=30, max_iter=1000, random_state=42)
+conv_latents_2d = conv_tsne.fit_transform(conv_all_latents)
+
+# Side-by-side plots
+fig = make_subplots(
+    rows=1, cols=2,
+    subplot_titles=["FC Autoencoder", "Conv Autoencoder"],
+    horizontal_spacing=0.08,
+)
+
+for c in range(10):
+    fc_mask = all_labels == c
+    conv_mask = conv_all_labels == c
+    fig.add_trace(go.Scattergl(
+        x=latents_2d[fc_mask, 0], y=latents_2d[fc_mask, 1],
+        mode="markers", marker=dict(size=3, color=colors[c], opacity=0.6),
+        name=CLASS_NAMES[c], legendgroup=CLASS_NAMES[c], showlegend=True,
+    ), row=1, col=1)
+    fig.add_trace(go.Scattergl(
+        x=conv_latents_2d[conv_mask, 0], y=conv_latents_2d[conv_mask, 1],
+        mode="markers", marker=dict(size=3, color=colors[c], opacity=0.6),
+        name=CLASS_NAMES[c], legendgroup=CLASS_NAMES[c], showlegend=False,
+    ), row=1, col=2)
+
+fig.update_layout(
+    title="Latent Space Comparison (t-SNE of 32-d → 2-d)",
+    height=450, width=900,
+    margin=dict(t=60, b=50, l=50, r=20),
+    template="plotly_white",
+    legend=dict(itemsizing="constant"),
+)
+fig.update_xaxes(title_text="t-SNE 1", row=1, col=1)
+fig.update_xaxes(title_text="t-SNE 1", row=1, col=2)
+fig.update_yaxes(title_text="t-SNE 2", row=1, col=1)
+fig.show()
+```
+
+:::: {.callout-note}
+## Why do the t-SNE plots look different?
+Both projections use the same random seed, but the resulting layouts look
+different — this is expected. t-SNE depends on the pairwise distances in the
+input data, not just the initialization. Since the two autoencoders learned
+different latent representations, the distance structure changes, and so does the
+2D projection. The seed only ensures each plot is individually reproducible
+across runs.
+::::
+
+
+## Exploring the Latent Space
+
+We've trained two autoencoders that can *reconstruct* images — but what do the
+individual latent dimensions actually *mean*? If the latent space is
+well-organized, changing a single dimension should produce a smooth, interpretable
+transformation in the decoded image.
+
+::: {#fig-latent-holes}
+{{< include assets/latent_space_holes.html >}}
+
+A deterministic autoencoder's latent space has visible gaps between clusters.
+Sampling from these empty regions produces unrealistic outputs, motivating the
+need for a more structured latent space.
+:::
+
+To test this, we pick 5 real images from the test set, encode them with the
+convolutional autoencoder, and then **traverse one latent dimension** per image.
+We keep all other dimensions fixed and vary a single feature
+$z_k$ by stepping through $z_k - 4\varepsilon,\; z_k - 3\varepsilon,\; \ldots,\; z_k,\; \ldots,\; z_k + 3\varepsilon,\; z_k + 4\varepsilon$.
+Each row shows how the decoded image changes as we sweep that one dimension from
+negative to positive.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Latent dimension traversal — one dimension varied per image"
+
+conv_ae.eval()
+
+# Pick 5 fresh images (one per class for variety)
+target_classes = [0, 1, 3, 7, 9]  # T-shirt, Trouser, Dress, Sneaker, Ankle boot
+source_images, source_labels = [], []
+for c in target_classes:
+    for images, labels in test_loader:
+        match = (labels == c).nonzero(as_tuple=True)[0]
+        if len(match) > 0:
+            source_images.append(images[match[0]])
+            source_labels.append(c)
+            break
+
+source_batch = torch.stack(source_images).to(DEVICE)
+
+# Encode them
+with torch.no_grad():
+    _, source_z = conv_ae(source_batch)
+
+# Traversal parameters
+n_steps = 9          # 4 negative + original + 4 positive
+epsilon = 5.0        # step size
+offsets = list(np.linspace(-4 * epsilon, 4 * epsilon, n_steps))
+
+# Dimensions to vary (pick 5 with highest variance across the test set — most informative)
+z_var = conv_all_latents.var(axis=0)
+dims_to_vary = np.argsort(z_var)[-5:][::-1]  # top-5 highest variance dims
+
+n_images = len(source_labels)
+fig = make_subplots(
+    rows=n_images, cols=n_steps,
+    vertical_spacing=0.03,
+    horizontal_spacing=0.01,
+    row_titles=[f"{CLASS_NAMES[c]} (dim {dims_to_vary[r]})"
+                for r, c in enumerate(source_labels)],
+    column_titles=[f"{o:+.1f}" for o in offsets],
+)
+
+with torch.no_grad():
+    for r in range(n_images):
+        z_base = source_z[r].cpu()
+        dim = int(dims_to_vary[r])
+        for c_idx, offset in enumerate(offsets):
+            z_mod = z_base.clone()
+            z_mod[dim] = z_base[dim] + offset
+            # Decode single vector
+            z_in = z_mod.unsqueeze(0).to(DEVICE)
+            h = conv_ae.decoder_fc(z_in).view(-1, 32, 7, 7)
+            img = conv_ae.decoder_conv(h).squeeze().cpu().numpy()
+            fig.add_trace(
+                go.Heatmap(
+                    z=img[::-1], colorscale="Gray_r", showscale=False,
+                    hovertemplate="(%{x}, %{y}): %{z:.2f}<extra></extra>",
+                ),
+                row=r + 1, col=c_idx + 1,
+            )
+            fig.update_xaxes(showticklabels=False, row=r + 1, col=c_idx + 1)
+            fig.update_yaxes(showticklabels=False, row=r + 1, col=c_idx + 1)
+
+fig.update_layout(
+    title_text="Latent Traversal — Varying One Dimension (Conv Autoencoder)",
+    height=160 * n_images,
+    width=900,
+    margin=dict(t=60, b=10, l=100, r=10),
+)
+fig.show()
+```
+
+The center column is the original reconstruction. Moving left or right changes a
+single latent feature — ideally producing smooth visual transformations like
+adjusting width, length, or style. In practice, the changes are often
+**entangled**: a single dimension might affect both shape and brightness at once,
+and pushing too far from the training distribution quickly produces artifacts.
+
+This reveals a fundamental limitation of deterministic autoencoders: they are
+trained to **reconstruct**, not to **generate**. Nothing in the loss function
+encourages the latent space to be smooth, continuous, or disentangled — the
+encoder is free to scatter classes into isolated islands with dead zones in
+between. To turn an autoencoder into a generative model, we need to *regularize*
+the latent space so that every region decodes to something meaningful. That's
+exactly what a **Variational Autoencoder** does.
+
+
+## Variational Autoencoder (VAE) — A Principled Latent Space
+
+### The Problem with Deterministic Autoencoders
+
+<!-- TODO: Section 5.1 content
+- No principled way to sample new images — the space has "holes"
+-->
+
+### Encode to a Distribution, Not a Point
+
+<!-- TODO: Section 5.2 content
+- Encoder outputs μ and log(σ²) instead of a single z
+- Reparameterization trick: z = μ + σ · ε, ε ~ N(0,I)
+- Callout tip: why the trick is needed (sampling is not differentiable)
+-->
+
+::: {#fig-reparam}
+{{< include assets/vae_reparam.html >}}
+
+The reparameterization trick makes VAE training possible. Instead of sampling
+directly (which blocks gradients), we sample ε from a standard normal and
+compute z = μ + σ · ε, allowing gradients to flow through μ and σ.
+:::
+
+### The VAE Loss (ELBO)
+
+<!-- TODO: Section 5.3 content
+- L = Reconstruction_Loss + β · KL_Divergence
+- KL = -0.5 · Σ(1 + log_var - μ² - exp(log_var))
+- KL regularizes toward N(0,I) → smooth, continuous latent space
+-->
+
+### Implementation
+
+<!-- TODO: Section 5.4 content
+- Code: VAE(nn.Module) with conv encoder (outputs μ, log_var), reparameterize(), conv decoder
+- Code: vae_loss(), training loop (15 epochs), loss curve
+- Reconstruction comparison: all three models side by side
+-->
+
+### The Smooth Latent Space
+
+<!-- TODO: Section 5.5 content
+- t-SNE scatter for VAE vs deterministic AE
+- Interpolation experiment (smooth transitions)
+- Random sampling from N(0,I) → decoded images
+- Callout tip: "Why the KL term matters for generation"
+-->
+
+::: {#fig-smooth-space}
+{{< include assets/vae_smooth_space.html >}}
+
+The VAE's latent space is smooth and continuous. Nearby points decode to similar
+images, and we can sample from any region to generate new, realistic outputs.
+:::
+
+
+## Autoencoders in Modern Image Generation
+
+<!-- TODO: Section 6 content (brief, conceptual — no heavy implementation)
+- VAEs as compression front-end: latent diffusion, DiT use a pre-trained VAE
+- U-Net style decoders: skip connections for better reconstruction fidelity
+- Key idea: the autoencoder is a **learned codec** — trained once, frozen, reused
+- Callout note: "The autoencoder as a learned codec"
+- Light forward-link to future series entries
+-->
+
+
+## What's Next?
+
+<!-- TODO: Section 7 content
+- Summary: built AEs from FC → Conv → VAE
+- Saw how VAEs enable generation via smooth latent spaces
+- Tease next entry in the series (The Diffusion Paradigm)
+-->
+
+
+## Acknowledgements
+
+This tutorial draws on several foundational works: the original deep autoencoder
+paper by Hinton and Salakhutdinov [@hinton2006reducing], the VAE framework
+introduced by Kingma and Welling [@kingma2013auto], the U-Net architecture by
+Ronneberger et al. [@ronneberger2015unet], and the latent diffusion approach by
+Rombach et al. [@rombach2022high]. For a comprehensive survey of autoencoder
+methods, see Bank et al. [@bank2023autoencoders].

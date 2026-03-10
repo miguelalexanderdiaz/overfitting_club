@@ -1,0 +1,202 @@
+```{=html}
+<div id="pixel-magnifier-widget" style="margin:1.5rem 0;font-family:'Segoe UI',system-ui,sans-serif;">
+  <div style="position:relative;width:100%;max-width:520px;margin:0 auto;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 16px 8px 16px;">
+    <div style="position:relative;display:inline-block;width:100%;cursor:none;" id="magnifier-container">
+      <canvas id="magnifier-display" style="width:100%;border-radius:6px;display:block;image-rendering:auto;"></canvas>
+      <canvas id="magnifier-lens" style="position:absolute;pointer-events:none;display:none;border-radius:50%;box-shadow:0 0 0 3px #334155,0 0 0 5px rgba(255,255,255,0.6),0 4px 16px rgba(0,0,0,0.25);"></canvas>
+      <div id="magnifier-color-badge" style="position:absolute;pointer-events:none;display:none;background:#1e293b;color:#f8fafc;font-size:11px;font-weight:600;padding:3px 8px;border-radius:10px;white-space:nowrap;font-family:'SF Mono',Monaco,Consolas,monospace;letter-spacing:0.5px;box-shadow:0 2px 6px rgba(0,0,0,0.2);"></div>
+    </div>
+    <p style="margin:10px 0 4px 0;font-size:13px;color:#64748b;text-align:center;line-height:1.5;">
+      Hover to inspect individual pixels — notice how neighboring pixels share similar colors.<br/>
+      This redundancy is what makes compression possible.
+    </p>
+    <p style="margin:2px 0 6px 0;font-size:11px;color:#94a3b8;text-align:center;">
+      Pixel art by <a href="https://www.deviantart.com/dharmansp/art/Hummingbird-pixel-art-Colibri-pixel-art-863955783" target="_blank" rel="noopener" style="color:#94a3b8;text-decoration:underline;">DharmanSP</a> on DeviantArt
+    </p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const LENS_RADIUS = 70;
+  const ZOOM = 5;
+  const LENS_SIZE = LENS_RADIUS * 2;
+  const GRID_COLOR = 'rgba(255,255,255,0.35)';
+
+  const container = document.getElementById('magnifier-container');
+  const displayCanvas = document.getElementById('magnifier-display');
+  const lens = document.getElementById('magnifier-lens');
+  const badge = document.getElementById('magnifier-color-badge');
+  const displayCtx = displayCanvas.getContext('2d');
+
+  lens.width = LENS_SIZE;
+  lens.height = LENS_SIZE;
+  const lensCtx = lens.getContext('2d');
+
+  const srcCanvas = document.createElement('canvas');
+  const srcCtx = srcCanvas.getContext('2d', { willReadFrequently: true });
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+
+  function initCanvas() {
+    srcCanvas.width = img.naturalWidth;
+    srcCanvas.height = img.naturalHeight;
+    srcCtx.drawImage(img, 0, 0);
+
+    const containerWidth = container.clientWidth;
+    const aspect = img.naturalHeight / img.naturalWidth;
+    displayCanvas.width = containerWidth;
+    displayCanvas.height = containerWidth * aspect;
+    displayCtx.imageSmoothingEnabled = true;
+    displayCtx.drawImage(img, 0, 0, displayCanvas.width, displayCanvas.height);
+  }
+
+  img.onload = initCanvas;
+  /* Try relative path variations for Quarto rendering */
+  img.src = 'assets/hummingbird.png';
+  img.onerror = function() {
+    img.onerror = null;
+    img.src = 'hummingbird.png';
+  };
+
+  function getPixelColor(imgX, imgY) {
+    const x = Math.floor(imgX);
+    const y = Math.floor(imgY);
+    if (x < 0 || x >= srcCanvas.width || y < 0 || y >= srcCanvas.height)
+      return null;
+    const d = srcCtx.getImageData(x, y, 1, 1).data;
+    return { r: d[0], g: d[1], b: d[2], a: d[3] };
+  }
+
+  function toHex(c) {
+    if (!c) return '#------';
+    return '#' + ((1 << 24) + (c.r << 16) + (c.g << 8) + c.b)
+      .toString(16).slice(1).toUpperCase();
+  }
+
+  function drawLens(imgX, imgY) {
+    lensCtx.clearRect(0, 0, LENS_SIZE, LENS_SIZE);
+
+    lensCtx.save();
+    lensCtx.beginPath();
+    lensCtx.arc(LENS_RADIUS, LENS_RADIUS, LENS_RADIUS - 2, 0, Math.PI * 2);
+    lensCtx.clip();
+
+    /* How many source pixels visible in the lens */
+    var srcPixelsVisible = LENS_SIZE / ZOOM;
+    var sx = imgX - srcPixelsVisible / 2;
+    var sy = imgY - srcPixelsVisible / 2;
+
+    /* Draw zoomed image with nearest-neighbor for crisp pixels */
+    lensCtx.imageSmoothingEnabled = false;
+    lensCtx.drawImage(
+      srcCanvas,
+      sx, sy, srcPixelsVisible, srcPixelsVisible,
+      0, 0, LENS_SIZE, LENS_SIZE
+    );
+
+    /* Draw pixel grid lines */
+    lensCtx.strokeStyle = GRID_COLOR;
+    lensCtx.lineWidth = 0.5;
+
+    var offsetX = ((-sx % 1) + 1) % 1;
+    var offsetY = ((-sy % 1) + 1) % 1;
+
+    for (var gx = offsetX * ZOOM; gx <= LENS_SIZE; gx += ZOOM) {
+      lensCtx.beginPath();
+      lensCtx.moveTo(gx, 0);
+      lensCtx.lineTo(gx, LENS_SIZE);
+      lensCtx.stroke();
+    }
+    for (var gy = offsetY * ZOOM; gy <= LENS_SIZE; gy += ZOOM) {
+      lensCtx.beginPath();
+      lensCtx.moveTo(0, gy);
+      lensCtx.lineTo(LENS_SIZE, gy);
+      lensCtx.stroke();
+    }
+
+    /* Highlight center pixel */
+    var halfZoom = ZOOM;
+    var startX = LENS_RADIUS - halfZoom / 2;
+    var startY = LENS_RADIUS - halfZoom / 2;
+    lensCtx.strokeStyle = '#ffffff';
+    lensCtx.lineWidth = 2;
+    lensCtx.shadowColor = 'rgba(0,0,0,0.6)';
+    lensCtx.shadowBlur = 3;
+    lensCtx.strokeRect(startX, startY, halfZoom, halfZoom);
+    lensCtx.shadowBlur = 0;
+
+    lensCtx.restore();
+
+    /* Outer ring subtle highlight */
+    lensCtx.beginPath();
+    lensCtx.arc(LENS_RADIUS, LENS_RADIUS, LENS_RADIUS - 2, 0, Math.PI * 2);
+    lensCtx.strokeStyle = 'rgba(255,255,255,0.15)';
+    lensCtx.lineWidth = 2;
+    lensCtx.stroke();
+  }
+
+  function handleMove(clientX, clientY) {
+    var rect = displayCanvas.getBoundingClientRect();
+    var mx = clientX - rect.left;
+    var my = clientY - rect.top;
+
+    /* Map display coords to source image coords */
+    var scaleX = srcCanvas.width / rect.width;
+    var scaleY = srcCanvas.height / rect.height;
+    var imgX = mx * scaleX;
+    var imgY = my * scaleY;
+
+    /* Position lens centered on cursor */
+    lens.style.left = (mx - LENS_RADIUS) + 'px';
+    lens.style.top = (my - LENS_RADIUS) + 'px';
+    lens.style.display = 'block';
+
+    drawLens(imgX, imgY);
+
+    /* Color badge next to lens */
+    var color = getPixelColor(imgX, imgY);
+    var hex = toHex(color);
+    badge.textContent = hex;
+    badge.style.borderLeft = color ? ('12px solid ' + hex) : 'none';
+
+    var badgeLeft = mx + LENS_RADIUS + 10;
+    if (badgeLeft + 110 > rect.width) {
+      badgeLeft = mx - LENS_RADIUS - 110;
+    }
+    badge.style.left = badgeLeft + 'px';
+    badge.style.top = (my - 12) + 'px';
+    badge.style.display = 'block';
+  }
+
+  container.addEventListener('mousemove', function(e) {
+    handleMove(e.clientX, e.clientY);
+  });
+
+  container.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    handleMove(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: false });
+
+  container.addEventListener('mouseleave', function() {
+    lens.style.display = 'none';
+    badge.style.display = 'none';
+  });
+
+  container.addEventListener('touchend', function() {
+    lens.style.display = 'none';
+    badge.style.display = 'none';
+  });
+
+  /* Handle resize */
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      if (img.complete && img.naturalWidth > 0) initCanvas();
+    }, 150);
+  });
+})();
+</script>
+```

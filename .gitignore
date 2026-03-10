@@ -7,6 +7,9 @@
 _site/
 _freeze/
 
+# Datasets
+**/data/
+
 # Keras models
 *.keras
 

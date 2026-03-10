@@ -1,0 +1,264 @@
+```{=html}
+<svg id="vae-smooth-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450"
+     style="max-width:600px;width:100%;height:auto;display:block;margin:1.5em auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      .vs-title { font-size: 15px; font-weight: 700; fill: #334155; text-anchor: middle; }
+      .vs-label { font-size: 10px; fill: #64748b; text-anchor: middle; }
+      .vs-axis  { stroke: #cbd5e1; stroke-width: 1; }
+      .vs-annot { font-size: 10px; fill: #047857; font-weight: 600; text-anchor: middle; }
+    </style>
+    <!-- Smooth radial gradients for class blobs -->
+    <radialGradient id="blob0" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob3" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob4" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="450" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="300" y="28" class="vs-title">VAE Latent Space — Smooth &amp; Continuous</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="390" x2="560" y2="390" class="vs-axis"/>
+  <line x1="50" y1="45" x2="50" y2="390" class="vs-axis"/>
+  <text x="305" y="408" class="vs-label">z&#x2081;</text>
+  <text x="28" y="218" class="vs-label" transform="rotate(-90,28,218)">z&#x2082;</text>
+
+  <!-- Smooth background blobs (overlapping for continuity) -->
+  <circle cx="160" cy="130" r="90" fill="url(#blob0)"/>
+  <circle cx="400" cy="110" r="85" fill="url(#blob1)"/>
+  <circle cx="130" cy="290" r="80" fill="url(#blob2)"/>
+  <circle cx="420" cy="310" r="85" fill="url(#blob3)"/>
+  <circle cx="280" cy="220" r="95" fill="url(#blob4)"/>
+
+  <!-- Cluster 0: rose (smoothly distributed) -->
+  <circle cx="135" cy="110" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="155" cy="125" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="170" cy="105" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="148" cy="140" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="180" cy="130" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="165" cy="148" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="140" cy="95"  r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="190" cy="115" r="4" fill="#f43f5e" opacity="0.85"/>
+  <circle cx="125" cy="130" r="4" fill="#f43f5e" opacity="0.85"/>
+
+  <!-- Cluster 1: blue -->
+  <circle cx="380" cy="95"  r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="400" cy="110" r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="415" cy="95"  r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="390" cy="125" r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="420" cy="115" r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="405" cy="80"  r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="430" cy="100" r="4" fill="#3b82f6" opacity="0.85"/>
+  <circle cx="375" cy="110" r="4" fill="#3b82f6" opacity="0.85"/>
+
+  <!-- Cluster 2: emerald -->
+  <circle cx="115" cy="275" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="135" cy="290" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="150" cy="275" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="125" cy="305" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="140" cy="310" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="160" cy="295" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="110" cy="295" r="4" fill="#10b981" opacity="0.85"/>
+  <circle cx="145" cy="260" r="4" fill="#10b981" opacity="0.85"/>
+
+  <!-- Cluster 3: amber -->
+  <circle cx="400" cy="295" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="420" cy="310" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="435" cy="295" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="410" cy="325" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="445" cy="315" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="425" cy="335" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="395" cy="310" r="4" fill="#f59e0b" opacity="0.85"/>
+  <circle cx="440" cy="300" r="4" fill="#f59e0b" opacity="0.85"/>
+
+  <!-- Cluster 4: indigo (center, overlapping) -->
+  <circle cx="265" cy="205" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="280" cy="220" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="295" cy="210" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="270" cy="235" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="300" cy="230" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="285" cy="195" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="255" cy="220" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="310" cy="215" r="4" fill="#6366f1" opacity="0.85"/>
+  <circle cx="275" cy="245" r="4" fill="#6366f1" opacity="0.85"/>
+
+  <!-- Transition points (between clusters, showing smooth interpolation) -->
+  <circle cx="220" cy="170" r="3" fill="#a78bfa" opacity="0.5"/>
+  <circle cx="240" cy="160" r="3" fill="#a78bfa" opacity="0.4"/>
+  <circle cx="330" cy="165" r="3" fill="#818cf8" opacity="0.4"/>
+  <circle cx="200" cy="250" r="3" fill="#6ee7b7" opacity="0.4"/>
+  <circle cx="350" cy="270" r="3" fill="#fbbf24" opacity="0.4"/>
+  <circle cx="230" cy="280" r="3" fill="#34d399" opacity="0.4"/>
+
+  <!-- Draggable crosshair -->
+  <g id="vs-crosshair" cursor="grab" style="pointer-events: all;">
+    <line id="vs-ch-h" x1="240" y1="180" x2="320" y2="180" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <line id="vs-ch-v" x1="280" y1="150" x2="280" y2="210" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <circle id="vs-ch-dot" cx="280" cy="180" r="7" fill="none" stroke="#1e293b" stroke-width="2"/>
+    <circle id="vs-ch-center" cx="280" cy="180" r="3" fill="#1e293b"/>
+  </g>
+
+  <!-- "Decoded output" preview box -->
+  <rect x="470" y="415" width="110" height="25" rx="5" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="525" y="432" font-size="9" fill="#64748b" text-anchor="middle">Decoded preview</text>
+
+  <rect id="vs-preview-box" x="470" y="370" width="110" height="42" rx="6" stroke="#cbd5e1" stroke-width="1">
+  </rect>
+  <!-- Gradient fill for the preview (updated dynamically) -->
+  <defs>
+    <linearGradient id="previewGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop id="pg-stop1" offset="0%" stop-color="#a78bfa"/>
+      <stop id="pg-stop2" offset="50%" stop-color="#6366f1"/>
+      <stop id="pg-stop3" offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect x="470" y="370" width="110" height="42" rx="6" fill="url(#previewGrad)" opacity="0.8"/>
+
+  <!-- Annotation -->
+  <rect x="90" y="418" width="280" height="22" rx="4" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="0.5"/>
+  <text x="230" y="433" class="vs-annot">Nearby points &#8594; similar outputs</text>
+
+  <!-- Annotation arrow from crosshair to preview -->
+  <line id="vs-link-line" x1="290" y1="180" x2="470" y2="391" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Legend -->
+  <g transform="translate(65, 403)">
+    <circle cx="0"  cy="0" r="4" fill="#f43f5e"/> <text x="8"  y="4" font-size="9" fill="#475569">0</text>
+    <circle cx="30" cy="0" r="4" fill="#3b82f6"/> <text x="38" y="4" font-size="9" fill="#475569">1</text>
+    <circle cx="60" cy="0" r="4" fill="#10b981"/> <text x="68" y="4" font-size="9" fill="#475569">2</text>
+    <circle cx="90" cy="0" r="4" fill="#f59e0b"/> <text x="98" y="4" font-size="9" fill="#475569">3</text>
+    <circle cx="120" cy="0" r="4" fill="#6366f1"/> <text x="128" y="4" font-size="9" fill="#475569">4</text>
+  </g>
+
+  <script type="text/javascript">
+    <![CDATA[
+    (function() {
+      var svg = document.getElementById('vae-smooth-svg');
+      var crosshair = document.getElementById('vs-crosshair');
+      var chDot = document.getElementById('vs-ch-dot');
+      var chCenter = document.getElementById('vs-ch-center');
+      var chH = document.getElementById('vs-ch-h');
+      var chV = document.getElementById('vs-ch-v');
+      var linkLine = document.getElementById('vs-link-line');
+      var stop1 = document.getElementById('pg-stop1');
+      var stop2 = document.getElementById('pg-stop2');
+      var stop3 = document.getElementById('pg-stop3');
+      var dragging = false;
+
+      // Class centers for color interpolation
+      var centers = [
+        { x: 160, y: 130, color: [244, 63, 94] },   // rose
+        { x: 400, y: 110, color: [59, 130, 246] },   // blue
+        { x: 130, y: 290, color: [16, 185, 129] },   // emerald
+        { x: 420, y: 310, color: [245, 158, 11] },   // amber
+        { x: 280, y: 220, color: [99, 102, 241] }    // indigo
+      ];
+
+      function toSVG(evt) {
+        var pt = svg.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        return pt.matrixTransform(svg.getScreenCTM().inverse());
+      }
+
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+      function interpolateColor(x, y) {
+        var totalW = 0;
+        var r = 0, g = 0, b = 0;
+        for (var i = 0; i < centers.length; i++) {
+          var dx = x - centers[i].x;
+          var dy = y - centers[i].y;
+          var dist = Math.sqrt(dx * dx + dy * dy) + 1;
+          var w = 1 / (dist * dist);
+          totalW += w;
+          r += w * centers[i].color[0];
+          g += w * centers[i].color[1];
+          b += w * centers[i].color[2];
+        }
+        return [Math.round(r / totalW), Math.round(g / totalW), Math.round(b / totalW)];
+      }
+
+      function moveTo(x, y) {
+        x = clamp(x, 60, 550);
+        y = clamp(y, 55, 380);
+        chDot.setAttribute('cx', x);
+        chDot.setAttribute('cy', y);
+        chCenter.setAttribute('cx', x);
+        chCenter.setAttribute('cy', y);
+        chH.setAttribute('x1', x - 20);
+        chH.setAttribute('x2', x + 20);
+        chH.setAttribute('y1', y);
+        chH.setAttribute('y2', y);
+        chV.setAttribute('x1', x);
+        chV.setAttribute('x2', x);
+        chV.setAttribute('y1', y - 15);
+        chV.setAttribute('y2', y + 15);
+        linkLine.setAttribute('x1', x + 5);
+        linkLine.setAttribute('y1', y + 5);
+
+        // Update preview color
+        var c1 = interpolateColor(x - 15, y - 10);
+        var c2 = interpolateColor(x, y);
+        var c3 = interpolateColor(x + 15, y + 10);
+        stop1.setAttribute('stop-color', 'rgb(' + c1.join(',') + ')');
+        stop2.setAttribute('stop-color', 'rgb(' + c2.join(',') + ')');
+        stop3.setAttribute('stop-color', 'rgb(' + c3.join(',') + ')');
+      }
+
+      crosshair.addEventListener('mousedown', function(e) {
+        dragging = true;
+        crosshair.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+      svg.addEventListener('mousemove', function(e) {
+        if (!dragging) return;
+        var p = toSVG(e);
+        moveTo(p.x, p.y);
+      });
+      svg.addEventListener('mouseup', function() {
+        dragging = false;
+        crosshair.style.cursor = 'grab';
+      });
+      svg.addEventListener('mouseleave', function() {
+        dragging = false;
+        crosshair.style.cursor = 'grab';
+      });
+
+      // Touch support
+      crosshair.addEventListener('touchstart', function(e) {
+        dragging = true;
+        e.preventDefault();
+      });
+      svg.addEventListener('touchmove', function(e) {
+        if (!dragging) return;
+        var p = toSVG(e.touches[0]);
+        moveTo(p.x, p.y);
+        e.preventDefault();
+      });
+      svg.addEventListener('touchend', function() { dragging = false; });
+    })();
+    ]]>
+  </script>
+</svg>
+```

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 280"
+     style="font-family:'Segoe UI',system-ui,sans-serif;">
+
+  <rect width="820" height="280" rx="12" fill="#f8fafc"/>
+
+  <!-- ===== PIXEL SPACE (left) ===== -->
+  <ellipse cx="110" cy="140" rx="80" ry="110" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+  <text x="110" y="32" text-anchor="middle" fill="#1e40af" font-size="13" font-weight="700">Pixel Space</text>
+  <text x="110" y="48" text-anchor="middle" fill="#64748b" font-size="11">ℝ⁷⁸⁴</text>
+
+  <!-- pixel elements -->
+  <text x="110" y="85" text-anchor="middle" fill="#334155" font-size="13">x₁</text>
+  <text x="110" y="110" text-anchor="middle" fill="#334155" font-size="13">x₂</text>
+  <text x="110" y="135" text-anchor="middle" fill="#334155" font-size="13">x₃</text>
+  <text x="110" y="155" text-anchor="middle" fill="#94a3b8" font-size="12">⋮</text>
+  <text x="110" y="178" text-anchor="middle" fill="#334155" font-size="13">x₇₈₃</text>
+  <text x="110" y="203" text-anchor="middle" fill="#334155" font-size="13">x₇₈₄</text>
+
+  <!-- ===== LATENT SPACE (center) ===== -->
+  <ellipse cx="410" cy="140" rx="55" ry="80" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="410" y="42" text-anchor="middle" fill="#92400e" font-size="13" font-weight="700">Latent Space</text>
+  <text x="410" y="58" text-anchor="middle" fill="#64748b" font-size="11">ℝ³²</text>
+
+  <!-- latent elements -->
+  <text x="410" y="105" text-anchor="middle" fill="#78350f" font-size="13">z₁</text>
+  <text x="410" y="130" text-anchor="middle" fill="#78350f" font-size="13">z₂</text>
+  <text x="410" y="152" text-anchor="middle" fill="#94a3b8" font-size="12">⋮</text>
+  <text x="410" y="175" text-anchor="middle" fill="#78350f" font-size="13">z₃₂</text>
+
+  <!-- ===== PIXEL SPACE (right) ===== -->
+  <ellipse cx="710" cy="140" rx="80" ry="110" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="710" y="32" text-anchor="middle" fill="#166534" font-size="13" font-weight="700">Pixel Space</text>
+  <text x="710" y="48" text-anchor="middle" fill="#64748b" font-size="11">ℝ⁷⁸⁴</text>
+
+  <!-- reconstructed elements -->
+  <text x="710" y="85" text-anchor="middle" fill="#334155" font-size="13">x̂₁</text>
+  <text x="710" y="110" text-anchor="middle" fill="#334155" font-size="13">x̂₂</text>
+  <text x="710" y="135" text-anchor="middle" fill="#334155" font-size="13">x̂₃</text>
+  <text x="710" y="155" text-anchor="middle" fill="#94a3b8" font-size="12">⋮</text>
+  <text x="710" y="178" text-anchor="middle" fill="#334155" font-size="13">x̂₇₈₃</text>
+  <text x="710" y="203" text-anchor="middle" fill="#334155" font-size="13">x̂₇₈₄</text>
+
+  <!-- ===== ARROWS: Encoder ===== -->
+  <defs>
+    <marker id="arr" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6366f1"/>
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b5cf6"/>
+    </marker>
+  </defs>
+
+  <!-- Encoder arrows: many pixels → few latent dims (many-to-one style) -->
+  <!-- x1 → z1 -->
+  <line x1="190" y1="80" x2="355" y2="100" stroke="#6366f1" stroke-width="1.3" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- x2 → z1 -->
+  <line x1="190" y1="105" x2="355" y2="102" stroke="#6366f1" stroke-width="1.3" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- x2 → z2 -->
+  <line x1="190" y1="105" x2="355" y2="125" stroke="#6366f1" stroke-width="1.3" opacity="0.35" marker-end="url(#arr)"/>
+  <!-- x3 → z2 -->
+  <line x1="190" y1="130" x2="355" y2="127" stroke="#6366f1" stroke-width="1.3" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- x783 → z32 -->
+  <line x1="190" y1="173" x2="355" y2="170" stroke="#6366f1" stroke-width="1.3" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- x784 → z32 -->
+  <line x1="190" y1="198" x2="355" y2="172" stroke="#6366f1" stroke-width="1.3" opacity="0.5" marker-end="url(#arr)"/>
+  <!-- cross connections for "many-to-one" feel -->
+  <line x1="190" y1="130" x2="355" y2="170" stroke="#6366f1" stroke-width="1.3" opacity="0.2" marker-end="url(#arr)"/>
+  <line x1="190" y1="173" x2="355" y2="125" stroke="#6366f1" stroke-width="1.3" opacity="0.2" marker-end="url(#arr)"/>
+
+  <!-- Encoder label -->
+  <rect x="232" y="230" width="90" height="28" rx="14" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="277" y="249" text-anchor="middle" fill="#4338ca" font-size="14" font-weight="700">f(x) = z</text>
+  <text x="277" y="268" text-anchor="middle" fill="#6366f1" font-size="11">encoder</text>
+
+  <!-- ===== ARROWS: Decoder ===== -->
+  <!-- z1 → x̂1 -->
+  <line x1="465" y1="100" x2="630" y2="80" stroke="#8b5cf6" stroke-width="1.3" opacity="0.5" marker-end="url(#arr-g)"/>
+  <!-- z1 → x̂2 -->
+  <line x1="465" y1="102" x2="630" y2="105" stroke="#8b5cf6" stroke-width="1.3" opacity="0.5" marker-end="url(#arr-g)"/>
+  <!-- z2 → x̂2 -->
+  <line x1="465" y1="125" x2="630" y2="105" stroke="#8b5cf6" stroke-width="1.3" opacity="0.35" marker-end="url(#arr-g)"/>
+  <!-- z2 → x̂3 -->
+  <line x1="465" y1="127" x2="630" y2="130" stroke="#8b5cf6" stroke-width="1.3" opacity="0.5" marker-end="url(#arr-g)"/>
+  <!-- z32 → x̂783 -->
+  <line x1="465" y1="170" x2="630" y2="173" stroke="#8b5cf6" stroke-width="1.3" opacity="0.5" marker-end="url(#arr-g)"/>
+  <!-- z32 → x̂784 -->
+  <line x1="465" y1="172" x2="630" y2="198" stroke="#8b5cf6" stroke-width="1.3" opacity="0.5" marker-end="url(#arr-g)"/>
+  <!-- cross connections -->
+  <line x1="465" y1="170" x2="630" y2="130" stroke="#8b5cf6" stroke-width="1.3" opacity="0.2" marker-end="url(#arr-g)"/>
+  <line x1="465" y1="125" x2="630" y2="173" stroke="#8b5cf6" stroke-width="1.3" opacity="0.2" marker-end="url(#arr-g)"/>
+
+  <!-- Decoder label -->
+  <rect x="498" y="230" width="90" height="28" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="1.5"/>
+  <text x="543" y="249" text-anchor="middle" fill="#5b21b6" font-size="14" font-weight="700">g(z) = x̂</text>
+  <text x="543" y="268" text-anchor="middle" fill="#8b5cf6" font-size="11">decoder</text>
+
+</svg>

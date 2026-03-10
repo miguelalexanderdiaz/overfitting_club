@@ -1,0 +1,198 @@
+```{=html}
+<svg id="conv-vs-fc-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 350"
+     style="max-width:900px;width:100%;height:auto;display:block;margin:1.5em auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      .cvf-title { font-size: 15px; font-weight: 700; text-anchor: middle; }
+      .cvf-label { font-size: 11px; fill: #64748b; text-anchor: middle; }
+      .cvf-note  { font-size: 10px; fill: #94a3b8; text-anchor: middle; font-style: italic; }
+      @keyframes fadeFlicker {
+        0%, 100% { opacity: 1; }
+        50%      { opacity: 0.5; }
+      }
+      @keyframes shuffleWarn {
+        0%, 80%, 100% { fill: #fca5a5; }
+        90% { fill: #f87171; }
+      }
+      @keyframes flowDown {
+        0%   { opacity: 0; transform: translateY(-8px); }
+        30%  { opacity: 1; transform: translateY(0); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes pulseCheck {
+        0%, 100% { opacity: 0.7; }
+        50%      { opacity: 1; }
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="350" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Divider -->
+  <line x1="450" y1="15" x2="450" y2="335" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- ===== LEFT PANEL: Fully Connected ===== -->
+  <text x="225" y="35" class="cvf-title" fill="#f43f5e">Fully Connected Autoencoder</text>
+
+  <!-- Input 4x4 grid -->
+  <g id="fc-input">
+    <text x="100" y="65" class="cvf-label">Input (4x4)</text>
+    <!-- Row 0 -->
+    <rect x="62" y="75" width="20" height="20" rx="2" fill="#f43f5e"/>
+    <rect x="84" y="75" width="20" height="20" rx="2" fill="#3b82f6"/>
+    <rect x="106" y="75" width="20" height="20" rx="2" fill="#10b981"/>
+    <rect x="128" y="75" width="20" height="20" rx="2" fill="#f59e0b"/>
+    <!-- Row 1 -->
+    <rect x="62" y="97" width="20" height="20" rx="2" fill="#8b5cf6"/>
+    <rect x="84" y="97" width="20" height="20" rx="2" fill="#ec4899"/>
+    <rect x="106" y="97" width="20" height="20" rx="2" fill="#06b6d4"/>
+    <rect x="128" y="97" width="20" height="20" rx="2" fill="#84cc16"/>
+    <!-- Row 2 -->
+    <rect x="62" y="119" width="20" height="20" rx="2" fill="#f97316"/>
+    <rect x="84" y="119" width="20" height="20" rx="2" fill="#14b8a6"/>
+    <rect x="106" y="119" width="20" height="20" rx="2" fill="#a855f7"/>
+    <rect x="128" y="119" width="20" height="20" rx="2" fill="#6366f1"/>
+    <!-- Row 3 -->
+    <rect x="62" y="141" width="20" height="20" rx="2" fill="#e11d48"/>
+    <rect x="84" y="141" width="20" height="20" rx="2" fill="#0ea5e9"/>
+    <rect x="106" y="141" width="20" height="20" rx="2" fill="#22c55e"/>
+    <rect x="128" y="141" width="20" height="20" rx="2" fill="#eab308"/>
+  </g>
+
+  <!-- Arrow: grid to flatten -->
+  <text x="188" y="120" font-size="20" fill="#94a3b8">&#8594;</text>
+  <text x="188" y="136" class="cvf-note">flatten</text>
+
+  <!-- Flattened column (1D) -->
+  <g id="fc-flat">
+    <text x="240" y="65" class="cvf-label">1D Vector</text>
+    <rect x="232" y="75" width="16" height="10" rx="1" fill="#f43f5e"/>
+    <rect x="232" y="87" width="16" height="10" rx="1" fill="#3b82f6"/>
+    <rect x="232" y="99" width="16" height="10" rx="1" fill="#10b981"/>
+    <rect x="232" y="111" width="16" height="10" rx="1" fill="#f59e0b"/>
+    <rect x="232" y="123" width="16" height="10" rx="1" fill="#8b5cf6"/>
+    <rect x="232" y="135" width="16" height="10" rx="1" fill="#ec4899"/>
+    <rect x="232" y="147" width="16" height="10" rx="1" fill="#06b6d4"/>
+    <rect x="232" y="159" width="16" height="10" rx="1" fill="#84cc16"/>
+  </g>
+
+  <!-- Arrow: flatten to output -->
+  <text x="280" y="120" font-size="20" fill="#94a3b8">&#8594;</text>
+  <text x="280" y="136" class="cvf-note">reshape</text>
+
+  <!-- Output 4x4 grid — SHUFFLED colors (spatial structure lost) -->
+  <g id="fc-output">
+    <text x="362" y="65" class="cvf-label">Output (shuffled!)</text>
+    <!-- Row 0 — wrong order -->
+    <rect x="324" y="75" width="20" height="20" rx="2" fill="#06b6d4" style="animation: shuffleWarn 3s infinite;"/>
+    <rect x="346" y="75" width="20" height="20" rx="2" fill="#f59e0b"/>
+    <rect x="368" y="75" width="20" height="20" rx="2" fill="#8b5cf6" style="animation: shuffleWarn 3s 0.2s infinite;"/>
+    <rect x="390" y="75" width="20" height="20" rx="2" fill="#f43f5e"/>
+    <!-- Row 1 -->
+    <rect x="324" y="97" width="20" height="20" rx="2" fill="#10b981"/>
+    <rect x="346" y="97" width="20" height="20" rx="2" fill="#e11d48" style="animation: shuffleWarn 3s 0.4s infinite;"/>
+    <rect x="368" y="97" width="20" height="20" rx="2" fill="#84cc16"/>
+    <rect x="390" y="97" width="20" height="20" rx="2" fill="#3b82f6"/>
+    <!-- Row 2 -->
+    <rect x="324" y="119" width="20" height="20" rx="2" fill="#eab308"/>
+    <rect x="346" y="119" width="20" height="20" rx="2" fill="#a855f7"/>
+    <rect x="368" y="119" width="20" height="20" rx="2" fill="#ec4899" style="animation: shuffleWarn 3s 0.6s infinite;"/>
+    <rect x="390" y="119" width="20" height="20" rx="2" fill="#0ea5e9"/>
+    <!-- Row 3 -->
+    <rect x="324" y="141" width="20" height="20" rx="2" fill="#22c55e"/>
+    <rect x="346" y="141" width="20" height="20" rx="2" fill="#6366f1" style="animation: shuffleWarn 3s 0.8s infinite;"/>
+    <rect x="368" y="141" width="20" height="20" rx="2" fill="#f97316"/>
+    <rect x="390" y="141" width="20" height="20" rx="2" fill="#14b8a6"/>
+  </g>
+
+  <!-- X mark for FC -->
+  <text x="225" y="195" font-size="13" fill="#ef4444" text-anchor="middle" font-weight="700">&#10008; Spatial structure lost</text>
+  <text x="225" y="212" class="cvf-note">FC layers treat pixels as independent features.</text>
+  <text x="225" y="226" class="cvf-note">Neighboring relationships are destroyed.</text>
+
+  <!-- ===== RIGHT PANEL: Convolutional ===== -->
+  <text x="675" y="35" class="cvf-title" fill="#10b981">Convolutional Autoencoder</text>
+
+  <!-- Input 4x4 grid (same as left) -->
+  <g id="conv-input">
+    <text x="545" y="65" class="cvf-label">Input (4x4)</text>
+    <rect x="507" y="75" width="20" height="20" rx="2" fill="#f43f5e"/>
+    <rect x="529" y="75" width="20" height="20" rx="2" fill="#3b82f6"/>
+    <rect x="551" y="75" width="20" height="20" rx="2" fill="#10b981"/>
+    <rect x="573" y="75" width="20" height="20" rx="2" fill="#f59e0b"/>
+    <rect x="507" y="97" width="20" height="20" rx="2" fill="#8b5cf6"/>
+    <rect x="529" y="97" width="20" height="20" rx="2" fill="#ec4899"/>
+    <rect x="551" y="97" width="20" height="20" rx="2" fill="#06b6d4"/>
+    <rect x="573" y="97" width="20" height="20" rx="2" fill="#84cc16"/>
+    <rect x="507" y="119" width="20" height="20" rx="2" fill="#f97316"/>
+    <rect x="529" y="119" width="20" height="20" rx="2" fill="#14b8a6"/>
+    <rect x="551" y="119" width="20" height="20" rx="2" fill="#a855f7"/>
+    <rect x="573" y="119" width="20" height="20" rx="2" fill="#6366f1"/>
+    <rect x="507" y="141" width="20" height="20" rx="2" fill="#e11d48"/>
+    <rect x="529" y="141" width="20" height="20" rx="2" fill="#0ea5e9"/>
+    <rect x="551" y="141" width="20" height="20" rx="2" fill="#22c55e"/>
+    <rect x="573" y="141" width="20" height="20" rx="2" fill="#eab308"/>
+  </g>
+
+  <!-- Arrow: conv processing -->
+  <text x="628" y="110" font-size="20" fill="#94a3b8">&#8594;</text>
+  <text x="628" y="126" class="cvf-note">conv</text>
+  <text x="628" y="138" class="cvf-note">filters</text>
+
+  <!-- Feature map 2x2 (downsampled, preserving spatial) -->
+  <g id="conv-feat">
+    <text x="695" y="85" class="cvf-label">Feature Map</text>
+    <rect x="672" y="95" width="22" height="22" rx="2" fill="#a78bfa" stroke="#7c3aed" stroke-width="1"/>
+    <rect x="696" y="95" width="22" height="22" rx="2" fill="#67e8f9" stroke="#06b6d4" stroke-width="1"/>
+    <rect x="672" y="119" width="22" height="22" rx="2" fill="#fbbf24" stroke="#f59e0b" stroke-width="1"/>
+    <rect x="696" y="119" width="22" height="22" rx="2" fill="#86efac" stroke="#22c55e" stroke-width="1"/>
+    <text x="695" y="155" class="cvf-note">2x2 spatial</text>
+  </g>
+
+  <!-- Arrow: feature map to output -->
+  <text x="748" y="120" font-size="20" fill="#94a3b8">&#8594;</text>
+  <text x="748" y="136" class="cvf-note">deconv</text>
+
+  <!-- Output 4x4 grid — CORRECT colors (spatial structure preserved) -->
+  <g id="conv-output">
+    <text x="815" y="65" class="cvf-label">Output (correct!)</text>
+    <rect x="777" y="75" width="20" height="20" rx="2" fill="#f43f5e"/>
+    <rect x="799" y="75" width="20" height="20" rx="2" fill="#3b82f6"/>
+    <rect x="821" y="75" width="20" height="20" rx="2" fill="#10b981"/>
+    <rect x="843" y="75" width="20" height="20" rx="2" fill="#f59e0b"/>
+    <rect x="777" y="97" width="20" height="20" rx="2" fill="#8b5cf6"/>
+    <rect x="799" y="97" width="20" height="20" rx="2" fill="#ec4899"/>
+    <rect x="821" y="97" width="20" height="20" rx="2" fill="#06b6d4"/>
+    <rect x="843" y="97" width="20" height="20" rx="2" fill="#84cc16"/>
+    <rect x="777" y="119" width="20" height="20" rx="2" fill="#f97316"/>
+    <rect x="799" y="119" width="20" height="20" rx="2" fill="#14b8a6"/>
+    <rect x="821" y="119" width="20" height="20" rx="2" fill="#a855f7"/>
+    <rect x="843" y="119" width="20" height="20" rx="2" fill="#6366f1"/>
+    <rect x="777" y="141" width="20" height="20" rx="2" fill="#e11d48"/>
+    <rect x="799" y="141" width="20" height="20" rx="2" fill="#0ea5e9"/>
+    <rect x="821" y="141" width="20" height="20" rx="2" fill="#22c55e"/>
+    <rect x="843" y="141" width="20" height="20" rx="2" fill="#eab308"/>
+  </g>
+
+  <!-- Checkmark for Conv -->
+  <text x="675" y="195" font-size="13" fill="#10b981" text-anchor="middle" font-weight="700">&#10004; Spatial structure preserved</text>
+  <text x="675" y="212" class="cvf-note">Conv filters operate on local neighborhoods.</text>
+  <text x="675" y="226" class="cvf-note">Pixel relationships are maintained throughout.</text>
+
+  <!-- Sliding kernel highlight on conv input (animated) -->
+  <rect x="507" y="75" width="42" height="42" rx="3" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="4,3" opacity="0.8">
+    <animate attributeName="x" values="507;529;551;507;529;551;507;529;551" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="75;75;75;97;97;97;119;119;119" dur="4s" repeatCount="indefinite"/>
+  </rect>
+  <text x="450" y="310" font-size="11" fill="#64748b" text-anchor="middle" font-weight="600" style="font-style: italic;">
+    Hover over each panel to pause and inspect
+  </text>
+
+  <!-- Bottom comparison summary -->
+  <rect x="30" y="245" width="395" height="40" rx="6" fill="#fff1f2" stroke="#fecdd3" stroke-width="1"/>
+  <text x="227" y="270" font-size="11" fill="#be123c" text-anchor="middle">FC: flattens input &#8594; loses which pixels are neighbors</text>
+  <rect x="475" y="245" width="395" height="40" rx="6" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="1"/>
+  <text x="672" y="270" font-size="11" fill="#047857" text-anchor="middle">Conv: processes spatial patches &#8594; neighbors stay neighbors</text>
+</svg>
+```

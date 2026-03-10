@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://overfitting.club/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html</loc>
-    <lastmod>2026-02-24T23:35:49.618Z</lastmod>
+    <lastmod>2026-03-10T00:18:15.092Z</lastmod>
   </url>
   <url>
     <loc>https://overfitting.club/agents.html</loc>
@@ -47,5 +47,9 @@
   <url>
     <loc>https://overfitting.club/mlops.html</loc>
     <lastmod>2025-10-29T12:12:50.213Z</lastmod>
+  </url>
+  <url>
+    <loc>https://overfitting.club/posts/tutorials/deep_learning/autoencoder/autoencoder.html</loc>
+    <lastmod>2026-03-10T03:02:17.943Z</lastmod>
   </url>
 </urlset>

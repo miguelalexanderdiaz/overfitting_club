@@ -22,7 +22,7 @@ that progressively assemble the full generative pipeline.
    self-attention, feed-forward blocks, layer normalization, and residual
    connections. The foundation that everything else builds on.
 
-2. **Autoencoder Architecture** — Convolutional encoder and decoder that
+2. [**Autoencoder Architecture**](../autoencoder/autoencoder.qmd) — Convolutional encoder and decoder that
    compress pixel-space images into a compact latent representation and
    reconstruct them back. This separates "what the image looks like" from
    "how to generate it".
