@@ -110,8 +110,8 @@
   <circle cx="350" cy="270" r="3" fill="#fbbf24" opacity="0.4"/>
   <circle cx="230" cy="280" r="3" fill="#34d399" opacity="0.4"/>
 
-  <!-- Draggable crosshair -->
-  <g id="vs-crosshair" cursor="grab" style="pointer-events: all;">
+  <!-- Mouse-following crosshair -->
+  <g id="vs-crosshair" style="pointer-events: none;">
     <line id="vs-ch-h" x1="240" y1="180" x2="320" y2="180" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4,3"/>
     <line id="vs-ch-v" x1="280" y1="150" x2="280" y2="210" stroke="#1e293b" stroke-width="1.5" stroke-dasharray="4,3"/>
     <circle id="vs-ch-dot" cx="280" cy="180" r="7" fill="none" stroke="#1e293b" stroke-width="2"/>
@@ -163,8 +163,6 @@
       var stop1 = document.getElementById('pg-stop1');
       var stop2 = document.getElementById('pg-stop2');
       var stop3 = document.getElementById('pg-stop3');
-      var dragging = false;
-
       // Class centers for color interpolation
       var centers = [
         { x: 160, y: 130, color: [244, 63, 94] },   // rose
@@ -226,37 +224,24 @@
         stop3.setAttribute('stop-color', 'rgb(' + c3.join(',') + ')');
       }
 
-      crosshair.addEventListener('mousedown', function(e) {
-        dragging = true;
-        crosshair.style.cursor = 'grabbing';
-        e.preventDefault();
-      });
+      // Follow mouse movement across the SVG
+      svg.style.cursor = 'crosshair';
       svg.addEventListener('mousemove', function(e) {
-        if (!dragging) return;
         var p = toSVG(e);
         moveTo(p.x, p.y);
       });
-      svg.addEventListener('mouseup', function() {
-        dragging = false;
-        crosshair.style.cursor = 'grab';
-      });
-      svg.addEventListener('mouseleave', function() {
-        dragging = false;
-        crosshair.style.cursor = 'grab';
-      });
 
-      // Touch support
-      crosshair.addEventListener('touchstart', function(e) {
-        dragging = true;
-        e.preventDefault();
-      });
-      svg.addEventListener('touchmove', function(e) {
-        if (!dragging) return;
+      // Touch support — follow finger movement
+      svg.addEventListener('touchstart', function(e) {
         var p = toSVG(e.touches[0]);
         moveTo(p.x, p.y);
         e.preventDefault();
       });
-      svg.addEventListener('touchend', function() { dragging = false; });
+      svg.addEventListener('touchmove', function(e) {
+        var p = toSVG(e.touches[0]);
+        moveTo(p.x, p.y);
+        e.preventDefault();
+      });
     })();
     ]]>
   </script>

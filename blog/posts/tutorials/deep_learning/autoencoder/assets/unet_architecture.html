@@ -1,0 +1,120 @@
+```{=html}
+<svg id="unet-arch-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 420"
+     style="max-width:700px;width:100%;height:auto;display:block;margin:1.5em auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      .ua-title  { font-size: 15px; font-weight: 700; fill: #334155; text-anchor: middle; }
+      .ua-label  { font-size: 10px; fill: #475569; text-anchor: middle; }
+      .ua-dim    { font-size: 8.5px; fill: #94a3b8; text-anchor: middle; }
+      .ua-skip   { font-size: 9px; fill: #7c3aed; font-weight: 600; text-anchor: middle; }
+      .ua-block  { rx: 4; ry: 4; stroke-width: 1.5; }
+      .ua-arrow  { stroke-width: 1.5; fill: none; marker-end: url(#ua-arrowhead); }
+    </style>
+    <marker id="ua-arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b"/>
+    </marker>
+    <marker id="ua-skip-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="420" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="350" y="28" class="ua-title">U-Net Architecture — Skip Connections Preserve Detail</text>
+
+  <!-- === ENCODER (left, descending) === -->
+  <!-- Level 1: input -->
+  <rect x="30" y="55" width="100" height="60" class="ua-block" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="80" y="82" class="ua-label">Conv + BN</text>
+  <text x="80" y="94" class="ua-label">+ ReLU</text>
+  <text x="80" y="125" class="ua-dim">1×28×28</text>
+
+  <!-- Level 2 -->
+  <rect x="30" y="145" width="100" height="60" class="ua-block" fill="#bfdbfe" stroke="#3b82f6"/>
+  <text x="80" y="172" class="ua-label">Conv↓ + BN</text>
+  <text x="80" y="184" class="ua-label">+ ReLU</text>
+  <text x="80" y="215" class="ua-dim">32×14×14</text>
+
+  <!-- Level 3 -->
+  <rect x="30" y="235" width="100" height="60" class="ua-block" fill="#93c5fd" stroke="#3b82f6"/>
+  <text x="80" y="262" class="ua-label">Conv↓ + BN</text>
+  <text x="80" y="274" class="ua-label">+ ReLU</text>
+  <text x="80" y="305" class="ua-dim">64×7×7</text>
+
+  <!-- Encoder arrows -->
+  <path d="M80,115 L80,145" class="ua-arrow" stroke="#64748b"/>
+  <path d="M80,205 L80,235" class="ua-arrow" stroke="#64748b"/>
+
+  <!-- === BOTTLENECK (bottom center) === -->
+  <rect x="230" y="320" width="240" height="55" class="ua-block" fill="#fef3c7" stroke="#f59e0b"/>
+  <text x="350" y="345" class="ua-label" font-weight="600">Bottleneck</text>
+  <text x="350" y="358" class="ua-dim">Linear → 32-d → Linear</text>
+  <text x="350" y="385" class="ua-dim">flatten → latent → reshape to 64×7×7</text>
+
+  <!-- Encoder to bottleneck -->
+  <path d="M80,295 L80,340 L230,340" class="ua-arrow" stroke="#64748b"/>
+
+  <!-- === DECODER (right, ascending) === -->
+  <!-- Level 3 -->
+  <rect x="570" y="235" width="100" height="60" class="ua-block" fill="#a5b4fc" stroke="#6366f1"/>
+  <text x="620" y="262" class="ua-label">ConvT↑ + BN</text>
+  <text x="620" y="274" class="ua-label">+ ReLU</text>
+  <text x="620" y="305" class="ua-dim">64×7×7</text>
+
+  <!-- Level 2 -->
+  <rect x="570" y="145" width="100" height="60" class="ua-block" fill="#c7d2fe" stroke="#6366f1"/>
+  <text x="620" y="172" class="ua-label">ConvT↑ + BN</text>
+  <text x="620" y="184" class="ua-label">+ ReLU</text>
+  <text x="620" y="215" class="ua-dim">32×14×14</text>
+
+  <!-- Level 1: output -->
+  <rect x="570" y="55" width="100" height="60" class="ua-block" fill="#e0e7ff" stroke="#6366f1"/>
+  <text x="620" y="82" class="ua-label">Conv + Sigmoid</text>
+  <text x="620" y="125" class="ua-dim">1×28×28</text>
+
+  <!-- Decoder arrows -->
+  <path d="M620,235 L620,205" class="ua-arrow" stroke="#64748b"/>
+  <path d="M620,145 L620,115" class="ua-arrow" stroke="#64748b"/>
+
+  <!-- Bottleneck to decoder -->
+  <path d="M470,340 L620,340 L620,295" class="ua-arrow" stroke="#64748b"/>
+
+  <!-- === SKIP CONNECTIONS (horizontal dashed) === -->
+  <!-- Skip 1: level 1 -->
+  <line x1="130" y1="85" x2="570" y2="85" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="130" cy="85" r="4" fill="#7c3aed"/>
+  <polygon points="570,81 570,89 578,85" fill="#7c3aed"/>
+  <rect x="310" y="68" width="80" height="18" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="350" y="81" class="ua-skip">concat</text>
+
+  <!-- Skip 2: level 2 -->
+  <line x1="130" y1="175" x2="570" y2="175" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="130" cy="175" r="4" fill="#7c3aed"/>
+  <polygon points="570,171 570,179 578,175" fill="#7c3aed"/>
+  <rect x="310" y="158" width="80" height="18" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="350" y="171" class="ua-skip">concat</text>
+
+  <!-- Skip 3: level 3 -->
+  <line x1="130" y1="265" x2="570" y2="265" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,4"/>
+  <circle cx="130" cy="265" r="4" fill="#7c3aed"/>
+  <polygon points="570,261 570,269 578,265" fill="#7c3aed"/>
+  <rect x="310" y="248" width="80" height="18" rx="9" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+  <text x="350" y="261" class="ua-skip">concat</text>
+
+  <!-- Labels -->
+  <text x="80" y="48" class="ua-label" font-weight="600" fill="#3b82f6">Encoder</text>
+  <text x="620" y="48" class="ua-label" font-weight="600" fill="#6366f1">Decoder</text>
+
+  <!-- Legend -->
+  <g transform="translate(170, 400)">
+    <line x1="0" y1="0" x2="30" y2="0" stroke="#64748b" stroke-width="1.5" marker-end="url(#ua-arrowhead)"/>
+    <text x="38" y="4" font-size="9" fill="#475569">data flow</text>
+    <line x1="120" y1="0" x2="150" y2="0" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="158" y="4" font-size="9" fill="#475569">skip connection</text>
+    <rect x="280" y="-8" width="14" height="14" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+    <text x="302" y="4" font-size="9" fill="#475569">bottleneck</text>
+  </g>
+</svg>
+```

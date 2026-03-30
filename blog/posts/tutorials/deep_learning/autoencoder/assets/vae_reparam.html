@@ -1,152 +1,330 @@
 ```{=html}
-<svg id="vae-reparam-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400"
+<svg id="vae-reparam-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 580"
      style="max-width:900px;width:100%;height:auto;display:block;margin:1.5em auto;font-family:'Segoe UI',system-ui,sans-serif;">
   <defs>
     <style>
-      .vr-title { font-size: 14px; font-weight: 700; text-anchor: middle; }
-      .vr-box { rx: 6; ry: 6; stroke-width: 1.5; }
-      .vr-label { font-size: 12px; text-anchor: middle; font-weight: 600; }
-      .vr-small { font-size: 10px; text-anchor: middle; fill: #64748b; }
-      .vr-math  { font-size: 12px; text-anchor: middle; font-family: 'Times New Roman', serif; font-style: italic; }
-      @keyframes pulseSample {
-        0%, 100% { r: 5; opacity: 0.7; }
-        50%      { r: 8; opacity: 1; }
+      .vr-math {
+        font-family: 'Times New Roman', 'Georgia', serif;
+        font-style: italic;
+        text-anchor: middle;
+      }
+      .vr-label {
+        font-size: 10px;
+        text-anchor: middle;
+        fill: #64748b;
+        font-weight: 600;
+      }
+      .vr-section {
+        font-size: 13px;
+        font-weight: 700;
+        text-anchor: start;
       }
       @keyframes dashFlow {
         0%   { stroke-dashoffset: 20; }
         100% { stroke-dashoffset: 0; }
       }
-      @keyframes fadeInZ {
-        0%, 60%  { opacity: 0; }
-        80%      { opacity: 1; }
-        100%     { opacity: 1; }
+      @keyframes dashFlowBack {
+        0%   { stroke-dashoffset: 20; }
+        100% { stroke-dashoffset: 0; }
       }
-      .gradient-flow {
+      @keyframes pulseSample {
+        0%, 100% { opacity: 0.5; }
+        50%      { opacity: 1; }
+      }
+      @keyframes pulseBlock {
+        0%, 100% { opacity: 0.7; }
+        50%      { opacity: 1; }
+      }
+      .grad-flow {
         stroke-dasharray: 6,4;
         animation: dashFlow 1.5s linear infinite;
       }
+      .grad-back {
+        stroke-dasharray: 6,4;
+        animation: dashFlowBack 1.2s linear infinite;
+      }
+      .eps-pulse {
+        animation: pulseSample 2s ease-in-out infinite;
+      }
+      .block-pulse {
+        animation: pulseBlock 1.5s ease-in-out infinite;
+      }
     </style>
-    <marker id="arrBlack" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <!-- Forward arrow (dark) -->
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
     </marker>
-    <marker id="arrGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <!-- Green forward arrow (for differentiable paths) -->
+    <marker id="arrGrad" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
     </marker>
-    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <!-- Red blocked arrow (for &#x3B5; path) -->
+    <marker id="arrStop" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
+    </marker>
+    <!-- Green backward arrow (pointing left) — uses orient="auto" so path direction determines orientation -->
+    <marker id="arrBackG" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981"/>
+    </marker>
+    <!-- Red backward arrow (pointing left) -->
+    <marker id="arrBackR" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444"/>
     </marker>
   </defs>
 
   <!-- Background -->
-  <rect width="900" height="400" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <rect width="900" height="580" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
 
-  <!-- ===== TOP ROW: Deterministic AE ===== -->
-  <rect x="20" y="30" width="860" height="120" rx="8" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
-  <text x="450" y="52" class="vr-title" fill="#475569">Deterministic Autoencoder</text>
+  <!-- Title -->
+  <text x="450" y="26" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">
+    Variational Autoencoder &#x2014; Reparameterization Trick
+  </text>
 
-  <!-- Input -->
-  <rect x="80" y="70" width="90" height="45" class="vr-box" fill="#dbeafe" stroke="#3b82f6"/>
-  <text x="125" y="97" class="vr-label" fill="#1e40af">Input x</text>
+  <!-- ============================================================ -->
+  <!-- ROW 1: PROBLEM — Direct sampling blocks gradients            -->
+  <!-- ============================================================ -->
 
-  <!-- Arrow -->
-  <line x1="170" y1="92" x2="250" y2="92" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
+  <!-- Section background -->
+  <rect x="15" y="38" width="870" height="195" rx="8" fill="#fef2f2" stroke="#fecaca" stroke-width="1" opacity="0.5"/>
 
-  <!-- Encoder -->
-  <rect x="255" y="70" width="110" height="45" class="vr-box" fill="#c7d2fe" stroke="#6366f1"/>
-  <text x="310" y="97" class="vr-label" fill="#4338ca">Encoder</text>
+  <!-- Section label -->
+  <text x="30" y="58" class="vr-section" fill="#dc2626">Problem: direct sampling blocks gradients</text>
 
-  <!-- Arrow -->
-  <line x1="365" y1="92" x2="500" y2="92" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
-  <text x="432" y="85" class="vr-small">direct mapping</text>
+  <!-- Forward pass row at y=120 -->
 
-  <!-- z point (single deterministic) -->
-  <circle cx="530" cy="92" r="6" fill="#3b82f6"/>
-  <text x="530" y="82" class="vr-label" fill="#1e40af">z</text>
+  <!-- x input -->
+  <rect x="30" y="90" width="24" height="60" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="42" y="125" class="vr-math" fill="#1e40af" font-size="14">x</text>
 
-  <!-- Arrow to decoder -->
-  <line x1="540" y1="92" x2="620" y2="92" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
+  <!-- Arrow x → encoder -->
+  <line x1="58" y1="120" x2="82" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Decoder -->
-  <rect x="625" y="70" width="110" height="45" class="vr-box" fill="#d1fae5" stroke="#10b981"/>
-  <text x="680" y="97" class="vr-label" fill="#047857">Decoder</text>
+  <!-- Encoder trapezoid -->
+  <polygon points="88,82 195,95 195,145 88,158" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="136" y="118" class="vr-math" fill="#3730a3" font-size="13">f</text>
+  <text x="144" y="124" font-size="8" fill="#3730a3" font-style="italic" font-family="'Times New Roman', serif">&#x3B8;</text>
+  <text x="153" y="118" class="vr-math" fill="#3730a3" font-size="13">(x)</text>
+  <text x="142" y="135" class="vr-label" fill="#6366f1">Encoder</text>
 
-  <!-- Arrow to output -->
-  <line x1="735" y1="92" x2="790" y2="92" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
+  <!-- Encoder → μ (upper branch) -->
+  <line x1="199" y1="108" x2="232" y2="97" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Output -->
-  <rect x="795" y="70" width="70" height="45" class="vr-box" fill="#d1fae5" stroke="#10b981"/>
-  <text x="830" y="97" class="vr-label" fill="#047857">x&#770;</text>
+  <!-- μ box -->
+  <rect x="237" y="75" width="28" height="48" rx="3" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="251" y="104" class="vr-math" fill="#3730a3" font-size="14">&#x3BC;</text>
 
-  <!-- ===== BOTTOM ROW: VAE with Reparameterization ===== -->
-  <rect x="20" y="170" width="860" height="215" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
-  <text x="450" y="192" class="vr-title" fill="#92400e">Variational Autoencoder (Reparameterization Trick)</text>
+  <!-- Encoder → σ (lower branch) -->
+  <line x1="199" y1="132" x2="232" y2="143" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Input -->
-  <rect x="80" y="220" width="90" height="45" class="vr-box" fill="#dbeafe" stroke="#3b82f6"/>
-  <text x="125" y="247" class="vr-label" fill="#1e40af">Input x</text>
+  <!-- σ box -->
+  <rect x="237" y="125" width="28" height="48" rx="3" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="251" y="154" class="vr-math" fill="#3730a3" font-size="14">&#x3C3;</text>
 
-  <!-- Arrow -->
-  <line x1="170" y1="242" x2="250" y2="242" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
+  <!-- μ → sample node -->
+  <line x1="269" y1="99" x2="334" y2="112" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Encoder -->
-  <rect x="255" y="220" width="110" height="45" class="vr-box" fill="#c7d2fe" stroke="#6366f1"/>
-  <text x="310" y="247" class="vr-label" fill="#4338ca">Encoder</text>
+  <!-- σ → sample node -->
+  <line x1="269" y1="149" x2="334" y2="130" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Split into mu and log_sigma -->
-  <!-- mu branch -->
-  <line x1="365" y1="235" x2="430" y2="215" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
-  <rect x="435" y="200" width="65" height="32" class="vr-box" fill="#e0e7ff" stroke="#6366f1"/>
-  <text x="467" y="221" class="vr-math" fill="#3730a3">&#956;</text>
+  <!-- SAMPLE node (stochastic — the problem) -->
+  <circle cx="378" cy="120" r="38" fill="#fee2e2" stroke="#ef4444" stroke-width="2" class="block-pulse"/>
+  <text x="378" y="113" class="vr-math" fill="#991b1b" font-size="10">sample</text>
+  <text x="378" y="130" class="vr-math" fill="#991b1b" font-size="10">z ~ N(&#x3BC;,&#x3C3;&#xB2;)</text>
 
-  <!-- log sigma^2 branch -->
-  <line x1="365" y1="250" x2="430" y2="268" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
-  <rect x="435" y="253" width="65" height="32" class="vr-box" fill="#e0e7ff" stroke="#6366f1"/>
-  <text x="467" y="274" class="vr-math" fill="#3730a3">log &#963;&#178;</text>
+  <!-- Arrow sample &#x2192; z -->
+  <line x1="420" y1="120" x2="448" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- mu arrow to z formula -->
-  <line x1="500" y1="216" x2="560" y2="240" stroke="#10b981" stroke-width="1.5" class="gradient-flow" marker-end="url(#arrGreen)"/>
-  <!-- sigma arrow to z formula -->
-  <line x1="500" y1="269" x2="560" y2="252" stroke="#10b981" stroke-width="1.5" class="gradient-flow" marker-end="url(#arrGreen)"/>
+  <!-- z vector -->
+  <rect x="453" y="93" width="24" height="54" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="465" y="125" class="vr-math" fill="#92400e" font-size="14" font-weight="700">z</text>
 
-  <!-- z = mu + sigma * epsilon formula node -->
-  <rect x="565" y="225" width="140" height="40" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
-  <text x="635" y="250" class="vr-math" fill="#78350f" font-size="13">z = &#956; + &#963; &#183; &#949;</text>
+  <!-- Arrow z → decoder -->
+  <line x1="481" y1="120" x2="510" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Epsilon sampling (from above) -->
-  <rect x="600" y="310" width="110" height="32" rx="6" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
-  <text x="655" y="331" class="vr-math" fill="#9d174d" font-size="11">&#949; ~ N(0, I)</text>
-  <!-- Arrow from epsilon to formula -->
-  <line x1="645" y1="310" x2="640" y2="268" stroke="#ec4899" stroke-width="1.5" marker-end="url(#arrRed)"/>
-  <!-- "Not differentiable" crossed out on epsilon arrow -->
-  <text x="680" y="295" font-size="9" fill="#dc2626" text-anchor="start" font-weight="600">&#10007; not differentiable</text>
+  <!-- Decoder trapezoid -->
+  <polygon points="515,95 625,82 625,158 515,145" fill="#d1fae5" stroke="#10b981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="565" y="118" class="vr-math" fill="#047857" font-size="13">g</text>
+  <text x="574" y="124" font-size="8" fill="#047857" font-style="italic" font-family="'Times New Roman', serif">&#x3C6;</text>
+  <text x="583" y="118" class="vr-math" fill="#047857" font-size="13">(z)</text>
+  <text x="570" y="135" class="vr-label" fill="#047857">Decoder</text>
 
-  <!-- Pulsing epsilon dot -->
-  <circle cx="655" cy="326" r="5" fill="#ec4899" style="animation: pulseSample 1.5s ease-in-out infinite;"/>
+  <!-- Arrow decoder → x' -->
+  <line x1="629" y1="120" x2="658" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- z output point -->
-  <circle cx="730" cy="245" r="6" fill="#f59e0b" style="animation: fadeInZ 3s ease-in-out infinite;">
-  </circle>
+  <!-- x' output -->
+  <rect x="663" y="90" width="24" height="60" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="675" y="125" class="vr-math" fill="#047857" font-size="14">x&#x2032;</text>
 
-  <!-- Arrow from formula to z -->
-  <line x1="705" y1="245" x2="720" y2="245" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
-  <text x="730" y="235" class="vr-label" fill="#92400e">z</text>
+  <!-- Arrow x' → L -->
+  <line x1="691" y1="120" x2="725" y2="120" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
 
-  <!-- Arrow to decoder -->
-  <line x1="740" y1="245" x2="770" y2="245" stroke="#475569" stroke-width="1.5" marker-end="url(#arrBlack)"/>
+  <!-- Loss L -->
+  <rect x="730" y="95" width="48" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="754" y="118" class="vr-math" fill="#92400e" font-size="15" font-weight="700">L</text>
+  <text x="754" y="86" class="vr-label" fill="#92400e">loss</text>
 
-  <!-- Decoder -->
-  <rect x="775" y="223" width="90" height="45" class="vr-box" fill="#d1fae5" stroke="#10b981"/>
-  <text x="820" y="250" class="vr-label" fill="#047857">Decoder</text>
+  <!-- ===== BACKPROP PATH (RED): single continuous line from L backward, blocked at sample ===== -->
+  <path d="M 748,95 L 748,72 L 388,72" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="5,3"
+        fill="none" marker-end="url(#arrBackR)" class="grad-back"/>
 
-  <!-- Gradient flow annotation -->
-  <line x1="100" y1="360" x2="140" y2="360" stroke="#10b981" stroke-width="2" class="gradient-flow"/>
-  <text x="148" y="364" font-size="10" fill="#047857">Gradients flow through &#956; and &#963; (differentiable)</text>
+  <!-- Big red X at end of backprop line, above sample circle -->
+  <line x1="368" y1="62" x2="388" y2="82" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="388" y1="62" x2="368" y2="82" stroke="#dc2626" stroke-width="3.5" stroke-linecap="round"/>
 
-  <line x1="400" y1="360" x2="440" y2="360" stroke="#ef4444" stroke-width="2" stroke-dasharray="3,3"/>
-  <text x="448" y="364" font-size="10" fill="#dc2626">Sampling &#949; — no gradient (stochastic node)</text>
 
-  <!-- Key insight box -->
-  <rect x="100" y="370" width="700" height="18" rx="4" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="0.5"/>
-  <text x="450" y="383" font-size="10" fill="#047857" text-anchor="middle" font-weight="600">Key: reparameterization moves stochasticity to an input (&#949;), letting gradients flow through the encoder parameters.</text>
+  <!-- Explanation below the row -->
+  <text x="450" y="222" font-size="11" fill="#dc2626" text-anchor="middle" font-weight="700">
+    &#x2717; Sampling is stochastic &#x2014; no way to compute &#x2202;z/&#x2202;&#x3B8; &#x2192; &#x2202;L/&#x2202;&#x3B8; is undefined
+  </text>
+
+  <!-- (removed drop line — X is now centered on circle) -->
+
+  <!-- (removed faded X over sample node — the red circle + big X above are sufficient) -->
+
+  <!-- Divider line -->
+  <line x1="30" y1="243" x2="870" y2="243" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- ============================================================ -->
+  <!-- ROW 2: SOLUTION — Reparameterization trick                   -->
+  <!-- ============================================================ -->
+
+  <!-- Section background -->
+  <rect x="15" y="253" width="870" height="280" rx="8" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="1" opacity="0.4"/>
+
+  <!-- Section label -->
+  <text x="30" y="273" class="vr-section" fill="#047857">Solution: reparameterization trick &#x2014; z = &#x3BC; + &#x3C3; &#xB7; &#x3B5;</text>
+
+  <!-- Forward pass row at y=335 -->
+
+  <!-- x input -->
+  <rect x="30" y="305" width="24" height="60" rx="3" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="42" y="340" class="vr-math" fill="#1e40af" font-size="14">x</text>
+
+  <!-- Arrow x → encoder -->
+  <line x1="58" y1="335" x2="82" y2="335" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Encoder trapezoid -->
+  <polygon points="88,295 195,308 195,362 88,375" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="136" y="333" class="vr-math" fill="#3730a3" font-size="13">f</text>
+  <text x="144" y="339" font-size="8" fill="#3730a3" font-style="italic" font-family="'Times New Roman', serif">&#x3B8;</text>
+  <text x="153" y="333" class="vr-math" fill="#3730a3" font-size="13">(x)</text>
+  <text x="142" y="350" class="vr-label" fill="#6366f1">Encoder</text>
+
+  <!-- Encoder → μ (upper branch) -->
+  <line x1="199" y1="320" x2="238" y2="307" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- μ rect -->
+  <rect x="242" y="285" width="28" height="48" rx="3" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="256" y="314" class="vr-math" fill="#3730a3" font-size="14">&#x3BC;</text>
+
+  <!-- Encoder → σ (lower branch) -->
+  <line x1="199" y1="350" x2="238" y2="363" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- σ rect -->
+  <rect x="242" y="345" width="28" height="48" rx="3" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="256" y="374" class="vr-math" fill="#3730a3" font-size="14">&#x3C3;</text>
+
+  <!-- μ → formula box -->
+  <line x1="274" y1="309" x2="338" y2="325" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- σ → formula box -->
+  <line x1="274" y1="369" x2="338" y2="350" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- ===== Formula box: μ + σ·ε (deterministic!) ===== -->
+  <rect x="343" y="313" width="110" height="48" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="348" y="318" width="100" height="38" rx="4" fill="#fffbeb" stroke="none"/>
+  <text x="398" y="343" class="vr-math" fill="#78350f" font-size="15">&#x3BC; + &#x3C3; &#xB7; &#x3B5;</text>
+  <text x="398" y="307" class="vr-label" fill="#92400e">deterministic &#x2713;</text>
+
+  <!-- ε from below -->
+  <rect x="384" y="418" width="28" height="48" rx="3" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5" class="eps-pulse"/>
+  <text x="398" y="447" class="vr-math" fill="#9d174d" font-size="14">&#x3B5;</text>
+
+  <!-- N(0,I) label centered under ε -->
+  <text x="398" y="480" class="vr-math" fill="#9d174d" font-size="11">~ N(0, I)</text>
+  <text x="398" y="493" font-size="9" fill="#9d174d" text-anchor="middle" font-weight="600">external noise</text>
+
+  <!-- Arrow ε → formula box (RED — no gradient needed through here) -->
+  <line x1="398" y1="416" x2="398" y2="365" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arrStop)"/>
+  <text x="430" y="396" font-size="9" fill="#dc2626" text-anchor="start" font-weight="600">no gradient</text>
+  <text x="430" y="407" font-size="9" fill="#dc2626" text-anchor="start">(independent of &#x3B8;)</text>
+
+  <!-- Arrow formula → z -->
+  <line x1="457" y1="337" x2="492" y2="337" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- z vector -->
+  <rect x="497" y="310" width="24" height="54" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="509" y="342" class="vr-math" fill="#92400e" font-size="14" font-weight="700">z</text>
+  <text x="509" y="303" class="vr-label" fill="#92400e">latent</text>
+
+  <!-- Arrow z → decoder -->
+  <line x1="525" y1="337" x2="555" y2="337" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Decoder trapezoid -->
+  <polygon points="560,308 670,295 670,375 560,362" fill="#d1fae5" stroke="#10b981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="610" y="333" class="vr-math" fill="#047857" font-size="13">g</text>
+  <text x="619" y="339" font-size="8" fill="#047857" font-style="italic" font-family="'Times New Roman', serif">&#x3C6;</text>
+  <text x="628" y="333" class="vr-math" fill="#047857" font-size="13">(z)</text>
+  <text x="615" y="350" class="vr-label" fill="#047857">Decoder</text>
+
+  <!-- Arrow decoder → x' -->
+  <line x1="674" y1="335" x2="703" y2="335" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- x' output -->
+  <rect x="708" y="305" width="24" height="60" rx="3" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="720" y="340" class="vr-math" fill="#047857" font-size="14">x&#x2032;</text>
+
+  <!-- Arrow x' → L -->
+  <line x1="736" y1="335" x2="770" y2="335" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- Loss L -->
+  <rect x="775" y="310" width="48" height="50" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="799" y="333" class="vr-math" fill="#92400e" font-size="15" font-weight="700">L</text>
+  <text x="799" y="301" class="vr-label" fill="#92400e">loss</text>
+
+  <!-- ===== BACKPROP PATH (GREEN): single continuous line from L backward through all components ===== -->
+  <path d="M 793,310 L 793,280 L 58,280" stroke="#10b981" stroke-width="1.8" stroke-dasharray="5,3"
+        fill="none" marker-end="url(#arrBackG)" class="grad-back"/>
+
+  <!-- Green checkmark at the encoder side -->
+  <rect x="44" y="276" width="14" height="14" rx="3" fill="#10b981"/>
+  <text x="51" y="287" font-size="11" fill="white" text-anchor="middle" font-weight="700">&#x2713;</text>
+
+  <!-- Backprop label above the green path -->
+
+  <!-- Explanation below the row -->
+  <text x="450" y="525" font-size="11" fill="#047857" text-anchor="middle" font-weight="700">
+    &#x2713; z = &#x3BC; + &#x3C3;&#xB7;&#x3B5; is deterministic w.r.t. &#x3B8; &#x2192; &#x2202;L/&#x2202;&#x3B8; is well-defined &#x2192; we can train the encoder!
+  </text>
+
+  <!-- ===== Legend (bottom) ===== -->
+  <g transform="translate(60, 555)">
+    <!-- Forward path -->
+    <line x1="0" y1="0" x2="30" y2="0" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+    <text x="38" y="4" font-size="9.5" fill="#475569">Forward pass</text>
+
+    <!-- Green: backprop flows -->
+    <line x1="160" y1="0" x2="130" y2="0" stroke="#10b981" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arrBackG)"/>
+    <text x="168" y="4" font-size="9.5" fill="#047857">Backprop flows (differentiable)</text>
+
+    <!-- Red: backprop blocked -->
+    <line x1="400" y1="0" x2="370" y2="0" stroke="#ef4444" stroke-width="1.8" stroke-dasharray="5,3" marker-end="url(#arrBackR)"/>
+    <text x="408" y="4" font-size="9.5" fill="#dc2626">Backprop blocked (stochastic)</text>
+
+    <!-- Blocked badge -->
+    <rect x="610" y="-7" width="14" height="14" rx="2" fill="#dc2626"/>
+    <text x="617" y="4" font-size="10" fill="white" text-anchor="middle" font-weight="700">&#x2717;</text>
+    <text x="632" y="4" font-size="9.5" fill="#dc2626">Blocked</text>
+
+    <!-- Flows badge -->
+    <rect x="690" y="-7" width="14" height="14" rx="2" fill="#10b981"/>
+    <text x="697" y="4" font-size="10" fill="white" text-anchor="middle" font-weight="700">&#x2713;</text>
+    <text x="712" y="4" font-size="9.5" fill="#047857">Flows</text>
+  </g>
 </svg>
 ```
