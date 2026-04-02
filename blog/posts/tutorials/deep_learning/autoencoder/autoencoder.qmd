@@ -1207,58 +1207,57 @@ class VAE(nn.Module):
         return x_hat, mu, log_var, z
 ```
 
-The loss function translates the $-\text{ELBO}$ directly. Both terms are summed
-over their respective dimensions (pixels for reconstruction, latent dims for KL)
-and averaged over the batch. A weight $\beta$ controls the trade-off between
-reconstruction fidelity and latent space regularity — this is the
-**β-VAE** [@kingma2013auto] formulation:
+The loss function translates the $-\text{ELBO}$ directly. Both terms are
+averaged over their respective dimensions — per-pixel MSE for reconstruction,
+per-dimension KL for regularization — and then combined with a weight $\beta$
+that controls the trade-off. This is the **β-VAE** [@kingma2013auto]
+formulation:
 
 ```{python}
-BETA = 0.005  # KL weight — balances reconstruction vs. regularity
+KL_WEIGHT_VAE = 0.0005  # β — balances reconstruction vs. regularity
 
-def vae_loss(x, x_hat, mu, log_var, beta=BETA):
+def vae_loss(x, x_hat, mu, log_var, beta=KL_WEIGHT_VAE):
     """
     -ELBO = reconstruction (MSE) + β · KL divergence.
 
-    Reconstruction:  Σ_pixels (x - x̂)² / batch_size
-    KL(q ‖ p):      -½ Σ_dims (1 + log σ² - μ² - σ²) / batch_size
+    Reconstruction:  mean over pixels of (x - x̂)²
+    KL(q ‖ p):      mean over dims of -½(1 + log σ² - μ² - σ²)
     """
-    recon = F.mse_loss(x_hat, x, reduction="sum") / x.size(0)
-    kl = -0.5 * torch.sum(1 + log_var - mu.pow(2) - log_var.exp()) / x.size(0)
+    recon = F.mse_loss(x_hat, x)  # mean over all pixels
+    kl = -0.5 * torch.mean(1 + log_var - mu.pow(2) - log_var.exp())
     return recon + beta * kl, recon, kl
 ```
 
-::: {.callout-tip}
+:::: {.callout-tip}
 ## Why the β weight?
 
-Our loss sums over 784 pixel terms (reconstruction) and 32 latent-dimension
-terms (KL). With $\beta = 1$ (the pure ELBO), each KL dimension gets the same
-weight as each pixel. That sounds fair — but in practice, each per-dimension KL
-value is **much larger** than each per-pixel MSE. The result: KL dominates,
-reconstructions are blurry, and the encoder barely encodes.
+With $\beta = 1$ (the pure ELBO), the KL term dominates because each per-dimension
+KL value is **much larger** than each per-pixel MSE — the encoder gets penalized
+so heavily for deviating from $\mathcal{N}(\mathbf{0}, \mathbf{I})$ that it
+barely encodes anything useful. Reconstructions turn blurry.
 
-**The "dimensionally balanced" β.** If we want the 49 KL terms to carry the same
-*total* weight as if they were 49 out of 784 + 49 = 833 equal terms, we'd set:
+**Our choice: $\beta = 0.0005$** — small enough that reconstruction quality
+stays sharp, while still providing enough KL pressure to smooth the latent space
+for interpolation. We intentionally favor reconstruction over generation in this
+tutorial — our goal here is to understand how autoencoders work, not to build
+the best generator.
 
-$$
-\beta_{\text{balanced}} = \frac{D_{\text{latent}}}{D_{\text{pixels}}} = \frac{49}{784} \approx 0.063
-$$
+Here's how different $\beta$ values shift the balance:
 
-**Our choice: $\beta = 0.005$** — intentionally ~12× smaller than the balanced
-value. This favors reconstruction quality while keeping just enough KL pressure
-to smooth the latent space. Here's the relative influence each term has in the
-total loss at convergence:
+| $\beta$ | Regime | Reconstruction | Generation |
+|:--------|:-------|:---------------|:-----------|
+| 1.0 | KL dominates | Very blurry — encoder barely encodes | Prior matches well, but nothing useful is encoded |
+| 0.01 | Generation-focused | Slightly soft | Good — $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ produces coherent samples |
+| **0.0005 (ours)** | **Reconstruction-focused** | **Sharp — close to Conv AE** | **Poor — prior mismatch, dead zones between clusters** |
 
-| $\beta$ | Recon influence | KL influence | Reconstruction quality |
-|:--------|:--------------:|:------------:|:----------------------|
-| 1.0 (pure ELBO) | ~21% | **~79%** | Very blurry — KL crushes details |
-| 0.041 (balanced) | ~86% | ~14% | Decent — slight softness |
-| **0.005 (ours)** | **~98%** | **~2%** | Sharp — close to Conv AE |
-
-Even at 2% influence, the KL term is enough to regularize the latent space into a
-smooth, continuous manifold — which is all we need for generation. The key
-insight: **you don't need much KL pressure to get a well-structured latent space**.
-:::
+We intentionally sit at the reconstruction end of this spectrum. Our goal in this
+tutorial is to understand how autoencoders work, not to build the best generator.
+The trade-off is real: with a low $\beta$, each class ends up in its own latent
+cluster far from $\mathcal{N}(\mathbf{0}, \mathbf{I})$, and sampling from the
+prior lands in dead zones. We'll see this in the [Generation](#sec-generation)
+section, and address it in a follow-up post on class-conditional VAEs where
+generation is the primary objective and a higher $\beta$ is warranted.
+::::
 
 ```{python}
 #| code-fold: true
@@ -1332,13 +1331,11 @@ fig = make_subplots(rows=1, cols=3, subplot_titles=(
     "Reconstruction Loss (all models)", "VAE — Reconstruction", "VAE — KL Divergence"),
     horizontal_spacing=0.08)
 
-# Left: reconstruction-only comparison (per-pixel MSE, apples to apples)
-# FC/Conv AE already use nn.MSELoss (mean), VAE uses sum/batch → divide by 784
-vae_recon_perpixel = [r / 784 for r in vae_recon_history]
+# Left: reconstruction-only comparison (per-pixel MSE, all models use mean reduction)
 for name, hist, color, dash in [
     ("FC AE", fc_history, "#94a3b8", "dot"),
     ("Conv AE", conv_history, "#10b981", "dot"),
-    ("VAE (recon)", vae_recon_perpixel, "#6366f1", "solid"),
+    ("VAE (recon)", vae_recon_history, "#6366f1", "solid"),
 ]:
     fig.add_trace(go.Scatter(
         x=list(range(1, len(hist) + 1)), y=hist,
@@ -1374,9 +1371,8 @@ fig.update_layout(
 )
 fig.show()
 
-console.print(f"[bold blue]VAE final loss:[/bold blue] {vae_total_history[-1]:.4f} "
-              f"(recon: {vae_recon_history[-1]:.4f}, "
-              f"per-pixel: {vae_recon_history[-1]/784:.6f}, "
+console.print(f"[bold blue]VAE final loss:[/bold blue] {vae_total_history[-1]:.6f} "
+              f"(recon: {vae_recon_history[-1]:.6f}, "
               f"KL: {vae_kl_history[-1]:.4f})")
 ```
 
@@ -1668,7 +1664,7 @@ fig = go.Figure()
 for name, hist, color, dash in [
     ("FC AE", fc_history, "#94a3b8", "dot"),
     ("Conv AE", conv_history, "#10b981", "dot"),
-    ("Conv VAE", vae_recon_perpixel, "#8b5cf6", "dash"),
+    ("Conv VAE", vae_recon_history, "#8b5cf6", "dash"),
     ("ResNet VAE", resnet_history["recon"], "#f59e0b", "solid"),
 ]:
     fig.add_trace(go.Scatter(
@@ -1687,7 +1683,7 @@ fig.show()
 
 console.print(f"[bold yellow]ResNet VAE recon loss:[/bold yellow] "
               f"{resnet_history['recon'][-1]:.6f}  "
-              f"(Conv VAE: {vae_recon_perpixel[-1]:.6f})")
+              f"(Conv VAE: {vae_recon_history[-1]:.6f})")
 ```
 
 ## Comparing All Four Models
