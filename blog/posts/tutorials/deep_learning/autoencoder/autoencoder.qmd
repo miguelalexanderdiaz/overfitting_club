@@ -1,7 +1,7 @@
 ---
 title: "Autoencoder Architecture"
 subtitle: "From Pixel Space to Latent Space — Learning to Compress and Reconstruct Images"
-author: "Miguel Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2026-03-09"
 categories: [deep-learning, autoencoder, vae, pytorch]
 image: assets/autoencoder_thumbnail.svg

@@ -1,6 +1,6 @@
 ---
 title: "Coming Soon: AI Agents Tutorials"
-author: "Miguel Chitiva"
+author: "Miguel Chitiva Diaz"
 date: "2025-01-04"
 categories: [agents, tutorial, coming-soon]
 description: "Tutorials on building and deploying AI agents are coming soon. This section will cover agent architectures, tool usage, and deployment strategies."

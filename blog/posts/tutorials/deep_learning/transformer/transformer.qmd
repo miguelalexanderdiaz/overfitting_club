@@ -1,7 +1,7 @@
 ---
 title: "Transformer Architecture"
 subtitle: "Building the Transformer from Scratch — Attention Is All You Need"
-author: "Miguel Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2026-02-24"
 categories: [transformer, attention, deep-learning]
 format:

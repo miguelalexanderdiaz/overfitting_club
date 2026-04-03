@@ -39,7 +39,7 @@ website:
   page-navigation: true
   back-to-top-navigation: true
   page-footer:
-    left: "2025, The Overfitting Club by Miguel Diaz"
+    left: "2025, The Overfitting Club by Miguel Chitiva Diaz"
     right:
       - icon: github
         href: https://github.com/

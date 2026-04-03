@@ -1,7 +1,7 @@
 ---
 title: "Multivariate Regression"
 subtitle: "Prediction of the Amount of Sun Spots Using a Multivariate Time Series"
-author: "Miguel Alexander Chitiva Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2021-06-19"
 categories: [time-series, tensorflow, machine-learning]
 format:

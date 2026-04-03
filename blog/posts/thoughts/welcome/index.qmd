@@ -1,6 +1,6 @@
 ---
 title: "Welcome To My Blog"
-author: "Miguel Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2025-10-22"
 categories: [news]
 ---

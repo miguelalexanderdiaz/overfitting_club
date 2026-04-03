@@ -1,7 +1,7 @@
 ---
 title: "Diffusion Transformer (DiT)"
 subtitle: "Building a Diffusion Transformer from Scratch for Image Generation"
-author: "Miguel Alexander Chitiva Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2026-02-24"
 categories: [diffusion, transformer, deep-learning, generative-models]
 format:

@@ -1,6 +1,6 @@
 ---
 title: "Coming Soon: Paper Reviews & Analysis"
-author: "Miguel Chitiva"
+author: "Miguel Chitiva Diaz"
 date: "2025-01-04"
 categories: [papers, coming-soon, research]
 description: "In-depth paper reviews, analysis, and implementations are coming soon. This section will cover cutting-edge research in machine learning, deep learning, and data science."

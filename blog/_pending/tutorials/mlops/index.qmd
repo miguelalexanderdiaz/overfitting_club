@@ -1,6 +1,6 @@
 ---
 title: "Coming Soon: MLOps Tutorials"
-author: "Miguel Chitiva"
+author: "Miguel Chitiva Diaz"
 date: "2025-01-04"
 categories: [mlops, tutorial, coming-soon]
 description: "Comprehensive MLOps tutorials covering model deployment, monitoring, and production workflows are coming soon."

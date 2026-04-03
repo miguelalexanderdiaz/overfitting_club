@@ -1,7 +1,7 @@
 ---
 title: "Class-Conditional VAE"
 subtitle: "Teaching the Decoder What to Generate — Conditioning a VAE on Class Labels"
-author: "Miguel Diaz"
+author: "Miguel Chitiva Diaz"
 date: "2026-03-29"
 categories: [deep-learning, vae, generative-models, pytorch]
 image: assets/cvae_thumbnail.svg
@@ -20,6 +20,8 @@ format:
 bibliography: references.bib
 jupyter: python3
 ---
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.ipynb)
 
 This is a companion to our
 [Autoencoder Architecture](../autoencoder/autoencoder.qmd) tutorial.
