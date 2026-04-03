@@ -1,0 +1,18 @@
+[project]
+name = "class_conditional_vae"
+version = "0.1.0"
+description = "Teaching the Decoder What to Generate — Conditioning a VAE on Class Labels"
+requires-python = ">=3.12"
+dependencies = [
+    "ipywidgets>=8.1.8",
+    "jupyter>=1.1.1",
+    "oc-render",
+    "plotly>=6.5.2",
+    "rich>=14.3.3",
+    "scikit-learn>=1.6.1",
+    "torch>=2.5.0",
+    "torchvision>=0.20.0",
+]
+
+[tool.uv.sources]
+oc-render = { path = "../../../../../oc-render", editable = true }

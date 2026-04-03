@@ -1,0 +1,249 @@
+```{=html}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 370"
+     style="max-width:1200px;width:100%;height:auto;display:block;margin:1.5em auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      @keyframes pulseGlow {
+        0%, 100% { filter: drop-shadow(0 0 0px transparent); }
+        50% { filter: drop-shadow(0 0 6px rgba(99,102,241,0.3)); }
+      }
+      .sc-title { font-size:15px; font-weight:700; fill:#334155; text-anchor:middle; }
+      .sc-label { font-size:12px; fill:#475569; text-anchor:middle; font-weight:600; }
+      .sc-dim { font-size:10px; fill:#64748b; text-anchor:middle; }
+      .sc-axis { font-size:9px; fill:#94a3b8; text-anchor:middle; font-style:italic; }
+      .sc-note { font-size:10px; fill:#64748b; text-anchor:middle; }
+      .sc-op { font-size:14px; fill:#334155; text-anchor:middle; font-weight:700; }
+      .sc-conv { font-size:10px; fill:#475569; text-anchor:middle; font-weight:600; }
+      .sc-result { animation: pulseGlow 2.5s ease-in-out infinite; }
+    </style>
+    <marker id="sce-arr" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0,0 7,2.5 0,5" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="368" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="600" y="28" class="sc-title">Encoder — Spatial Concat Before µ/σ Projection</text>
+
+  <!-- ======= Feature map h (128×7×7) ======= -->
+  <g transform="translate(135, 210)">
+    <!-- Left face (W×H) — indigo -->
+    <polygon points="0,0 -63,-31.5 -63,-94.5 0,-63" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.2" opacity="0.5"/>
+    <line x1="0" y1="-9" x2="-63" y2="-40.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="-63" y2="-49.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="-63" y2="-58.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="-63" y2="-67.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="-63" y2="-76.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="-63" y2="-85.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-9" y1="-4.5" x2="-9" y2="-67.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-18" y1="-9" x2="-18" y2="-72" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-27" y1="-13.5" x2="-27" y2="-76.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-36" y1="-18" x2="-36" y2="-81" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-45" y1="-22.5" x2="-45" y2="-85.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-54" y1="-27" x2="-54" y2="-90" stroke="#a5b4fc" stroke-width="0.3"/>
+
+    <!-- Top face (W×C) — indigo, thick (60px along C) -->
+    <polygon points="0,-63 -63,-94.5 -3,-124.5 60,-93" fill="#e0e7ff" stroke="#6366f1" stroke-width="1.2"/>
+
+    <!-- Front face (C×H) — indigo, thick -->
+    <polygon points="0,0 60,-30 60,-93 0,-63" fill="#eef2ff" stroke="#6366f1" stroke-width="1.2"/>
+    <line x1="0" y1="-9" x2="60" y2="-39" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="60" y2="-48" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="60" y2="-57" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="60" y2="-66" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="60" y2="-75" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="60" y2="-84" stroke="#a5b4fc" stroke-width="0.3"/>
+
+    <!-- Axis labels -->
+    <text x="-30" y="-82" class="sc-axis">H</text>
+    <text x="-72" y="-32" class="sc-axis">W</text>
+    <text x="66" y="-2" class="sc-axis">C = 128</text>
+
+    <!-- Label -->
+    <text x="0" y="28" class="sc-label" fill="#4338ca">feature map h</text>
+    <text x="0" y="41" class="sc-dim">(128 × 7 × 7)</text>
+  </g>
+
+  <!-- ======= class map y (1×7×7) ======= -->
+  <g transform="translate(310, 210)">
+    <!-- Left face (W×H) — rose -->
+    <polygon points="0,0 -63,-31.5 -63,-94.5 0,-63" fill="#fecdd3" stroke="#f43f5e" stroke-width="1.2" opacity="0.5"/>
+    <line x1="0" y1="-9" x2="-63" y2="-40.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="-63" y2="-49.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="-63" y2="-58.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="-63" y2="-67.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="-63" y2="-76.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="-63" y2="-85.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-9" y1="-4.5" x2="-9" y2="-67.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-18" y1="-9" x2="-18" y2="-72" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-27" y1="-13.5" x2="-27" y2="-76.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-36" y1="-18" x2="-36" y2="-81" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-45" y1="-22.5" x2="-45" y2="-85.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="-54" y1="-27" x2="-54" y2="-90" stroke="#fda4af" stroke-width="0.3"/>
+
+    <!-- Top face (W×C) — rose, thin -->
+    <polygon points="0,-63 -63,-94.5 -48,-102 15,-70.5" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1.2"/>
+
+    <!-- Front face (C×H) — rose, thin -->
+    <polygon points="0,0 15,-7.5 15,-70.5 0,-63" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1.2"/>
+    <line x1="0" y1="-9" x2="15" y2="-16.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="15" y2="-25.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="15" y2="-34.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="15" y2="-43.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="15" y2="-52.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="15" y2="-61.5" stroke="#fda4af" stroke-width="0.3"/>
+
+    <!-- Axis label -->
+    <text x="20" y="10" class="sc-axis">C = 1</text>
+
+    <!-- Label -->
+    <text x="-15" y="28" class="sc-label" fill="#be123c">class map y</text>
+    <text x="-15" y="41" class="sc-dim">(1 × 7 × 7)</text>
+  </g>
+
+  <!-- ======= Concat operator ======= -->
+  <line x1="340" y1="180" x2="395" y2="180" stroke="#94a3b8" stroke-width="2" marker-end="url(#sce-arr)"/>
+  <circle cx="420" cy="180" r="22" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+  <text x="420" y="187" class="sc-op" font-size="18">+</text>
+  <line x1="444" y1="180" x2="500" y2="180" stroke="#94a3b8" stroke-width="2" marker-end="url(#sce-arr)"/>
+
+  <!-- ======= Combined [h; y] (129×7×7) ======= -->
+  <g transform="translate(575, 220)">
+
+    <!-- Left face (W×H) — indigo -->
+    <polygon points="0,0 -63,-31.5 -63,-94.5 0,-63" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.2" opacity="0.5"/>
+    <line x1="0" y1="-9" x2="-63" y2="-40.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="-63" y2="-49.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="-63" y2="-58.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="-63" y2="-67.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="-63" y2="-76.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="-63" y2="-85.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-9" y1="-4.5" x2="-9" y2="-67.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-18" y1="-9" x2="-18" y2="-72" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-27" y1="-13.5" x2="-27" y2="-76.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-36" y1="-18" x2="-36" y2="-81" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-45" y1="-22.5" x2="-45" y2="-85.5" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="-54" y1="-27" x2="-54" y2="-90" stroke="#a5b4fc" stroke-width="0.3"/>
+
+    <!-- Top face (W×C=129) — two-tone -->
+    <polygon points="0,-63 -63,-94.5 -3,-124.5 60,-93" fill="#e0e7ff" stroke="#6366f1" stroke-width="1"/>
+    <polygon points="60,-93 -3,-124.5 12,-132 75,-100.5" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1"/>
+    <line x1="60" y1="-93" x2="-3" y2="-124.5" stroke="#94a3b8" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+    <!-- Front face (C×H) — two strips -->
+    <polygon points="0,0 60,-30 60,-93 0,-63" fill="#eef2ff" stroke="#6366f1" stroke-width="1"/>
+    <line x1="0" y1="-9" x2="60" y2="-39" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-18" x2="60" y2="-48" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-27" x2="60" y2="-57" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-36" x2="60" y2="-66" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-45" x2="60" y2="-75" stroke="#a5b4fc" stroke-width="0.3"/>
+    <line x1="0" y1="-54" x2="60" y2="-84" stroke="#a5b4fc" stroke-width="0.3"/>
+    <polygon points="60,-30 75,-37.5 75,-100.5 60,-93" fill="#ffe4e6" stroke="#f43f5e" stroke-width="1.2"/>
+    <line x1="60" y1="-39" x2="75" y2="-46.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-48" x2="75" y2="-55.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-57" x2="75" y2="-64.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-66" x2="75" y2="-73.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-75" x2="75" y2="-82.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-84" x2="75" y2="-91.5" stroke="#fda4af" stroke-width="0.3"/>
+    <line x1="60" y1="-30" x2="60" y2="-93" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,2"/>
+
+    <!-- Channel annotations -->
+    <text x="30" y="-58" class="sc-axis" font-size="9" fill="#4338ca">h</text>
+    <text x="67" y="-62" class="sc-axis" font-size="9" fill="#f43f5e">y</text>
+
+    <!-- Label -->
+    <text x="10" y="28" class="sc-label" fill="#475569">[h ; y]</text>
+    <text x="10" y="41" class="sc-dim">(129 × 7 × 7)</text>
+  </g>
+
+  <!-- ======= Arrow to conv_out ======= -->
+  <line x1="665" y1="180" x2="725" y2="180" stroke="#94a3b8" stroke-width="2" marker-end="url(#sce-arr)"/>
+
+  <!-- ======= conv_out box ======= -->
+  <rect x="733" y="163" width="70" height="34" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="768" y="177" class="sc-conv">conv 1×1</text>
+  <text x="768" y="190" class="sc-axis" font-size="8">129 → 2</text>
+
+  <!-- ======= Arrow from conv_out ======= -->
+  <line x1="805" y1="180" x2="845" y2="180" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- ======= µ tensor (1×7×7) ======= -->
+  <g transform="translate(930, 165)" class="sc-result">
+    <!-- Left face (W×H) — emerald -->
+    <polygon points="0,0 -45,-22.5 -45,-67.5 0,-45" fill="#a7f3d0" stroke="#10b981" stroke-width="1.2" opacity="0.5"/>
+    <line x1="0" y1="-6.4" x2="-45" y2="-28.9" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-12.9" x2="-45" y2="-35.4" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-19.3" x2="-45" y2="-41.8" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-25.7" x2="-45" y2="-48.2" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-32.1" x2="-45" y2="-54.6" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-38.6" x2="-45" y2="-61.1" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-6.4" y1="-3.2" x2="-6.4" y2="-48.2" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-12.9" y1="-6.4" x2="-12.9" y2="-51.4" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-19.3" y1="-9.6" x2="-19.3" y2="-54.6" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-25.7" y1="-12.9" x2="-25.7" y2="-57.9" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-32.1" y1="-16.1" x2="-32.1" y2="-61.1" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="-38.6" y1="-19.3" x2="-38.6" y2="-64.3" stroke="#6ee7b7" stroke-width="0.3"/>
+
+    <!-- Top face (W×C) — thin -->
+    <polygon points="0,-45 -45,-67.5 -34,-73.0 11,-50.5" fill="#d1fae5" stroke="#10b981" stroke-width="1.2"/>
+
+    <!-- Front face (C×H) — thin -->
+    <polygon points="0,0 11,-5.5 11,-50.5 0,-45" fill="#ecfdf5" stroke="#10b981" stroke-width="1.2"/>
+    <line x1="0" y1="-6.4" x2="11" y2="-11.9" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-12.9" x2="11" y2="-18.4" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-19.3" x2="11" y2="-24.8" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-25.7" x2="11" y2="-31.2" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-32.1" x2="11" y2="-37.6" stroke="#6ee7b7" stroke-width="0.3"/>
+    <line x1="0" y1="-38.6" x2="11" y2="-44.1" stroke="#6ee7b7" stroke-width="0.3"/>
+
+    <!-- Label -->
+    <text x="-10" y="18" class="sc-label" fill="#059669">µ</text>
+    <text x="-10" y="31" class="sc-dim">(1 × 7 × 7)</text>
+  </g>
+
+  <!-- ======= log σ² tensor (1×7×7) ======= -->
+  <g transform="translate(930, 275)" class="sc-result">
+    <!-- Left face (W×H) — violet -->
+    <polygon points="0,0 -45,-22.5 -45,-67.5 0,-45" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.2" opacity="0.5"/>
+    <line x1="0" y1="-6.4" x2="-45" y2="-28.9" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-12.9" x2="-45" y2="-35.4" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-19.3" x2="-45" y2="-41.8" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-25.7" x2="-45" y2="-48.2" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-32.1" x2="-45" y2="-54.6" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-38.6" x2="-45" y2="-61.1" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-6.4" y1="-3.2" x2="-6.4" y2="-48.2" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-12.9" y1="-6.4" x2="-12.9" y2="-51.4" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-19.3" y1="-9.6" x2="-19.3" y2="-54.6" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-25.7" y1="-12.9" x2="-25.7" y2="-57.9" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-32.1" y1="-16.1" x2="-32.1" y2="-61.1" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="-38.6" y1="-19.3" x2="-38.6" y2="-64.3" stroke="#a78bfa" stroke-width="0.3"/>
+
+    <!-- Top face (W×C) — thin -->
+    <polygon points="0,-45 -45,-67.5 -34,-73.0 11,-50.5" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.2"/>
+
+    <!-- Front face (C×H) — thin -->
+    <polygon points="0,0 11,-5.5 11,-50.5 0,-45" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2"/>
+    <line x1="0" y1="-6.4" x2="11" y2="-11.9" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-12.9" x2="11" y2="-18.4" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-19.3" x2="11" y2="-24.8" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-25.7" x2="11" y2="-31.2" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-32.1" x2="11" y2="-37.6" stroke="#a78bfa" stroke-width="0.3"/>
+    <line x1="0" y1="-38.6" x2="11" y2="-44.1" stroke="#a78bfa" stroke-width="0.3"/>
+
+    <!-- Label -->
+    <text x="-10" y="18" class="sc-label" fill="#7c3aed">log σ²</text>
+    <text x="-10" y="31" class="sc-dim">(1 × 7 × 7)</text>
+  </g>
+
+  <!-- ======= Forking arrows from conv_out to µ and log σ² ======= -->
+  <!-- Vertical spine -->
+  <line x1="845" y1="142" x2="845" y2="252" stroke="#94a3b8" stroke-width="2"/>
+  <!-- Branch up to µ — left face back corner is at (885, 142.5) -->
+  <line x1="845" y1="142" x2="878" y2="142" stroke="#94a3b8" stroke-width="2" marker-end="url(#sce-arr)"/>
+  <!-- Branch down to log σ² — left face back corner is at (885, 252.5) -->
+  <line x1="845" y1="252" x2="878" y2="252" stroke="#94a3b8" stroke-width="2" marker-end="url(#sce-arr)"/>
+
+  <!-- Bottom note -->
+  <text x="600" y="340" class="sc-note">The encoder concatenates the class map, then a 1×1 conv projects to 2 channels — split into µ and log σ² spatial maps</text>
+
+</svg>
+```

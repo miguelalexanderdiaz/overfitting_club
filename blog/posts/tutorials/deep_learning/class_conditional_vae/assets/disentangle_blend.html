@@ -1,0 +1,129 @@
+```{=html}
+<div style="margin:1.5rem 0;">
+<svg viewBox="0 0 560 210" xmlns="http://www.w3.org/2000/svg"
+     style="width:100%;max-width:560px;display:block;margin:auto;font-family:'Segoe UI',system-ui,sans-serif;">
+  <defs>
+    <style>
+      @keyframes sliderMove {
+        0%, 5%    { transform: translateX(0px); }
+        20%, 25%  { transform: translateX(22px); }
+        40%, 45%  { transform: translateX(44px); }
+        60%, 65%  { transform: translateX(66px); }
+        80%, 85%  { transform: translateX(88px); }
+        95%, 100% { transform: translateX(0px); }
+      }
+      @keyframes alphaT1 { 0%, 5%   { opacity: 1; } 5.1%, 100%  { opacity: 0; } }
+      @keyframes alphaT2 { 0%, 20%  { opacity: 0; } 20.1%, 25%  { opacity: 1; } 25.1%, 100% { opacity: 0; } }
+      @keyframes alphaT3 { 0%, 40%  { opacity: 0; } 40.1%, 45%  { opacity: 1; } 45.1%, 100% { opacity: 0; } }
+      @keyframes alphaT4 { 0%, 60%  { opacity: 0; } 60.1%, 65%  { opacity: 1; } 65.1%, 100% { opacity: 0; } }
+      @keyframes alphaT5 { 0%, 80%  { opacity: 0; } 80.1%, 85%  { opacity: 1; } 85.1%, 100% { opacity: 0; } }
+      @keyframes blendMorph {
+        0%, 5%    { d: path("M22,20 L58,20 L60,50 L55,70 L25,70 L20,50 Z"); }
+        20%, 25%  { d: path("M22,18 L58,18 L62,52 L55,72 L25,72 L18,52 Z"); }
+        40%, 45%  { d: path("M24,15 L56,15 L62,55 L54,75 L26,75 L18,55 Z"); }
+        60%, 65%  { d: path("M25,12 L55,12 L60,58 L52,78 L28,78 L20,58 Z"); }
+        80%, 85%  { d: path("M26,10 L54,10 L58,60 L50,80 L30,80 L22,60 Z"); }
+        95%, 100% { d: path("M22,20 L58,20 L60,50 L55,70 L25,70 L20,50 Z"); }
+      }
+      @keyframes blendColor {
+        0%, 5%    { fill: #fecdd3; stroke: #f43f5e; }
+        20%, 25%  { fill: #f5d0fe; stroke: #d946ef; }
+        40%, 45%  { fill: #e9d5ff; stroke: #a855f7; }
+        60%, 65%  { fill: #ddd6fe; stroke: #8b5cf6; }
+        80%, 85%  { fill: #c4b5fd; stroke: #7c3aed; }
+        95%, 100% { fill: #fecdd3; stroke: #f43f5e; }
+      }
+      @keyframes fillBar {
+        0%, 5%    { width: 0px; }
+        20%, 25%  { width: 22px; }
+        40%, 45%  { width: 44px; }
+        60%, 65%  { width: 66px; }
+        80%, 85%  { width: 88px; }
+        95%, 100% { width: 0px; }
+      }
+      @keyframes lockPulse3 {
+        0%, 100% { opacity: 0.6; } 50% { opacity: 1; }
+      }
+    </style>
+    <marker id="db-arr" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+      <polygon points="0,0 6,2 0,4" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <rect width="560" height="210" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+
+  <text x="280" y="22" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">
+    Class Blending — Interpolate Embeddings
+  </text>
+
+  <!-- ── z block (FIXED) ── -->
+  <g transform="translate(55, 65)">
+    <rect x="-35" y="-18" width="70" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.8"/>
+    <text x="0" y="2" font-size="14" fill="#92400e" text-anchor="middle" font-weight="700"
+          font-family="Georgia,serif" font-style="italic">z</text>
+    <text x="0" y="15" font-size="7" fill="#92400e" text-anchor="middle">fixed</text>
+    <g transform="translate(24, -14)" style="animation: lockPulse3 2s ease-in-out infinite;">
+      <rect x="0" y="4" width="8" height="7" rx="1.5" fill="#92400e"/>
+      <path d="M1.5,4 L1.5,1.5 A2.5,2.5 0 0 1 6.5,1.5 L6.5,4" fill="none" stroke="#92400e" stroke-width="1.2" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- ── Blending section ── -->
+  <!-- Class A -->
+  <rect x="20" y="115" width="62" height="28" rx="5" fill="#fecdd3" stroke="#f43f5e" stroke-width="1.2"/>
+  <text x="51" y="133" font-size="9" fill="#be123c" text-anchor="middle" font-weight="600">Sneaker</text>
+
+  <!-- Slider track -->
+  <rect x="90" y="124" width="88" height="10" rx="5" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.8"/>
+  <!-- Fill bar -->
+  <rect x="90" y="124" height="10" rx="5" fill="#c4b5fd"
+        style="animation: fillBar 10s step-end infinite;"/>
+  <!-- Slider knob -->
+  <circle cx="90" cy="129" r="7" fill="#fff" stroke="#8b5cf6" stroke-width="2"
+          style="animation: sliderMove 10s step-end infinite;"/>
+
+  <!-- Class B -->
+  <rect x="186" y="115" width="72" height="28" rx="5" fill="#c4b5fd" stroke="#7c3aed" stroke-width="1.2"/>
+  <text x="222" y="133" font-size="9" fill="#5b21b6" text-anchor="middle" font-weight="600">Ankle boot</text>
+
+  <!-- Alpha labels -->
+  <text x="134" y="152" font-size="9" fill="#64748b" text-anchor="middle" font-style="italic">α</text>
+  <text x="134" y="164" font-size="9" fill="#8b5cf6" text-anchor="middle" font-weight="600"
+        style="animation: alphaT1 10s step-end infinite;">0%</text>
+  <text x="134" y="164" font-size="9" fill="#8b5cf6" text-anchor="middle" font-weight="600"
+        style="animation: alphaT2 10s step-end infinite;">25%</text>
+  <text x="134" y="164" font-size="9" fill="#8b5cf6" text-anchor="middle" font-weight="600"
+        style="animation: alphaT3 10s step-end infinite;">50%</text>
+  <text x="134" y="164" font-size="9" fill="#8b5cf6" text-anchor="middle" font-weight="600"
+        style="animation: alphaT4 10s step-end infinite;">75%</text>
+  <text x="134" y="164" font-size="9" fill="#8b5cf6" text-anchor="middle" font-weight="600"
+        style="animation: alphaT5 10s step-end infinite;">100%</text>
+
+  <!-- blend label -->
+  <text x="134" y="180" font-size="8" fill="#64748b" text-anchor="middle">
+    c = (1-α)·c_A + α·c_B
+  </text>
+
+  <!-- Arrows into decoder -->
+  <line x1="96" y1="73" x2="280" y2="95" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#db-arr)"/>
+  <line x1="260" y1="129" x2="280" y2="115" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#db-arr)"/>
+
+  <!-- Decoder box -->
+  <rect x="288" y="85" width="80" height="40" rx="6" fill="#c7d2fe" stroke="#818cf8" stroke-width="1.5"/>
+  <text x="328" y="109" font-size="11" fill="#3730a3" text-anchor="middle" font-weight="600">Decoder</text>
+
+  <!-- Arrow to output -->
+  <line x1="372" y1="105" x2="410" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#db-arr)"/>
+
+  <!-- Output -->
+  <g transform="translate(415, 55)">
+    <rect x="0" y="0" width="80" height="100" rx="6" fill="none" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,2"/>
+    <path d="M22,20 L58,20 L60,50 L55,70 L25,70 L20,50 Z"
+          style="animation: blendMorph 10s step-end infinite, blendColor 10s step-end infinite;"
+          stroke-width="2"/>
+    <text x="40" y="115" font-size="9" fill="#64748b" text-anchor="middle">hybrid</text>
+  </g>
+
+</svg>
+</div>
+```

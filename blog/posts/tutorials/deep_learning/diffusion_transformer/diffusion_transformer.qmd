@@ -27,15 +27,20 @@ that progressively assemble the full generative pipeline.
    reconstruct them back. This separates "what the image looks like" from
    "how to generate it".
 
-3. **The Diffusion Paradigm** — Forward noising process, noise schedules
+3. [**Class-Conditional VAE**](../class_conditional_vae/class_conditional_vae.qmd) —
+   Conditioning a VAE on class labels so the decoder knows *what* to generate
+   while the latent code encodes *how*. Implements spatial concatenation and
+   adaLN conditioning — the same mechanism used by DiT.
+
+4. **The Diffusion Paradigm** — Forward noising process, noise schedules
    (linear and cosine), the reparameterization trick, and DDPM reverse
    sampling. How we turn the generation problem into a denoising problem.
 
-4. **ViT: Vision Transformer** — Patch embedding, positional encoding, and
+5. **ViT: Vision Transformer** — Patch embedding, positional encoding, and
    the full Vision Transformer. Adapting the transformer architecture to
    operate on images by treating them as sequences of patches.
 
-5. **DiT: Diffusion Transformer** *(current entry)* — Adaptive Layer Norm
+6. **DiT: Diffusion Transformer** *(current entry)* — Adaptive Layer Norm
    (adaLN), timestep and label conditioning, DiT blocks, and the complete
    latent-space denoising network. Putting it all together to generate
    FashionMNIST images.

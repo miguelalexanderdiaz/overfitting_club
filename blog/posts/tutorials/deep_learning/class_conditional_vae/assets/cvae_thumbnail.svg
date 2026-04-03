@@ -1,0 +1,283 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380"
+     style="font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4fa;">
+  <defs>
+    <radialGradient id="ring-grad" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#f1f5f9"/>
+      <stop offset="70%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </radialGradient>
+    <radialGradient id="face-grad" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </radialGradient>
+    <linearGradient id="rose-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fb7185"/>
+      <stop offset="100%" stop-color="#e11d48"/>
+    </linearGradient>
+    <linearGradient id="center-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#4338ca"/>
+    </linearGradient>
+    <filter id="dial-shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#334155" flood-opacity="0.18"/>
+    </filter>
+    <filter id="cell-shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arr" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="7" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+
+    <style>
+      /* Pointer rotation — clockwise through 5 classes (15s cycle) */
+      /* Sneaker=0° → Dress=45° → Bag=180° → Boot=225° → T-shirt=270° → 360° */
+      @keyframes cvRotate {
+        0%, 16%   { transform: rotate(0deg); }
+        20%, 36%  { transform: rotate(45deg); }
+        40%, 56%  { transform: rotate(180deg); }
+        60%, 76%  { transform: rotate(225deg); }
+        80%, 96%  { transform: rotate(270deg); }
+        100%      { transform: rotate(360deg); }
+      }
+      /* Frame visibility (step-end): f1=0-20%, f2=20-40%, f3=40-60%, f4=60-80%, f5=80-100% */
+      @keyframes cvF1 { 0%  { opacity:1; } 20% { opacity:0; } }
+      @keyframes cvF2 { 0%  { opacity:0; } 20% { opacity:1; } 40% { opacity:0; } }
+      @keyframes cvF3 { 0%  { opacity:0; } 40% { opacity:1; } 60% { opacity:0; } }
+      @keyframes cvF4 { 0%  { opacity:0; } 60% { opacity:1; } 80% { opacity:0; } }
+      @keyframes cvF5 { 0%  { opacity:0; } 80% { opacity:1; } }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="380" rx="12" fill="#f0f4fa"/>
+
+  <!-- ===== ROTARY DIAL ===== -->
+  <g filter="url(#dial-shadow)">
+    <circle cx="230" cy="195" r="118" fill="url(#ring-grad)" stroke="#64748b" stroke-width="2"/>
+    <circle cx="230" cy="195" r="100" fill="url(#face-grad)" stroke="#cbd5e1" stroke-width="1"/>
+  </g>
+
+  <!-- Tick marks (subtle, between holes) -->
+  <g stroke="#cbd5e1" stroke-width="1" opacity="0.4">
+    <line x1="230" y1="97" x2="230" y2="107"/>
+    <line x1="299" y1="111" x2="293" y2="119"/>
+    <line x1="330" y1="195" x2="320" y2="195"/>
+    <line x1="299" y1="279" x2="293" y2="271"/>
+    <line x1="230" y1="293" x2="230" y2="283"/>
+    <line x1="161" y1="279" x2="167" y2="271"/>
+    <line x1="130" y1="195" x2="140" y2="195"/>
+    <line x1="161" y1="111" x2="167" y2="119"/>
+  </g>
+
+  <!-- ===== BASE HOLES (all 8, always faded) ===== -->
+  <!-- 0: T-shirt (270°/top) -->
+  <g opacity="0.35">
+    <circle cx="230" cy="115" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="230" y="118" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">T-shirt</text>
+  </g>
+  <!-- 1: Trouser (315°/upper-right) -->
+  <g opacity="0.35">
+    <circle cx="287" cy="138" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="287" y="141" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Trouser</text>
+  </g>
+  <!-- 2: Sneaker (0°/right) -->
+  <g opacity="0.35">
+    <circle cx="310" cy="195" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="310" y="198" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Sneaker</text>
+  </g>
+  <!-- 3: Dress (45°/lower-right) -->
+  <g opacity="0.35">
+    <circle cx="287" cy="252" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="287" y="255" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Dress</text>
+  </g>
+  <!-- 4: Coat (90°/bottom) -->
+  <g opacity="0.35">
+    <circle cx="230" cy="275" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="230" y="278" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Coat</text>
+  </g>
+  <!-- 5: Sandal (135°/lower-left) -->
+  <g opacity="0.35">
+    <circle cx="173" cy="252" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="173" y="255" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Sandal</text>
+  </g>
+  <!-- 6: Bag (180°/left) -->
+  <g opacity="0.35">
+    <circle cx="150" cy="195" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="150" y="198" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Bag</text>
+  </g>
+  <!-- 7: Boot (225°/upper-left) -->
+  <g opacity="0.35">
+    <circle cx="173" cy="138" r="19" fill="white" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="173" y="141" text-anchor="middle" font-size="9" fill="#94a3b8" font-weight="500">Boot</text>
+  </g>
+
+  <!-- ===== ANIMATED POINTER ARM (rotates around dial center) ===== -->
+  <g transform="translate(230, 195)">
+    <g style="animation: cvRotate 15s linear infinite;">
+      <line x1="20" y1="0" x2="62" y2="0" stroke="#e11d48" stroke-width="3.5" stroke-linecap="round" opacity="0.85"/>
+      <circle cx="66" cy="0" r="4.5" fill="#e11d48" opacity="0.85"/>
+    </g>
+  </g>
+
+  <!-- Center badge -->
+  <circle cx="230" cy="195" r="26" fill="url(#center-grad)"/>
+  <text x="230" y="199" text-anchor="middle" font-size="12" fill="white" font-weight="700">cVAE</text>
+
+  <!-- ===== HIGHLIGHT CIRCLES (rose, animated per frame) ===== -->
+  <!-- Sneaker highlight (frame 1) -->
+  <g style="animation: cvF1 15s step-end infinite;">
+    <circle cx="310" cy="195" r="21" fill="url(#rose-grad)" filter="url(#glow)"/>
+    <text x="310" y="198" text-anchor="middle" font-size="9" fill="white" font-weight="700">Sneaker</text>
+  </g>
+  <!-- Dress highlight (frame 2) -->
+  <g style="animation: cvF2 15s step-end infinite;">
+    <circle cx="287" cy="252" r="21" fill="url(#rose-grad)" filter="url(#glow)"/>
+    <text x="287" y="255" text-anchor="middle" font-size="9" fill="white" font-weight="700">Dress</text>
+  </g>
+  <!-- Bag highlight (frame 3) -->
+  <g style="animation: cvF3 15s step-end infinite;">
+    <circle cx="150" cy="195" r="21" fill="url(#rose-grad)" filter="url(#glow)"/>
+    <text x="150" y="198" text-anchor="middle" font-size="9" fill="white" font-weight="700">Bag</text>
+  </g>
+  <!-- Boot highlight (frame 4) -->
+  <g style="animation: cvF4 15s step-end infinite;">
+    <circle cx="173" cy="138" r="21" fill="url(#rose-grad)" filter="url(#glow)"/>
+    <text x="173" y="141" text-anchor="middle" font-size="9" fill="white" font-weight="700">Boot</text>
+  </g>
+  <!-- T-shirt highlight (frame 5) -->
+  <g style="animation: cvF5 15s step-end infinite;">
+    <circle cx="230" cy="115" r="21" fill="url(#rose-grad)" filter="url(#glow)"/>
+    <text x="230" y="118" text-anchor="middle" font-size="9" fill="white" font-weight="700">T-shirt</text>
+  </g>
+
+  <!-- ===== FAN ARROWS (static, from dial right edge to cells) ===== -->
+  <line x1="352" y1="178" x2="478" y2="80"  stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="352" y1="189" x2="548" y2="152" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="352" y1="201" x2="548" y2="232" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arr)"/>
+  <line x1="352" y1="212" x2="478" y2="296" stroke="#94a3b8" stroke-width="1.3" marker-end="url(#arr)"/>
+
+  <!-- ===== OUTPUT CELL BACKGROUNDS (static) ===== -->
+  <rect x="483" y="52" width="105" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2" filter="url(#cell-shadow)"/>
+  <rect x="553" y="125" width="105" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2" filter="url(#cell-shadow)"/>
+  <rect x="553" y="205" width="105" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2" filter="url(#cell-shadow)"/>
+  <rect x="483" y="270" width="105" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.2" filter="url(#cell-shadow)"/>
+
+  <!-- ===== FRAME 1: SNEAKER silhouettes ===== -->
+  <g style="animation: cvF1 15s step-end infinite;" fill="#3b82f6">
+    <g transform="translate(535,78)">
+      <path d="M-30,2 L-22,-6 L0,-8 L18,-6 L32,-3 L36,3 L34,11 L-30,11 L-34,6 Z" opacity="0.6"/>
+      <path d="M-30,11 L36,11 L36,15 L-32,15 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(605,152)">
+      <path d="M-28,-4 L-22,-14 L-5,-17 L10,-14 L25,-17 L30,-10 L33,0 L30,11 L-26,11 L-30,5 Z" opacity="0.6"/>
+      <path d="M-26,11 L33,11 L33,15 L-28,15 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(605,232)">
+      <path d="M-34,-2 L-28,-10 L-8,-13 L8,-9 L26,-11 L34,-5 L37,3 L37,9 L-32,9 L-36,4 Z" opacity="0.6"/>
+      <path d="M-32,9 L38,9 L39,15 L-34,15 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(535,296)">
+      <path d="M-24,-14 L-18,-24 L0,-26 L12,-21 L22,-24 L28,-17 L30,-2 L28,11 L-22,11 L-26,5 Z" opacity="0.6"/>
+      <path d="M-22,11 L30,11 L30,15 L-24,15 Z" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- ===== FRAME 2: DRESS silhouettes ===== -->
+  <g style="animation: cvF2 15s step-end infinite;" fill="#3b82f6">
+    <g transform="translate(535,80)">
+      <path d="M-6,-18 L6,-18 L5,-8 L14,8 L18,18 L-18,18 L-14,8 L-5,-8 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,152)">
+      <path d="M-6,-18 L6,-18 L8,-4 L8,10 L14,18 L-14,18 L-8,10 L-8,-4 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,232)">
+      <path d="M-6,-18 L6,-18 L4,-6 L18,10 L24,18 L-24,18 L-18,10 L-4,-6 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(535,298)">
+      <path d="M-8,-14 L8,-14 L6,-4 L12,8 L16,16 L-16,16 L-12,8 L-6,-4 Z" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- ===== FRAME 3: BAG silhouettes ===== -->
+  <g style="animation: cvF3 15s step-end infinite;" fill="#3b82f6">
+    <g transform="translate(535,82)">
+      <path d="M-18,-4 L18,-4 L16,16 L-16,16 Z" opacity="0.6"/>
+      <path d="M-10,-4 Q-10,-14 0,-14 Q10,-14 10,-4" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,154)">
+      <path d="M-24,-2 L24,-2 L22,16 L-22,16 Z" opacity="0.6"/>
+      <path d="M-14,-2 Q-14,-12 0,-12 Q14,-12 14,-2" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,234)">
+      <path d="M-14,-8 L14,-8 L12,16 L-12,16 Z" opacity="0.6"/>
+      <path d="M-8,-8 Q-8,-18 0,-18 Q8,-18 8,-8" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.6"/>
+    </g>
+    <g transform="translate(535,298)">
+      <path d="M-20,-6 L20,-6 L22,16 L-22,16 Z" opacity="0.6"/>
+      <path d="M-12,-6 Q-12,-16 0,-16 Q12,-16 12,-6" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- ===== FRAME 4: BOOT silhouettes ===== -->
+  <g style="animation: cvF4 15s step-end infinite;" fill="#3b82f6">
+    <g transform="translate(535,82)">
+      <path d="M-12,-8 L4,-8 L8,-4 L14,4 L18,12 L16,16 L-14,16 L-16,10 L-14,2 Z" opacity="0.6"/>
+      <path d="M-14,16 L18,16 L18,20 L-16,20 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(605,152)">
+      <path d="M-10,-20 L6,-20 L10,-12 L14,0 L18,12 L16,16 L-14,16 L-16,10 L-12,0 Z" opacity="0.6"/>
+      <path d="M-14,16 L18,16 L18,20 L-16,20 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(605,232)">
+      <path d="M-12,-12 L4,-12 L8,-6 L14,6 L18,14 L16,18 L-14,18 L-16,12 L-14,2 Z" opacity="0.6"/>
+      <path d="M-14,18 L18,18 L18,22 L-16,22 Z" opacity="0.35"/>
+    </g>
+    <g transform="translate(535,296)">
+      <path d="M-14,-16 L6,-16 L10,-8 L16,4 L20,14 L18,18 L-16,18 L-18,12 L-16,0 Z" opacity="0.6"/>
+      <path d="M-16,18 L20,18 L20,22 L-18,22 Z" opacity="0.35"/>
+    </g>
+  </g>
+
+  <!-- ===== FRAME 5: T-SHIRT silhouettes ===== -->
+  <g style="animation: cvF5 15s step-end infinite;" fill="#3b82f6">
+    <g transform="translate(535,82)">
+      <path d="M-20,-14 L-12,-14 L-6,-4 L6,-4 L12,-14 L20,-14 L24,-5 L15,1 L15,18 L-15,18 L-15,1 L-24,-5 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,154)">
+      <path d="M-24,-12 L-14,-12 L-8,-3 L8,-3 L14,-12 L24,-12 L28,-4 L18,3 L18,18 L-18,18 L-18,3 L-28,-4 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(605,234)">
+      <path d="M-16,-16 L-10,-16 L-4,-6 L4,-6 L10,-16 L16,-16 L18,-7 L12,-1 L12,18 L-12,18 L-12,-1 L-18,-7 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(535,298)">
+      <path d="M-22,-14 L-12,-14 L0,0 L12,-14 L22,-14 L26,-5 L16,1 L16,18 L-16,18 L-16,1 L-26,-5 Z" opacity="0.6"/>
+    </g>
+  </g>
+
+  <!-- ===== ANNOTATION (cycling class name) ===== -->
+  <path d="M672,80 Q685,190 672,300" fill="none" stroke="#cbd5e1" stroke-width="1.5"/>
+  <circle cx="685" cy="190" r="2.5" fill="#cbd5e1"/>
+
+  <!-- Cycling class name -->
+  <text x="730" y="180" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700"
+        style="animation: cvF1 15s step-end infinite;">Sneaker</text>
+  <text x="730" y="180" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700"
+        style="animation: cvF2 15s step-end infinite;">Dress</text>
+  <text x="730" y="180" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700"
+        style="animation: cvF3 15s step-end infinite;">Bag</text>
+  <text x="730" y="180" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700"
+        style="animation: cvF4 15s step-end infinite;">Boot</text>
+  <text x="730" y="180" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700"
+        style="animation: cvF5 15s step-end infinite;">T-shirt</text>
+
+  <text x="730" y="198" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">variations</text>
+
+  <!-- ===== CAPTION ===== -->
+  <text x="450" y="362" text-anchor="middle" fill="#64748b" font-size="12">
+    Class-Conditional VAE: tell it what to generate
+  </text>
+</svg>
