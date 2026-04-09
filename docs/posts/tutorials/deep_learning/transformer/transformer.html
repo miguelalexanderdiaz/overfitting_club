@@ -80,7 +80,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -126,6 +126,15 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script>
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+</script>
+<script type="module">import "https://cdn.plot.ly/plotly-3.4.0.min"</script>
+
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -820,7 +829,7 @@ Figure&nbsp;4: Self-attention intuition. The word “it” attends most strongly
 </div>
 <p>This is the core insight: <strong>self-attention lets each token gather information from the entire sequence</strong>, weighting nearby and distant tokens purely by relevance — not by distance. A word at position 1 can directly inform a word at position 7, with no information bottleneck.</p>
 <p>We will use this sentence as our running example throughout the post. But first, let’s see how raw text gets converted into something a model can actually work with.</p>
-<div id="2ea7e597" class="cell">
+<div id="68031eae" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Setup: imports and configuration</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
@@ -1299,7 +1308,7 @@ Figure&nbsp;6: The Transformer encoder architecture.
 </figure>
 </div>
 <p>Let’s implement this in PyTorch. We split the sentence into words, build a vocabulary mapping each unique token to an integer ID, and convert the full sequence into a tensor of IDs:</p>
-<div id="c43f0e17" class="cell">
+<div id="b79b4fd3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sentence <span class="op">=</span> <span class="st">"The animal didn't cross the street because it was too tired"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tokens <span class="op">=</span> sentence.split()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>vocab <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(<span class="bu">set</span>(tokens)))}</span>
@@ -1312,6 +1321,25 @@ Figure&nbsp;6: The Transformer encoder architecture.
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (tok, id_val) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(tokens, token_ids.tolist())):</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    t.add_row(<span class="bu">str</span>(i), tok, <span class="bu">str</span>(id_val))</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>console.<span class="bu">print</span>(t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">       Tokenization        </span>
+┏━━━━━━━━━━┳━━━━━━━━━┳━━━━┓
+┃<span style="font-weight: bold"> Position </span>┃<span style="font-weight: bold"> Token   </span>┃<span style="font-weight: bold"> ID </span>┃
+┡━━━━━━━━━━╇━━━━━━━━━╇━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080">    0     </span>│<span style="color: #800080; text-decoration-color: #800080"> The     </span>│<span style="color: #008000; text-decoration-color: #008000"> 0  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    1     </span>│<span style="color: #800080; text-decoration-color: #800080"> animal  </span>│<span style="color: #008000; text-decoration-color: #008000"> 1  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    2     </span>│<span style="color: #800080; text-decoration-color: #800080"> didn't  </span>│<span style="color: #008000; text-decoration-color: #008000"> 4  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    3     </span>│<span style="color: #800080; text-decoration-color: #800080"> cross   </span>│<span style="color: #008000; text-decoration-color: #008000"> 3  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    4     </span>│<span style="color: #800080; text-decoration-color: #800080"> the     </span>│<span style="color: #008000; text-decoration-color: #008000"> 7  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    5     </span>│<span style="color: #800080; text-decoration-color: #800080"> street  </span>│<span style="color: #008000; text-decoration-color: #008000"> 6  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    6     </span>│<span style="color: #800080; text-decoration-color: #800080"> because </span>│<span style="color: #008000; text-decoration-color: #008000"> 2  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    7     </span>│<span style="color: #800080; text-decoration-color: #800080"> it      </span>│<span style="color: #008000; text-decoration-color: #008000"> 5  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    8     </span>│<span style="color: #800080; text-decoration-color: #800080"> was     </span>│<span style="color: #008000; text-decoration-color: #008000"> 10 </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    9     </span>│<span style="color: #800080; text-decoration-color: #800080"> too     </span>│<span style="color: #008000; text-decoration-color: #008000"> 9  </span>│
+│<span style="color: #008080; text-decoration-color: #008080">    10    </span>│<span style="color: #800080; text-decoration-color: #800080"> tired   </span>│<span style="color: #008000; text-decoration-color: #008000"> 8  </span>│
+└──────────┴─────────┴────┘
+</pre>
+</div>
 </div>
 </section>
 <section id="embedding" class="level2" data-number="4">
@@ -1511,7 +1539,7 @@ Figure&nbsp;7: 2D projection of the embedding space showing semantic clusters.
 </div>
 <p>These vectors are <strong>learned</strong> during training. The model adjusts them so that tokens appearing in similar contexts drift towards similar regions of the embedding space.</p>
 <p>In PyTorch, <code>nn.Embedding</code> is exactly this lookup table — we pass in our token IDs and get back one dense vector per token:</p>
-<div id="cfdf154f" class="cell">
+<div id="b7e0ce08" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>embedding_layer <span class="op">=</span> nn.Embedding(num_embeddings<span class="op">=</span><span class="bu">len</span>(vocab), embedding_dim<span class="op">=</span>d_model)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>X_embed <span class="op">=</span> embedding_layer(token_ids)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1519,6 +1547,16 @@ Figure&nbsp;7: 2D projection of the embedding space showing semantic clusters.
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"token_ids"</span>, <span class="bu">tuple</span>(token_ids.shape), <span class="st">"[N] — integer IDs"</span>),</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"X_embed"</span>,   <span class="bu">tuple</span>(X_embed.shape),   <span class="st">"[N, d_model] — dense vectors"</span>),</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">                       Embedding                       </span>
+┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Tensor    </span>┃<span style="font-weight: bold"> Shape    </span>┃<span style="font-weight: bold"> Description                  </span>┃
+┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> token_ids </span>│<span style="color: #008000; text-decoration-color: #008000"> (11,)    </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N] — integer IDs            </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> X_embed   </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model] — dense vectors </span>│
+└───────────┴──────────┴──────────────────────────────┘
+</pre>
+</div>
 </div>
 </section>
 <section id="positional-encoding" class="level2" data-number="5">
@@ -1736,7 +1774,7 @@ Figure&nbsp;8: Sinusoidal positional encodings across different dimensions.
 </div>
 </div>
 <p>Here is the sinusoidal formula translated directly into PyTorch. We generate the full <span class="math inline">\(\text{PE}\)</span> matrix and add it element-wise to our embeddings:</p>
-<div id="799ed1c7" class="cell">
+<div id="67c3731e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sinusoidal_positional_encoding(seq_len: <span class="bu">int</span>, d_model: <span class="bu">int</span>) <span class="op">-&gt;</span> torch.Tensor:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    pe <span class="op">=</span> torch.zeros(seq_len, d_model)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    position <span class="op">=</span> torch.arange(seq_len, dtype<span class="op">=</span>torch.float32).unsqueeze(<span class="dv">1</span>)</span>
@@ -1755,6 +1793,17 @@ Figure&nbsp;8: Sinusoidal positional encodings across different dimensions.
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"PE"</span>,      <span class="bu">tuple</span>(PE.shape),      <span class="st">"[N, d_model] — sinusoidal positions"</span>),</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"X"</span>,       <span class="bu">tuple</span>(X.shape),       <span class="st">"[N, d_model] — embedding + position"</span>),</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">                    Positional Encoding                     </span>
+┏━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Tensor  </span>┃<span style="font-weight: bold"> Shape    </span>┃<span style="font-weight: bold"> Description                         </span>┃
+┡━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> X_embed </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model] — token embeddings     </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> PE      </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model] — sinusoidal positions </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> X       </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model] — embedding + position </span>│
+└─────────┴──────────┴─────────────────────────────────────┘
+</pre>
+</div>
 </div>
 </section>
 <section id="self-attention-in-detail-q-k-v" class="level2" data-number="6">
@@ -2349,7 +2398,7 @@ Figure&nbsp;12: Computing the final attention output as a weighted sum of value 
 </div>
 </div>
 <p>Let’s wire up the full self-attention pipeline in PyTorch — project into Q, K, V, compute scaled dot-product scores, apply softmax, and produce the weighted output:</p>
-<div id="445b3273" class="cell">
+<div id="d9980c86" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear projections</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>q_proj <span class="op">=</span> nn.Linear(d_model, d_model)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>k_proj <span class="op">=</span> nn.Linear(d_model, d_model)</span>
@@ -2375,6 +2424,25 @@ Figure&nbsp;12: Computing the final attention output as a weighted sum of value 
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f"Row 0 sums to [bold green]</span><span class="sc">{</span>weights[<span class="dv">0</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">.</span>item()<span class="sc">:.4f}</span><span class="ss">[/] — valid probability distribution"</span>,</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Softmax check"</span>,</span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">      Self-Attention Pipeline       </span>
+┏━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Step         </span>┃<span style="font-weight: bold"> Tensor </span>┃<span style="font-weight: bold"> Shape    </span>┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> Project      </span>│<span style="color: #800080; text-decoration-color: #800080"> Q      </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Project      </span>│<span style="color: #800080; text-decoration-color: #800080"> K      </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Project      </span>│<span style="color: #800080; text-decoration-color: #800080"> V      </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Dot product  </span>│<span style="color: #800080; text-decoration-color: #800080"> scores </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 11) </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Weighted sum </span>│<span style="color: #800080; text-decoration-color: #800080"> output </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32) </span>│
+└──────────────┴────────┴──────────┘
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">╭───────────────────────────────────────────────── Softmax check ─────────────────────────────────────────────────╮
+│ Row 0 sums to <span style="color: #008000; text-decoration-color: #008000; font-weight: bold">1.0000</span> — valid probability distribution                                                           │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</pre>
+</div>
 </div>
 </section>
 </section>
@@ -2894,7 +2962,7 @@ Figure&nbsp;14: Attention heatmap showing the weights between all pairs of token
 </div>
 </div>
 <p>We can visualize the full <span class="math inline">\(N \times N\)</span> weight matrix as a heatmap using Plotly:</p>
-<div id="5e5c8cf3" class="cell">
+<div id="6dea5792" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.imshow(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    weights.detach().numpy(),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>[<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(tokens)],</span>
@@ -2905,6 +2973,34 @@ Figure&nbsp;14: Attention heatmap showing the weights between all pairs of token
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(side<span class="op">=</span><span class="st">"top"</span>)</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.4.0.min.js" integrity="sha256-KEmPoupLpFyGMyGAiOsiNDbKDKAvxXAn/W+oQa0ZAfk=" crossorigin="anonymous"></script>                <div id="18ffea5e-78f3-4651-b6a6-2d6754e06cb2" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("18ffea5e-78f3-4651-b6a6-2d6754e06cb2")) {                    Plotly.newPlot(                        "18ffea5e-78f3-4651-b6a6-2d6754e06cb2",                        [{"coloraxis":"coloraxis","name":"0","x":["0:The","1:animal","2:didn't","3:cross","4:the","5:street","6:because","7:it","8:was","9:too","10:tired"],"y":["0:The","1:animal","2:didn't","3:cross","4:the","5:street","6:because","7:it","8:was","9:too","10:tired"],"z":{"dtype":"f4","bdata":"6+FyPQzY8z1VsXc+F0zNPZH\u002flT0+MpA9uvlAPc3tLT06ThQ+HkxcPVNAQz1Mc8A9XF+9PdeS+z3EdRM+8byTPYDNcj0lx8M9h2iwPS5Nqz37H4E9cO6xPcTFiD0Z+BQ+rSHbPX6eID4mc4U95ex2PWXQQD05gMs9kqviPWExUD0SVbk9lbq2PeT9mz2Wgww+s0XlPU\u002fmgT0r8JA9cAPePRDI0T1cJtE9OtSvPUG8Vj1M7K093cDFPTmJdT3DZdU9ULufPYJ+2T3sRaE91D4SPpvpwz0O8889tpxSPaEKmT0d4ps9VhNePhelBT7t6W49BTBxPV6ThD0CJJw9UUvhPf4NvD15CSs9wAxCPSUH8D2rTXg+3F4CPq2Caj3Fr4c97eCBPcMPGT3vf\u002fk98EKMPTv5UD1Pmpc9jENrPWT+ID5d+uU9Yy75PSJDhD2EW5s9CvnVPUV+dj2\u002frMg90hqYPeOJvz1CVOw9Un4wPlIQqj0eon49EVujPXZaVz3TPZs9zqUCPkM2cD35FqI9cUi+PeMvjD2dS7g95YDjPa9wsj2O8V09gma1PWbUDj6SaYY93DLZPf2lxT2knTM92GNuPSrhZT6PPMU912hFPaTfnj0AKYw98htZPa\u002fbFD7Q1eU9KyiUPQ==","shape":"11, 11"},"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"Key Token: %{x}\u003cbr\u003eQuery Token: %{y}\u003cbr\u003eWeight: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"scaleanchor":"y","constrain":"domain","title":{"text":"Key Token"},"side":"top"},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","constrain":"domain","title":{"text":"Query Token"}},"coloraxis":{"colorbar":{"title":{"text":"Weight"}},"colorscale":[[0.0,"rgb(252,251,253)"],[0.125,"rgb(239,237,245)"],[0.25,"rgb(218,218,235)"],[0.375,"rgb(188,189,220)"],[0.5,"rgb(158,154,200)"],[0.625,"rgb(128,125,186)"],[0.75,"rgb(106,81,163)"],[0.875,"rgb(84,39,143)"],[1.0,"rgb(63,0,125)"]]},"title":{"text":"Self-Attention Heatmap [N, N]"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('18ffea5e-78f3-4651-b6a6-2d6754e06cb2');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
 </div>
 </section>
 </section>
@@ -3425,7 +3521,7 @@ Figure&nbsp;17: Different attention heads specialize in capturing different ling
 </div>
 </div>
 <p>Here’s multi-head attention in practice. We reuse the same projection weights but reshape into <code>[num_heads, N, head_dim]</code> so each head operates on its own subspace, then concatenate and project back:</p>
-<div id="ec893fef" class="cell">
+<div id="d8dbb3d8" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>num_heads <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>head_dim <span class="op">=</span> d_model <span class="op">//</span> num_heads</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3462,6 +3558,46 @@ Figure&nbsp;17: Different attention heads specialize in capturing different ling
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>fig.update_layout(title<span class="op">=</span><span class="ss">f"Per-head attention for '</span><span class="sc">{</span>tokens[query_idx]<span class="sc">}</span><span class="ss">'"</span>, height<span class="op">=</span><span class="dv">300</span>)</span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">           Multi-Head Attention           </span>
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Step        </span>┃<span style="font-weight: bold"> Tensor     </span>┃<span style="font-weight: bold"> Shape       </span>┃
+┡━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> Split heads </span>│<span style="color: #800080; text-decoration-color: #800080"> Q per head </span>│<span style="color: #008000; text-decoration-color: #008000"> (4, 11, 8)  </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Attention   </span>│<span style="color: #800080; text-decoration-color: #800080"> scores     </span>│<span style="color: #008000; text-decoration-color: #008000"> (4, 11, 11) </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Concat      </span>│<span style="color: #800080; text-decoration-color: #800080"> out_concat </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32)    </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Output proj </span>│<span style="color: #800080; text-decoration-color: #800080"> out_final  </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32)    </span>│
+└─────────────┴────────────┴─────────────┘
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.4.0.min.js" integrity="sha256-KEmPoupLpFyGMyGAiOsiNDbKDKAvxXAn/W+oQa0ZAfk=" crossorigin="anonymous"></script>                <div id="85925dcc-b239-460f-bbe5-edffa9993855" class="plotly-graph-div" style="height:300px; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("85925dcc-b239-460f-bbe5-edffa9993855")) {                    Plotly.newPlot(                        "85925dcc-b239-460f-bbe5-edffa9993855",                        [{"showlegend":false,"x":["The","animal","didn't","cross","the","street","because","it","was","too","tired"],"y":{"dtype":"f4","bdata":"7CiHPax1jT2vejw9H0CBPQF8Oz6msaY9kHbwPDaCGD46OIc9hYUJPvbU5j0="},"type":"bar","xaxis":"x","yaxis":"y"},{"showlegend":false,"x":["The","animal","didn't","cross","the","street","because","it","was","too","tired"],"y":{"dtype":"f4","bdata":"qp8RPlGUlT1DphM+86WYPac0yz2A5qQ9ixcWPjAnWz3sork9U\u002fT0PBR8hj0="},"type":"bar","xaxis":"x2","yaxis":"y2"},{"showlegend":false,"x":["The","animal","didn't","cross","the","street","because","it","was","too","tired"],"y":{"dtype":"f4","bdata":"21JaPUPFEj3oJQM+XPoJPs5nwT0CvXQ9AKTaPeZ0DT5yq1E9yh4TPhSYXT0="},"type":"bar","xaxis":"x3","yaxis":"y3"},{"showlegend":false,"x":["The","animal","didn't","cross","the","street","because","it","was","too","tired"],"y":{"dtype":"f4","bdata":"WVmKPSmB5j2Fsjc+qkb7PST5WT02hoY96TuePfx9ej3oTpU9Ei\u002fSPSb+rT0="},"type":"bar","xaxis":"x4","yaxis":"y4"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,0.2125]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.2625,0.475]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"xaxis3":{"anchor":"y3","domain":[0.525,0.7375]},"yaxis3":{"anchor":"x3","domain":[0.0,1.0]},"xaxis4":{"anchor":"y4","domain":[0.7875,1.0]},"yaxis4":{"anchor":"x4","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Head 0","x":0.10625,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Head 1","x":0.36875,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Head 2","x":0.6312500000000001,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Head 3","x":0.89375,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"title":{"text":"Per-head attention for 'it'"},"height":300},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('85925dcc-b239-460f-bbe5-edffa9993855');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
 </div>
 </section>
 <section id="residual-connections-and-layer-normalization" class="level2" data-number="9">
@@ -3802,7 +3938,7 @@ Figure&nbsp;19: Layer normalization process. The feature distributions for diffe
 </div>
 </div>
 <p>The residual connection is just an addition, and <code>nn.LayerNorm</code> handles the normalization. Notice how the mean snaps to ~0 and std to ~1 after LayerNorm:</p>
-<div id="e6e10d00" class="cell">
+<div id="3e6e802f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ln <span class="op">=</span> nn.LayerNorm(d_model)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Residual connection: add MHA output back to input</span></span>
@@ -3821,6 +3957,16 @@ Figure&nbsp;19: Layer normalization process. The feature distributions for diffe
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>t.add_row(<span class="st">"Pre-LN"</span>, <span class="ss">f"</span><span class="sc">{</span>raw<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>raw<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>t.add_row(<span class="st">"Post-LN"</span>, <span class="ss">f"</span><span class="sc">{</span>normed<span class="sc">.</span>mean()<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>normed<span class="sc">.</span>std()<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>console.<span class="bu">print</span>(t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">   LayerNorm Effect on 'it'   </span>
+┏━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃<span style="font-weight: bold"> Stage   </span>┃<span style="font-weight: bold">    Mean </span>┃<span style="font-weight: bold">    Std </span>┃
+┡━━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> Pre-LN  </span>│<span style="color: #008000; text-decoration-color: #008000">  0.2239 </span>│<span style="color: #008000; text-decoration-color: #008000"> 1.2676 </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Post-LN </span>│<span style="color: #008000; text-decoration-color: #008000"> -0.0000 </span>│<span style="color: #008000; text-decoration-color: #008000"> 1.0160 </span>│
+└─────────┴─────────┴────────┘
+</pre>
+</div>
 </div>
 </section>
 </section>
@@ -3983,7 +4129,7 @@ Figure&nbsp;20: The Position-Wise Feed-Forward Network. The 512-dimensional inpu
 </div>
 <p>Two linear layers with GELU in between — the first expands to <span class="math inline">\(4 \times
 d_{\text{model}}\)</span>, the second compresses back:</p>
-<div id="ea585460" class="cell">
+<div id="83e725b0" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>hidden_dim <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> d_model</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>fc1 <span class="op">=</span> nn.Linear(d_model, hidden_dim)</span>
@@ -3998,6 +4144,17 @@ d_{\text{model}}\)</span>, the second compresses back:</p>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Hidden"</span>, <span class="bu">tuple</span>(hidden_states.shape), <span class="st">"[N, 4*d_model] — expanded"</span>),</span>
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Output"</span>, <span class="bu">tuple</span>(ffn_out.shape),       <span class="st">"[N, d_model] — compressed"</span>),</span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">               Feed-Forward Network               </span>
+┏━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Tensor </span>┃<span style="font-weight: bold"> Shape     </span>┃<span style="font-weight: bold"> Description               </span>┃
+┡━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> Input  </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32)  </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model]              </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Hidden </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 128) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, 4*d_model] — expanded </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Output </span>│<span style="color: #008000; text-decoration-color: #008000"> (11, 32)  </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [N, d_model] — compressed </span>│
+└────────┴───────────┴───────────────────────────┘
+</pre>
+</div>
 </div>
 </section>
 </section>
@@ -4125,7 +4282,7 @@ Figure&nbsp;21: The complete architecture of a single Transformer Encoder Block.
 </div>
 <p>By stacking these blocks, the model builds increasingly complex representations. The lower layers might learn basic syntax and local grammar, while the higher layers can resolve complex coreferences and understand deep semantic meaning.</p>
 <p>Finally, let’s wrap everything into clean <code>nn.Module</code> classes. The <code>TransformerEncoderBlock</code> chains attention → add &amp; norm → FFN → add &amp; norm, exactly mirroring the diagram above:</p>
-<div id="1199875e" class="cell">
+<div id="9fe2cccc" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MultiHeadAttention(nn.Module):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, embed_dim: <span class="bu">int</span>, num_heads: <span class="bu">int</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
@@ -4181,6 +4338,17 @@ Figure&nbsp;21: The complete architecture of a single Transformer Encoder Block.
 <span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Output"</span>,       <span class="bu">tuple</span>(final_output.shape),  <span class="st">"[Batch, N, d_model]"</span>),</span>
 <span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Attn weights"</span>, <span class="bu">tuple</span>(final_weights.shape), <span class="st">"[Batch, Heads, N, N]"</span>),</span>
 <span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-style: italic">                     Encoder Block                      </span>
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Tensor       </span>┃<span style="font-weight: bold"> Shape          </span>┃<span style="font-weight: bold"> Description          </span>┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┩
+│<span style="color: #008080; text-decoration-color: #008080"> Input        </span>│<span style="color: #008000; text-decoration-color: #008000"> (1, 11, 32)    </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [Batch, N, d_model]  </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Output       </span>│<span style="color: #008000; text-decoration-color: #008000"> (1, 11, 32)    </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [Batch, N, d_model]  </span>│
+│<span style="color: #008080; text-decoration-color: #008080"> Attn weights </span>│<span style="color: #008000; text-decoration-color: #008000"> (1, 4, 11, 11) </span>│<span style="color: #7f7f7f; text-decoration-color: #7f7f7f"> [Batch, Heads, N, N] </span>│
+└──────────────┴────────────────┴──────────────────────┘
+</pre>
+</div>
 </div>
 <section id="whats-next" class="level3" data-number="11.1">
 <h3 data-number="11.1" class="anchored" data-anchor-id="whats-next"><span class="header-section-number">11.1</span> What’s Next?</h3>
