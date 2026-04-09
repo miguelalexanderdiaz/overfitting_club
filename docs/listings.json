@@ -2,6 +2,7 @@
   {
     "listing": "/deep_learning.html",
     "items": [
+      "/posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html",
       "/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html",
       "/posts/tutorials/deep_learning/autoencoder/autoencoder.html",
       "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",
@@ -12,6 +13,7 @@
   {
     "listing": "/tutorials.html",
     "items": [
+      "/posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html",
       "/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html",
       "/posts/tutorials/deep_learning/autoencoder/autoencoder.html",
       "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",
@@ -30,6 +32,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html",
       "/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html",
       "/posts/tutorials/deep_learning/autoencoder/autoencoder.html",
       "/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html",

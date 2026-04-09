@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340"
+     style="font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4fa">
+  <defs>
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="3" seed="7"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.55" intercept="0.35"/>
+        <feFuncG type="linear" slope="0.55" intercept="0.38"/>
+        <feFuncB type="linear" slope="0.55" intercept="0.44"/>
+        <feFuncA type="linear" slope="0" intercept="1"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.10"/>
+    </filter>
+    <clipPath id="nClip">
+      <rect x="585" y="68" width="130" height="130" rx="10"/>
+    </clipPath>
+    <marker id="fwd" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0 0.5, 10 4, 0 7.5" fill="#94a3b8"/>
+    </marker>
+    <marker id="rev" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <polygon points="0 0.5, 10 4, 0 7.5" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <style>
+    .pulse { animation: p 2.5s ease-in-out infinite; }
+    @keyframes p { 0%,100%{opacity:.3} 50%{opacity:1} }
+  </style>
+
+  <!-- ══════════ LEFT: Three clean images (100×100 each) ══════════ -->
+
+  <!-- 1 · T-shirt (blue) at y=10 -->
+  <rect x="40" y="10" width="100" height="100" rx="10"
+        fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5" filter="url(#shadow)"/>
+  <path d="M78,28 L66,34 L50,28 L54,50 L66,44 L66,92 L114,92
+           L114,44 L126,50 L130,28 L118,34 L106,28 Z"
+        fill="#3b82f6" opacity="0.50"/>
+
+  <!-- 2 · Sneaker (pink) at y=118 -->
+  <rect x="40" y="118" width="100" height="100" rx="10"
+        fill="#fce7f3" stroke="#f9a8d4" stroke-width="1.5" filter="url(#shadow)"/>
+  <path d="M56,196 L56,178 C56,160 74,152 94,154 L120,157 L126,166
+           L126,188 L124,196 Z"
+        fill="#ec4899" opacity="0.50"/>
+  <line x1="54" y1="196" x2="128" y2="196" stroke="#ec4899"
+        stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- 3 · Bag (green) at y=226 -->
+  <rect x="40" y="226" width="100" height="100" rx="10"
+        fill="#d1fae5" stroke="#6ee7b7" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="58" y="262" width="64" height="40" rx="6"
+        fill="#10b981" opacity="0.50"/>
+  <path d="M72,262 Q90,240 108,262" fill="none"
+        stroke="#10b981" stroke-width="3" opacity="0.50"/>
+
+  <!-- ══════════ CURVED FORWARD ARROWS ══════════ -->
+
+  <!-- shirt → noise (gentle downward curve) -->
+  <path d="M148,60 C290,55 460,95 577,105"
+        fill="none" stroke="#94a3b8" stroke-width="2.2"
+        marker-end="url(#fwd)"/>
+
+  <!-- shoe → noise (nearly straight) -->
+  <path d="M148,168 C290,168 460,138 577,133"
+        fill="none" stroke="#94a3b8" stroke-width="2.2"
+        marker-end="url(#fwd)"/>
+
+  <!-- bag → noise (strong upward curve) -->
+  <path d="M148,276 C290,275 460,170 577,161"
+        fill="none" stroke="#94a3b8" stroke-width="2.2"
+        marker-end="url(#fwd)"/>
+
+  <!-- Label centred among the arrows -->
+  <text x="355" y="104" text-anchor="middle" font-size="14"
+        fill="#94a3b8" font-weight="500">add noise</text>
+  <text x="355" y="122" text-anchor="middle" font-size="11"
+        fill="#cbd5e1" font-style="italic">q(x_t | x₀)</text>
+
+  <!-- ══════════ RIGHT: Noisy image (130×130) ══════════ -->
+
+  <rect x="585" y="68" width="130" height="130" rx="10"
+        fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="585" y="68" width="130" height="130" rx="10"
+        filter="url(#grain)" clip-path="url(#nClip)" opacity="0.85"/>
+  <text x="650" y="220" text-anchor="middle" font-size="14" fill="#475569"
+        font-weight="500" font-style="italic">x_t</text>
+
+  <!-- ══════════ REVERSE ARROW (dashed + pulsing) ══════════ -->
+
+  <path d="M577,250 C440,255 300,278 155,282"
+        fill="none" stroke="#dc2626" stroke-width="3"
+        stroke-dasharray="10,6" marker-end="url(#rev)" class="pulse"/>
+  <text x="370" y="312" text-anchor="middle" font-size="16" fill="#dc2626"
+        font-weight="700" class="pulse">
+    which x₀ produced this noise?
+  </text>
+</svg>

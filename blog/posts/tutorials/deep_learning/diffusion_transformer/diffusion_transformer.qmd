@@ -32,7 +32,7 @@ that progressively assemble the full generative pipeline.
    while the latent code encodes *how*. Implements spatial concatenation and
    adaLN conditioning — the same mechanism used by DiT.
 
-4. **The Diffusion Paradigm** — Forward noising process, noise schedules
+4. [**The Diffusion Paradigm**](../the_diffusion_paradigm/the_diffusion_paradigm.qmd) — Forward noising process, noise schedules
    (linear and cosine), the reparameterization trick, and DDPM reverse
    sampling. How we turn the generation problem into a denoising problem.
 

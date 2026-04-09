@@ -135,11 +135,11 @@ window.Quarto = {
 <link rel="stylesheet" href="assets/styles.css">
 <meta property="og:title" content=" The Overfitting Club – The Overfitting Club">
 <meta property="og:description" content="Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI.">
-<meta property="og:image" content="https://overfitting.club/posts/tutorials/deep_learning/class_conditional_vae/assets/cvae_thumbnail.svg">
+<meta property="og:image" content="https://overfitting.club/posts/tutorials/deep_learning/the_diffusion_paradigm/assets/diffusion_thumbnail.svg">
 <meta property="og:site_name" content="The Overfitting Club">
 <meta name="twitter:title" content=" The Overfitting Club – The Overfitting Club">
 <meta name="twitter:description" content="Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI.">
-<meta name="twitter:image" content="https://overfitting.club/posts/tutorials/deep_learning/class_conditional_vae/assets/cvae_thumbnail.svg">
+<meta name="twitter:image" content="https://overfitting.club/posts/tutorials/deep_learning/the_diffusion_paradigm/assets/diffusion_thumbnail.svg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -217,7 +217,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(6)</span></div><div class="category" data-category="YXR0ZW50aW9u">attention <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YXV0b2VuY29kZXI=">autoencoder <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGVlcC1sZWFybmluZw==">deep-learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="ZGlmZnVzaW9u">diffusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Z2VuZXJhdGl2ZS1tb2RlbHM=">generative-models <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV3cw==">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0b3JjaA==">pytorch <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dGVuc29yZmxvdw==">tensorflow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGltZS1zZXJpZXM=">time-series <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dHJhbnNmb3JtZXI=">transformer <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dmFl">vae <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(7)</span></div><div class="category" data-category="YXR0ZW50aW9u">attention <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YXV0b2VuY29kZXI=">autoencoder <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGRwbQ==">ddpm <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGVlcC1sZWFybmluZw==">deep-learning <span class="quarto-category-count">(5)</span></div><div class="category" data-category="ZGlmZnVzaW9u">diffusion <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Z2VuZXJhdGl2ZS1tb2RlbHM=">generative-models <span class="quarto-category-count">(3)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV3cw==">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0b3JjaA==">pytorch <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dGVuc29yZmxvdw==">tensorflow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dGltZS1zZXJpZXM=">time-series <span class="quarto-category-count">(1)</span></div><div class="category" data-category="dHJhbnNmb3JtZXI=">transformer <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dmFl">vae <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -276,7 +276,46 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="ZGVlcC1sZWFybmluZyUyQ3ZhZSUyQ2dlbmVyYXRpdmUtbW9kZWxzJTJDcHl0b3JjaA==" data-listing-date-sort="1774760400000" data-listing-file-modified-sort="1775243975770" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="49" data-listing-word-count-sort="9784">
+<div class="quarto-post image-right" data-index="0" data-categories="ZGlmZnVzaW9uJTJDZGRwbSUyQ2RlZXAtbGVhcm5pbmclMkNnZW5lcmF0aXZlLW1vZGVscw==" data-listing-date-sort="1775192400000" data-listing-file-modified-sort="1775699777621" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="54" data-listing-word-count-sort="10634">
+<div class="thumbnail"><a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">
+
+<img loading="lazy" src="./posts/tutorials/deep_learning/the_diffusion_paradigm/assets/diffusion_thumbnail.svg" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">The Diffusion Paradigm</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">Turning Generation into Denoising — Forward Noising, Noise Schedules, and DDPM Sampling</a>
+</div>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGlmZnVzaW9u'); return false;">diffusion</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGRwbQ=='); return false;">ddpm</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('Z2VuZXJhdGl2ZS1tb2RlbHM='); return false;">generative-models</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">
+This is the fourth entry in our series building a Diffusion Transformer (DiT) from scratch. In the previous posts we assembled two critical pieces: an autoencoder that…<span class="math inline"></span><em></em>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">
+<div class="listing-date">
+Apr 3, 2026
+</div>
+<div class="listing-author">
+Miguel Chitiva Diaz
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="ZGVlcC1sZWFybmluZyUyQ3ZhZSUyQ2dlbmVyYXRpdmUtbW9kZWxzJTJDcHl0b3JjaA==" data-listing-date-sort="1774760400000" data-listing-file-modified-sort="1775243975770" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="49" data-listing-word-count-sort="9784">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html" class="no-external">
 
 <img loading="lazy" src="./posts/tutorials/deep_learning/class_conditional_vae/assets/cvae_thumbnail.svg" class="thumbnail-image">
@@ -315,7 +354,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="ZGVlcC1sZWFybmluZyUyQ2F1dG9lbmNvZGVyJTJDdmFlJTJDcHl0b3JjaA==" data-listing-date-sort="1773032400000" data-listing-file-modified-sort="1775243933396" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="71" data-listing-word-count-sort="14086">
+<div class="quarto-post image-right" data-index="2" data-categories="ZGVlcC1sZWFybmluZyUyQ2F1dG9lbmNvZGVyJTJDdmFlJTJDcHl0b3JjaA==" data-listing-date-sort="1773032400000" data-listing-file-modified-sort="1775243933396" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="71" data-listing-word-count-sort="14086">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/autoencoder/autoencoder.html" class="no-external">
 
 <img loading="lazy" src="./posts/tutorials/deep_learning/autoencoder/assets/autoencoder_thumbnail.svg" class="thumbnail-image">
@@ -354,7 +393,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZGlmZnVzaW9uJTJDdHJhbnNmb3JtZXIlMkNkZWVwLWxlYXJuaW5nJTJDZ2VuZXJhdGl2ZS1tb2RlbHM=" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775243921002" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
+<div class="quarto-post image-right" data-index="3" data-categories="ZGlmZnVzaW9uJTJDdHJhbnNmb3JtZXIlMkNkZWVwLWxlYXJuaW5nJTJDZ2VuZXJhdGl2ZS1tb2RlbHM=" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775250848104" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -393,7 +432,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="dHJhbnNmb3JtZXIlMkNhdHRlbnRpb24lMkNkZWVwLWxlYXJuaW5n" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775243935295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5726">
+<div class="quarto-post image-right" data-index="4" data-categories="dHJhbnNmb3JtZXIlMkNhdHRlbnRpb24lMkNkZWVwLWxlYXJuaW5n" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775243935295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5726">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/transformer/transformer.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/tutorials/deep_learning/transformer/assets/encoder_arch_simple.svg"  class="thumbnail-image card-img"/></p>
@@ -430,7 +469,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="bmV3cw==" data-listing-date-sort="1761109200000" data-listing-file-modified-sort="1775243932496" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="10">
+<div class="quarto-post image-right" data-index="5" data-categories="bmV3cw==" data-listing-date-sort="1761109200000" data-listing-file-modified-sort="1775243932496" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="10">
 <div class="thumbnail"><a href="./posts/thoughts/welcome/index.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/thoughts/welcome/gpu_tree.png"  class="thumbnail-image card-img"/></p>
@@ -463,7 +502,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="dGltZS1zZXJpZXMlMkN0ZW5zb3JmbG93JTJDbWFjaGluZS1sZWFybmluZw==" data-listing-date-sort="1624078800000" data-listing-file-modified-sort="1775243934288" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="683">
+<div class="quarto-post image-right" data-index="6" data-categories="dGltZS1zZXJpZXMlMkN0ZW5zb3JmbG93JTJDbWFjaGluZS1sZWFybmluZw==" data-listing-date-sort="1624078800000" data-listing-file-modified-sort="1775243934288" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="683">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf_files/figure-html/cell-7-output-1.png"  class="thumbnail-image card-img"/></p>

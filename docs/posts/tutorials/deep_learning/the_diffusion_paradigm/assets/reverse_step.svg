@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 210"
+     style="font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4fa">
+  <defs>
+    <!-- Heavy noise for x_t -->
+    <filter id="noiseH" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.4" numOctaves="3" seed="7"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.5" intercept="0.35"/>
+        <feFuncG type="linear" slope="0.5" intercept="0.35"/>
+        <feFuncB type="linear" slope="0.5" intercept="0.4"/>
+        <feFuncA type="linear" slope="0" intercept="1"/>
+      </feComponentTransfer>
+    </filter>
+    <!-- Light noise for x_{t-1} -->
+    <filter id="noiseL" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="2" seed="7"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.3" intercept="0.5"/>
+        <feFuncG type="linear" slope="0.3" intercept="0.5"/>
+        <feFuncB type="linear" slope="0.3" intercept="0.52"/>
+        <feFuncA type="linear" slope="0" intercept="1"/>
+      </feComponentTransfer>
+    </filter>
+    <!-- Noise pattern for ε̂ -->
+    <filter id="noiseE" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" seed="13"/>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="0.55" intercept="0.3"/>
+        <feFuncG type="linear" slope="0.55" intercept="0.3"/>
+        <feFuncB type="linear" slope="0.55" intercept="0.3"/>
+        <feFuncA type="linear" slope="0" intercept="1"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="3" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <filter id="glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#7c3aed" flood-opacity="0.25"/>
+    </filter>
+    <clipPath id="cH"><rect x="25"  y="35" width="80" height="80" rx="8"/></clipPath>
+    <clipPath id="cE"><rect x="470" y="40" width="70" height="70" rx="6"/></clipPath>
+    <clipPath id="cL"><rect x="660" y="35" width="80" height="80" rx="8"/></clipPath>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <style>
+    .flow line  { stroke-dasharray: 4 3; }
+    .flow       { animation: fl 2s linear infinite; }
+    @keyframes fl { from{stroke-dashoffset:14} to{stroke-dashoffset:0} }
+    .net-glow   { animation: gp 3s ease-in-out infinite; }
+    @keyframes gp { 0%,100%{filter:url(#shadow)} 50%{filter:url(#glow)} }
+  </style>
+
+  <!-- ── 1. x_t (noisy input) ────────────────────────── -->
+  <rect x="25" y="35" width="80" height="80" rx="8"
+        fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="25" y="35" width="80" height="80" rx="8"
+        filter="url(#noiseH)" clip-path="url(#cH)" opacity="0.85"/>
+  <text x="65" y="132" text-anchor="middle" font-size="13" fill="#475569"
+        font-weight="600">x_t</text>
+  <text x="65" y="147" text-anchor="middle" font-size="10" fill="#94a3b8">
+    noisy input</text>
+
+  <!-- Arrow 1 (animated dash flow) -->
+  <line x1="115" y1="75" x2="195" y2="75" stroke="#94a3b8" stroke-width="1.5"
+        stroke-dasharray="4,3" marker-end="url(#a)" class="flow"/>
+
+  <!-- ── 2. Neural network ────────────────────────────── -->
+  <rect x="200" y="25" width="190" height="100" rx="12"
+        fill="#ede9fe" stroke="#a78bfa" stroke-width="2" class="net-glow"/>
+  <text x="295" y="66" text-anchor="middle" font-size="14" fill="#6d28d9"
+        font-weight="600">ε_θ(x_t , t)</text>
+  <text x="295" y="86" text-anchor="middle" font-size="11" fill="#7c3aed"
+        opacity="0.7">Neural Network</text>
+  <text x="295" y="147" text-anchor="middle" font-size="10" fill="#94a3b8">
+    predicts noise</text>
+
+  <!-- Arrow 2 -->
+  <line x1="400" y1="75" x2="460" y2="75" stroke="#94a3b8" stroke-width="1.5"
+        stroke-dasharray="4,3" marker-end="url(#a)" class="flow"/>
+
+  <!-- ── 3. ε̂ (predicted noise) ──────────────────────── -->
+  <rect x="470" y="40" width="70" height="70" rx="6"
+        fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="470" y="40" width="70" height="70" rx="6"
+        filter="url(#noiseE)" clip-path="url(#cE)" opacity="0.7"/>
+  <text x="505" y="132" text-anchor="middle" font-size="13" fill="#475569"
+        font-weight="600">ε̂</text>
+  <text x="505" y="147" text-anchor="middle" font-size="10" fill="#94a3b8">
+    predicted noise</text>
+
+  <!-- Arrow 3 with "denoise" label -->
+  <line x1="550" y1="75" x2="650" y2="75" stroke="#94a3b8" stroke-width="1.5"
+        stroke-dasharray="4,3" marker-end="url(#a)" class="flow"/>
+  <text x="600" y="64" text-anchor="middle" font-size="10" fill="#64748b">
+    remove noise</text>
+
+  <!-- ── 4. x_{t-1} (slightly cleaner) ───────────────── -->
+  <rect x="660" y="35" width="80" height="80" rx="8"
+        fill="#e2e8f0" stroke="#94a3b8" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="660" y="35" width="80" height="80" rx="8"
+        filter="url(#noiseL)" clip-path="url(#cL)" opacity="0.5"/>
+  <!-- Faint garment shape emerging through lighter noise -->
+  <path d="M688,50 L682,54 L674,50 L677,62 L683,59 L683,92 L717,92
+           L717,59 L723,62 L726,50 L718,54 L712,50 Z"
+        fill="#60a5fa" opacity="0.2"/>
+  <text x="700" y="132" text-anchor="middle" font-size="13" fill="#475569"
+        font-weight="600">x_{t-1}</text>
+  <text x="700" y="147" text-anchor="middle" font-size="10" fill="#94a3b8">
+    slightly cleaner</text>
+
+  <!-- ── Stochastic noise annotation ──────────────────── -->
+  <text x="700" y="166" text-anchor="middle" font-size="9" fill="#94a3b8">
+    + σ_t z  (z ~ N(0, I) if t > 1)</text>
+
+  <!-- ── Divider + formula ────────────────────────────── -->
+  <line x1="25" y1="185" x2="780" y2="185" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="402" y="203" text-anchor="middle" font-size="11" fill="#64748b">
+    x_{t-1}  =  (1 / √α_t)( x_t  −  (β_t / √(1−ᾱ_t)) · ε̂ )  +  σ_t · z
+  </text>
+</svg>

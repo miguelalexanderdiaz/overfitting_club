@@ -247,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><a href="../../../../posts/tutorials/deep_learning/transformer/transformer.html"><strong>Transformer Architecture</strong></a> — Multi-head self-attention, feed-forward blocks, layer normalization, and residual connections. The foundation that everything else builds on.</p></li>
 <li><p><a href="../../../../posts/tutorials/deep_learning/autoencoder/autoencoder.html"><strong>Autoencoder Architecture</strong></a> — Convolutional encoder and decoder that compress pixel-space images into a compact latent representation and reconstruct them back. This separates “what the image looks like” from “how to generate it”.</p></li>
 <li><p><a href="../../../../posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html"><strong>Class-Conditional VAE</strong></a> — Conditioning a VAE on class labels so the decoder knows <em>what</em> to generate while the latent code encodes <em>how</em>. Implements spatial concatenation and adaLN conditioning — the same mechanism used by DiT.</p></li>
-<li><p><strong>The Diffusion Paradigm</strong> — Forward noising process, noise schedules (linear and cosine), the reparameterization trick, and DDPM reverse sampling. How we turn the generation problem into a denoising problem.</p></li>
+<li><p><a href="../../../../posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html"><strong>The Diffusion Paradigm</strong></a> — Forward noising process, noise schedules (linear and cosine), the reparameterization trick, and DDPM reverse sampling. How we turn the generation problem into a denoising problem.</p></li>
 <li><p><strong>ViT: Vision Transformer</strong> — Patch embedding, positional encoding, and the full Vision Transformer. Adapting the transformer architecture to operate on images by treating them as sequences of patches.</p></li>
 <li><p><strong>DiT: Diffusion Transformer</strong> <em>(current entry)</em> — Adaptive Layer Norm (adaLN), timestep and label conditioning, DiT blocks, and the complete latent-space denoising network. Putting it all together to generate FashionMNIST images.</p></li>
 </ol>
@@ -743,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>   while the latent code encodes *how*. Implements spatial concatenation and</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>   adaLN conditioning — the same mechanism used by DiT.</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**The Diffusion Paradigm** — Forward noising process, noise schedules</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="co">[</span><span class="ot">**The Diffusion Paradigm**</span><span class="co">](../the_diffusion_paradigm/the_diffusion_paradigm.qmd)</span> — Forward noising process, noise schedules</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>   (linear and cosine), the reparameterization trick, and DDPM reverse</span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>   sampling. How we turn the generation problem into a denoising problem.</span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
