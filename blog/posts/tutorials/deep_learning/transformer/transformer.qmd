@@ -969,6 +969,17 @@ In this post, we have thoroughly covered the **Encoder** half of the Transformer
 
 In the next post of this series, we will transition to the **Decoder** and introduce **Cross-Attention**, taking us one step closer to building our Diffusion Transformer (DiT) from scratch!
 
-## Acknowledgements
+## Acknowledgements {.unnumbered}
 
-This post was heavily inspired by Jay Alammar's excellent visual guide [@alammar2018illustrated], which remains one of the best introductions to the Transformer architecture.
+This tutorial was researched, written, and illustrated by
+[Miguel Chitiva Diaz](https://github.com/miguelalexanderdiaz).
+[Claude](https://claude.ai) assisted with code iteration, copyediting, and
+diagram refinement.
+
+### Key References {.unnumbered}
+
+This post was heavily inspired by Jay Alammar's excellent visual guide to the
+Transformer [@alammar2018illustrated].
+
+::: {#refs}
+:::

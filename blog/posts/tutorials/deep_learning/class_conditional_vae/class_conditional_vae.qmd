@@ -1443,14 +1443,21 @@ learned one: instead of sampling directly, we'll generate latent vectors through
 next post in our series.
 
 
-## Acknowledgements
+## Acknowledgements {.unnumbered}
 
-This tutorial builds on the Conditional VAE framework by Sohn et al.
-[@sohn2015learning], the feature-wise linear modulation (FiLM) mechanism by
-Perez et al. [@perez2018film], and the adaptive normalization approach used in
-style transfer [@dumoulin2018feature]. The adaLN conditioning mechanism is
-directly inspired by the Diffusion Transformer (DiT) architecture by Peebles
-and Xie [@peebles2023scalable]. The ResNet VAE base architecture follows the
-design from our [autoencoder tutorial](../autoencoder/autoencoder.qmd),
-which itself draws on Esser et al. [@esser2021taming] and He et al.
-[@he2016deep].
+This tutorial was researched, written, and illustrated by
+[Miguel Chitiva Diaz](https://github.com/miguelalexanderdiaz).
+[Claude](https://claude.ai) assisted with code iteration, copyediting, and
+diagram refinement.
+
+### Key References {.unnumbered}
+
+This tutorial builds on the Conditional VAE framework [@sohn2015learning],
+feature-wise linear modulation [@perez2018film], adaptive normalization for
+style transfer [@dumoulin2018feature], and the DiT architecture
+[@peebles2023scalable]. The ResNet VAE base follows our
+[autoencoder tutorial](../autoencoder/autoencoder.qmd), drawing on
+[@esser2021taming] and [@he2016deep].
+
+::: {#refs}
+:::

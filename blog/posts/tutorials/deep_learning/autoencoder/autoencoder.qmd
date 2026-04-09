@@ -2165,13 +2165,20 @@ class labels, so the model learns to route class identity through a dedicated
 input and reserves the latent space for intra-class variation.
 
 
-## Acknowledgements
+## Acknowledgements {.unnumbered}
 
-This tutorial draws on several foundational works: the original deep autoencoder
-paper by Hinton and Salakhutdinov [@hinton2006reducing], the VAE framework
-introduced by Kingma and Welling [@kingma2013auto], residual networks by He et
-al. [@he2016deep], the autoencoder codec architecture from Taming Transformers
-by Esser et al. [@esser2021taming], the latent diffusion approach by Rombach et
-al. [@rombach2022high], and the Stable Diffusion 3 architecture by Esser et al.
-[@esser2024scaling]. For a comprehensive survey of autoencoder methods, see Bank
-et al. [@bank2023autoencoders].
+This tutorial was researched, written, and illustrated by
+[Miguel Chitiva Diaz](https://github.com/miguelalexanderdiaz).
+[Claude](https://claude.ai) assisted with code iteration, copyediting, and
+diagram refinement.
+
+### Key References {.unnumbered}
+
+This tutorial draws on deep autoencoders [@hinton2006reducing], the VAE
+framework [@kingma2013auto], residual networks [@he2016deep], the autoencoder
+codec from Taming Transformers [@esser2021taming], latent diffusion
+[@rombach2022high], Stable Diffusion 3 [@esser2024scaling], and the autoencoder
+survey by [@bank2023autoencoders].
+
+::: {#refs}
+:::

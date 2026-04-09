@@ -1594,20 +1594,20 @@ conditioning (upgrading the simple additive approach from this post) and the
 diffusion framework to build the full
 [Diffusion Transformer (DiT)](../diffusion_transformer/diffusion_transformer.qmd).
 
-## Acknowledgements
+## Acknowledgements {.unnumbered}
 
-This tutorial builds on several foundational works:
+This tutorial was researched, written, and illustrated by
+[Miguel Chitiva Diaz](https://github.com/miguelalexanderdiaz).
+[Claude](https://claude.ai) assisted with code iteration, copyediting, and
+diagram refinement.
 
-- **DDPM**: Ho, Jain, and Abbeel [@ho2020denoising] for the denoising diffusion
-  probabilistic model framework and the simple $\boldsymbol{\varepsilon}$-prediction objective.
-- **Improved DDPM**: Nichol and Dhariwal [@nichol2021improved] for the cosine
-  noise schedule and improved training techniques.
-- **Deep Unsupervised Learning**: Sohl-Dickstein et al. [@sohl2015deep] for the
-  original diffusion-based generative framework using nonequilibrium
-  thermodynamics.
-- **DDIM**: Song, Meng, and Ermon [@song2020denoising] for denoising diffusion
-  implicit models and accelerated sampling.
-- **U-Net**: Ronneberger, Fischer, and Brox [@ronneberger2015unet] for the
-  encoder-decoder architecture with skip connections.
-- **DiT**: Peebles and Xie [@peebles2023scalable] for the Diffusion Transformer
-  architecture that motivates this entire series.
+### Key References {.unnumbered}
+
+This tutorial builds on the DDPM framework [@ho2020denoising], the cosine
+schedule and training improvements from [@nichol2021improved], the original
+diffusion-based generative model [@sohl2015deep], the DDIM accelerated sampler
+[@song2020denoising], the U-Net architecture [@ronneberger2015unet], and the
+Diffusion Transformer [@peebles2023scalable] that motivates this series.
+
+::: {#refs}
+:::
