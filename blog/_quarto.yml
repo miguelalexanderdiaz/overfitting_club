@@ -31,7 +31,7 @@ website:
         href: about.qmd
     right:
       - icon: github
-        href: https://github.com/
+        href: https://github.com/miguelalexanderdiaz
       - icon: linkedin
         href: https://www.linkedin.com/in/miguel-chitiva/
   reader-mode: true
@@ -39,10 +39,10 @@ website:
   page-navigation: true
   back-to-top-navigation: true
   page-footer:
-    left: "2025, The Overfitting Club by Miguel Chitiva Diaz"
+    left: "2025-2026, The Overfitting Club by Miguel Chitiva Diaz"
     right:
       - icon: github
-        href: https://github.com/
+        href: https://github.com/miguelalexanderdiaz
       - icon: linkedin
         href: https://www.linkedin.com/in/miguel-chitiva/
 format:

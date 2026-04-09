@@ -4,22 +4,54 @@ image: assets/profile.jpeg
 about:
   template: jolla
   links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/miguelalexanderdiaz
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/miguel-chitiva/
-    - icon: medium
-      text: Medium
-      href: https://medium.com/@miguelalexanderdiaz
 
 ---
 
-*I wrangle messy, real‑world data into products your users actually love—from classical ML to agentic systems—delivered with calm, drama‑free MLOps.*
+*I wrangle messy, real-world data into products your users actually love---from classical ML to agentic systems---delivered with calm, drama-free MLOps.*
+
+### About Me
+
+ML-Data Scientist and Tech Lead with 10+ years of experience building and
+shipping machine learning at scale. I train models, design multi-agent systems,
+and architect MLOps pipelines---the whole path from prototype to production.
+My engineering background means I care as much about how a system runs in prod
+as how it performs on a benchmark. I lead teams that build clever, reliable
+things and get them out the door.
+
+### About This Blog
+
+The Overfitting Club has two sides. **Tutorials** are detailed, from-scratch
+guides where I break down topics that matter for my work---deep learning,
+MLOps, edge AI, and whatever comes next. Every tutorial is a runnable notebook
+with real code, real training, and real outputs. The philosophy is *learn by
+building*, not by reading summaries. **Thoughts** are essays and opinions about
+the Data Science, ML, and AI world from a practitioner's perspective.
+
+Writing is how I learn and relearn. If it helps someone else along the way,
+even better.
 
 ### Current Interests
 
-- **Deep Learning on the Edge:** Quantization, pruning, distillation, and other tiny sorcery to run big brains on small chips (Federated Learning, Differential Privacy, etc.).
+- **Deep Learning on the Edge:** Quantization, pruning, distillation, and other
+  tiny sorcery to run big brains on small chips (Federated Learning,
+  Differential Privacy, etc.).
 
-- **Tiny agents on device:** Local LLMs with manners: tool calling, confident with local data, and calling the cloud only when it truly matters.
+- **Tiny agents on device:** Local LLMs with manners: tool calling, confident
+  with local data, and calling the cloud only when it truly matters.
 
-*Why? Because GPUs don’t grow on trees (tragic), so we build clever, resource savvy systems that do more with less.*
+*Why? Because GPUs don't grow on trees (tragic), so we build clever,
+resource-savvy systems that do more with less.*
 
+### How I Write
+
+Essays and thoughts are entirely my own. For the tutorial series,
+[Claude](https://claude.ai) assists with code iteration, copyediting, and
+diagram refinement---the same way I'd use any good development tool. The ideas,
+structure, and editorial decisions are always mine; the AI accelerates the
+process.
