@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: ../docs
+  resources:
+    - assets/dragon_theme/**
 
 website:
   site-url: https://overfitting.club
@@ -31,7 +33,7 @@ website:
         href: about.qmd
     right:
       - icon: github
-        href: https://github.com/miguelalexanderdiaz
+        href: https://github.com/miguelalexanderdiaz/overfitting_club
       - icon: linkedin
         href: https://www.linkedin.com/in/miguel-chitiva/
   reader-mode: true
@@ -42,15 +44,19 @@ website:
     left: "2025-2026, The Overfitting Club by Miguel Chitiva Diaz"
     right:
       - icon: github
-        href: https://github.com/miguelalexanderdiaz
+        href: https://github.com/miguelalexanderdiaz/overfitting_club
       - icon: linkedin
         href: https://www.linkedin.com/in/miguel-chitiva/
 format:
   html:
-    theme: darkly
-    css: assets/styles.css
+    theme: [darkly, assets/dragon_theme/dragon.scss]
+    css:
+      - assets/styles.css
+      - assets/about.css
     grid:
       body-width: 1400px
+    include-after-body:
+      - assets/dragon_theme/_corkboard-script.html
 
 
 
