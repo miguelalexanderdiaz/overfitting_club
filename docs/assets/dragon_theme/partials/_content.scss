@@ -1,0 +1,80 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — content
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Figures ────────────────────────────────────────────────── */
+figure,
+.quarto-figure {
+  margin: 32px 0 !important;
+}
+figure img,
+.figure img,
+.quarto-figure img {
+  border: 1px solid var(--rule);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  padding: 6px;
+  background: var(--bg-raised);
+}
+figcaption,
+.figure-caption,
+.quarto-float-caption {
+  font-family: var(--f-hand) !important;
+  font-size: 20px !important;
+  line-height: 1.2 !important;
+  color: var(--d-orange) !important;
+  text-align: center;
+  margin-top: 12px !important;
+  font-style: normal !important;
+}
+
+/* ─── Tables ─────────────────────────────────────────────────── */
+table,
+.table {
+  font-family: var(--f-serif);
+  color: var(--fg);
+  border-color: var(--rule) !important;
+}
+table th,
+.table th {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--d-orange);
+  border-color: var(--rule) !important;
+  font-weight: 500 !important;
+}
+table td,
+.table td {
+  border-color: var(--rule) !important;
+}
+
+/* ─── Math ───────────────────────────────────────────────────── */
+.math.display {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--d-orange);
+  padding: 20px 16px;
+  margin: 20px 0 24px;
+  overflow-x: auto;
+}
+
+/* ─── Horizontal rules ───────────────────────────────────────── */
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 48px 0 24px;
+}
+
+/* ─── Blockquotes ────────────────────────────────────────────── */
+blockquote {
+  border-left: 2px solid var(--d-orange) !important;
+  background: var(--bg-raised);
+  padding: 14px 20px !important;
+  color: var(--d-old-white);
+  font-style: italic;
+  font-family: var(--f-serif);
+  margin: 24px 0;
+}
+

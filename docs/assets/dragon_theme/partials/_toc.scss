@@ -1,0 +1,122 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — toc
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── TOC (sidebar) ──────────────────────────────────────────── */
+#TOC,
+nav[role="doc-toc"],
+.sidebar-section {
+  border-left: 1px solid var(--rule);
+  padding-left: 14px;
+}
+#TOC > h2,
+nav[role="doc-toc"] > h2,
+.toc-title {
+  font-family: var(--f-mono) !important;
+  font-size: 10px !important;
+  color: var(--d-orange) !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  margin-bottom: 14px !important;
+}
+#TOC a,
+nav[role="doc-toc"] a {
+  font-family: var(--f-serif) !important;
+  font-size: 13.5px !important;
+  color: var(--fg-faint) !important;
+  text-decoration: none !important;
+  padding: 4px 0 4px 14px !important;
+  border-left: 1px solid var(--rule) !important;
+  display: block;
+  line-height: 1.35;
+  transition: all var(--dur-fast) var(--ease);
+}
+#TOC a:hover,
+nav[role="doc-toc"] a:hover {
+  color: var(--fg-dim) !important;
+  border-left-color: var(--d-ash) !important;
+}
+#TOC a.active,
+nav[role="doc-toc"] a.active,
+#TOC li.active > a,
+nav[role="doc-toc"] li.active > a {
+  color: var(--fg) !important;
+  border-left: 2px solid var(--d-orange) !important;
+  padding-left: 13px !important;
+  font-style: italic !important;
+}
+
+/* ─── Breadcrumbs ────────────────────────────────────────────── */
+.quarto-page-breadcrumbs,
+.breadcrumb {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--d-green);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: transparent !important;
+}
+.breadcrumb a { color: var(--d-green) !important; }
+
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.nav-footer {
+  background: transparent !important;
+  border-top: 1px solid var(--rule);
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--fg-faint);
+  letter-spacing: 0.1em;
+}
+.nav-footer a {
+  font-family: var(--f-serif);
+  font-style: normal;
+  color: var(--d-blue) !important;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 14px;
+}
+
+/* ─── Page navigation (prev/next) ────────────────────────────── */
+.page-navigation .nav-page a,
+.page-nav a {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  padding: 16px;
+  font-family: var(--f-display);
+  color: var(--fg);
+  border-radius: 0;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.page-navigation .nav-page a:hover,
+.page-nav a:hover {
+  border-color: var(--d-orange);
+}
+
+/* ─── Search (if loaded via bootstrap) ───────────────────────── */
+.aa-Autocomplete,
+.aa-DetachedOverlay .aa-Panel,
+input.aa-Input {
+  background: var(--bg) !important;
+  color: var(--fg) !important;
+  border-color: var(--rule) !important;
+  font-family: var(--f-mono);
+}
+
+/* ─── Misc: reader mode toggle, modals, dropdowns ────────────── */
+.dropdown-menu {
+  background: var(--bg-raised) !important;
+  border-color: var(--rule) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+}
+.dropdown-item {
+  color: var(--fg-dim) !important;
+  font-family: var(--f-serif);
+}
+.dropdown-item:hover {
+  background: var(--d-ink-2) !important;
+  color: var(--fg) !important;
+}
+

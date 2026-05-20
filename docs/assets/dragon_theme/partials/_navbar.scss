@@ -1,0 +1,49 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — navbar
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Navbar ─────────────────────────────────────────────────── */
+.navbar {
+  background-color: rgba(13, 12, 12, 0.88) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: none;
+}
+
+.navbar-brand .navbar-title {
+  font-family: var(--f-display) !important;
+  font-weight: 500 !important;
+  color: var(--fg) !important;
+  letter-spacing: -0.005em;
+  font-size: 19px;
+}
+
+.navbar-brand img,
+.navbar-logo {
+  filter: hue-rotate(20deg) saturate(0.4) brightness(1.1);
+}
+
+.navbar .nav-link {
+  font-family: var(--f-serif) !important;
+  font-size: 15px !important;
+  color: var(--fg-dim) !important;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--fg) !important;
+  border-bottom: 1px solid var(--d-green);
+  padding-bottom: 2px;
+}
+
+.navbar .quarto-navbar-tools a,
+.navbar .quarto-navbar-tools .quarto-navigation-tool {
+  color: var(--fg-faint) !important;
+}
+.navbar .quarto-navbar-tools a:hover {
+  color: var(--d-aqua) !important;
+}
+

@@ -1,0 +1,93 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — tokens
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─────────────────────────────────────────────────────────────
+ * The Overfitting Club — Dragon theme
+ * Kanagawa Dragon palette + editorial/notebook personality.
+ * Scoped under so the Neural theme
+ * (styles.css) remains the default and is untouched.
+ *
+ * Ports the tokens + post.html styling from the Claude Design
+ * handoff (the-overfitting-club-design-system/project/dragon/).
+ * ───────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@400..700&display=swap');
+
+body {
+  /* ── Dragon surfaces (warm near-black inks) ─────────────── */
+  --d-ink-0:       #0d0c0c;
+  --d-ink-1:       #12120f;
+  --d-ink-2:       #1D1C19;
+  --d-ink-3:       #181616;   /* canonical bg */
+  --d-ink-4:       #282727;   /* raised surface */
+  --d-ink-5:       #393836;   /* borders / rules */
+  --d-ink-6:       #625e5a;
+
+  /* ── Dragon ivory / paper ────────────────────────────────── */
+  --d-paper:       #c5c9c5;
+  --d-old-white:   #C8C093;
+  --d-gray:        #a6a69c;
+  --d-gray-2:      #9e9b93;
+  --d-gray-3:      #7a8382;
+  --d-ash:         #737c73;
+
+  /* ── Dragon accents (muted, dusty, painterly) ────────────── */
+  --d-aqua:        #8ea4a2;
+  --d-teal:        #949fb5;
+  --d-blue:        #8ba4b0;
+  --d-violet:      #8992a7;
+  --d-red:         #c4746e;
+  --d-orange:      #b6927b;
+  --d-orange-2:    #b98d7b;
+  --d-yellow:      #c4b28a;
+  --d-green:       #87a987;
+  --d-green-2:     #8a9a7b;
+  --d-pink:        #a292a3;
+
+  /* ── Semantic roles ──────────────────────────────────────── */
+  --fg:            var(--d-paper);
+  --fg-dim:        var(--d-gray-2);
+  --fg-faint:      var(--d-ash);
+  --bg:            var(--d-ink-3);
+  --bg-raised:     var(--d-ink-4);
+  --rule:          var(--d-ink-5);
+
+  /* ── Fonts ───────────────────────────────────────────────── */
+  --f-serif:    'Source Serif 4', 'Iowan Old Style', Georgia, serif;
+  --f-display:  'Fraunces', 'Source Serif 4', Georgia, serif;
+  --f-hand:     'Caveat', 'Source Serif 4', cursive;
+  --f-mono:     'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --ease:       cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast:   180ms;
+  --dur:        320ms;
+}
+
+/* ─── Home / listing-page tokens: Dragon palette ─────────────
+   Defined at theme-root so they're available on every listing
+   page (tutorials, thoughts, deep_learning…), not just home. */
+body {
+  --oh-accent:   var(--d-orange);
+  --oh-accent-2: var(--d-aqua);
+  --oh-accent-3: var(--d-yellow);
+  --oh-accent-4: var(--d-red);
+  --oh-accent-5: var(--d-green);
+  --oh-ink:       var(--d-paper);
+  --oh-ink-dim:   var(--d-old-white);
+  --oh-ink-faint: var(--d-ash);
+  --oh-rule:      var(--d-ink-5);
+  --oh-raised:    var(--d-ink-4);
+  --oh-deepest:   var(--d-ink-0);
+
+  --oh-serif:    'Source Serif 4','Iowan Old Style',Georgia,serif;
+  --oh-display:  'Fraunces','Source Serif 4',Georgia,serif;
+  --oh-hand:     'Caveat','Source Serif 4',cursive;
+  --oh-mono:     'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+
+  --oh-ease:     cubic-bezier(0.22, 1, 0.36, 1);
+  --oh-dur-fast: 180ms;
+  --oh-dur:      320ms;
+}
+

@@ -1,0 +1,11 @@
+<!--
+  Home-page corkboard markup (tail). Closes the wrapping
+  <div class="oc-home"> opened in corkboard-head.qmd.
+-->
+
+````{=html}
+<section class="oc-thanks">
+  <div class="oc-thanks-mark">&mdash; thanks for reading</div>
+</section>
+</div>
+````

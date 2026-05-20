@@ -57,7 +57,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -75,10 +95,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-6f6599830d51be977da3b6af758f8eff.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ed7b02c505130c056af654d032eb1860.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-adadc4986083cdbaae7d8d976a2c0f22.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-ab17ee784bcbd5ca69f560416fc8eb48.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,6 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="../../../../assets/styles.css">
+<link rel="stylesheet" href="../../../../assets/about.css">
 <meta property="og:title" content="Diffusion Transformer (DiT) – The Overfitting Club">
 <meta property="og:description" content="Building a Diffusion Transformer from Scratch for Image Generation">
 <meta property="og:site_name" content="The Overfitting Club">
@@ -117,7 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="twitter:card" content="summary">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="floating nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
@@ -164,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -189,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <div class="quarto-title-block"><div><h1 class="title">Diffusion Transformer (DiT)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+      <div class="quarto-title-block"><div><h1 class="title">Diffusion Transformer (DiT)</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
             <p class="subtitle lead">Building a Diffusion Transformer from Scratch for Image Generation</p>
                                 <div class="quarto-categories">
                 <div class="quarto-category">diffusion</div>
@@ -223,15 +244,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of Contents</h2>
    
   <ul>
-  <li><a href="#table-of-contents" id="toc-table-of-contents" class="nav-link active" data-scroll-target="#table-of-contents">Table of Contents</a></li>
+  <li><a href="#sec-motivation" id="toc-sec-motivation" class="nav-link active" data-scroll-target="#sec-motivation"><span class="header-section-number">1</span> Why DiT?</a>
+  <ul class="collapse">
+  <li><a href="#the-limits-of-u-net-for-diffusion" id="toc-the-limits-of-u-net-for-diffusion" class="nav-link" data-scroll-target="#the-limits-of-u-net-for-diffusion"><span class="header-section-number">1.1</span> The Limits of U-Net for Diffusion</a></li>
+  <li><a href="#transformers-scale-better" id="toc-transformers-scale-better" class="nav-link" data-scroll-target="#transformers-scale-better"><span class="header-section-number">1.2</span> Transformers Scale Better</a></li>
+  <li><a href="#dit-in-context" id="toc-dit-in-context" class="nav-link" data-scroll-target="#dit-in-context"><span class="header-section-number">1.3</span> DiT in Context</a></li>
+  </ul></li>
+  <li><a href="#sec-patch-embed" id="toc-sec-patch-embed" class="nav-link" data-scroll-target="#sec-patch-embed"><span class="header-section-number">2</span> From Images to Tokens: Patch Embedding</a>
+  <ul class="collapse">
+  <li><a href="#patchifying-an-image" id="toc-patchifying-an-image" class="nav-link" data-scroll-target="#patchifying-an-image"><span class="header-section-number">2.1</span> Patchifying an Image</a></li>
+  <li><a href="#positional-encoding-for-images" id="toc-positional-encoding-for-images" class="nav-link" data-scroll-target="#positional-encoding-for-images"><span class="header-section-number">2.2</span> Positional Encoding for Images</a></li>
+  </ul></li>
+  <li><a href="#sec-conditioning" id="toc-sec-conditioning" class="nav-link" data-scroll-target="#sec-conditioning"><span class="header-section-number">3</span> Conditioning: Timestep &amp; Class Label</a>
+  <ul class="collapse">
+  <li><a href="#recap-adaln-from-part-3" id="toc-recap-adaln-from-part-3" class="nav-link" data-scroll-target="#recap-adaln-from-part-3"><span class="header-section-number">3.1</span> Recap — adaLN from Part 3</a></li>
+  <li><a href="#timestep-embedding" id="toc-timestep-embedding" class="nav-link" data-scroll-target="#timestep-embedding"><span class="header-section-number">3.2</span> Timestep Embedding</a></li>
+  <li><a href="#label-embedding" id="toc-label-embedding" class="nav-link" data-scroll-target="#label-embedding"><span class="header-section-number">3.3</span> Label Embedding</a></li>
+  <li><a href="#fusing-both-signals" id="toc-fusing-both-signals" class="nav-link" data-scroll-target="#fusing-both-signals"><span class="header-section-number">3.4</span> Fusing Both Signals</a></li>
+  </ul></li>
+  <li><a href="#sec-dit-block" id="toc-sec-dit-block" class="nav-link" data-scroll-target="#sec-dit-block"><span class="header-section-number">4</span> The DiT Block</a>
+  <ul class="collapse">
+  <li><a href="#adaln-zero-explained" id="toc-adaln-zero-explained" class="nav-link" data-scroll-target="#adaln-zero-explained"><span class="header-section-number">4.1</span> adaLN-Zero Explained</a></li>
+  <li><a href="#block-architecture" id="toc-block-architecture" class="nav-link" data-scroll-target="#block-architecture"><span class="header-section-number">4.2</span> Block Architecture</a></li>
+  <li><a href="#stacking-blocks" id="toc-stacking-blocks" class="nav-link" data-scroll-target="#stacking-blocks"><span class="header-section-number">4.3</span> Stacking Blocks</a></li>
+  </ul></li>
+  <li><a href="#sec-full-dit" id="toc-sec-full-dit" class="nav-link" data-scroll-target="#sec-full-dit"><span class="header-section-number">5</span> The Full DiT Architecture</a>
+  <ul class="collapse">
+  <li><a href="#end-to-end-forward-pass" id="toc-end-to-end-forward-pass" class="nav-link" data-scroll-target="#end-to-end-forward-pass"><span class="header-section-number">5.1</span> End-to-End Forward Pass</a></li>
+  <li><a href="#final-layer-unpatchify" id="toc-final-layer-unpatchify" class="nav-link" data-scroll-target="#final-layer-unpatchify"><span class="header-section-number">5.2</span> Final Layer &amp; Unpatchify</a></li>
+  <li><a href="#code-complete-dit-module" id="toc-code-complete-dit-module" class="nav-link" data-scroll-target="#code-complete-dit-module"><span class="header-section-number">5.3</span> Code: Complete <code>DiT</code> Module</a></li>
+  </ul></li>
+  <li><a href="#sec-training" id="toc-sec-training" class="nav-link" data-scroll-target="#sec-training"><span class="header-section-number">6</span> Training on FashionMNIST</a>
+  <ul class="collapse">
+  <li><a href="#setup-configuration" id="toc-setup-configuration" class="nav-link" data-scroll-target="#setup-configuration"><span class="header-section-number">6.1</span> Setup &amp; Configuration</a></li>
+  <li><a href="#reusing-the-ddpm-training-loop" id="toc-reusing-the-ddpm-training-loop" class="nav-link" data-scroll-target="#reusing-the-ddpm-training-loop"><span class="header-section-number">6.2</span> Reusing the DDPM Training Loop</a></li>
+  <li><a href="#training-dynamics" id="toc-training-dynamics" class="nav-link" data-scroll-target="#training-dynamics"><span class="header-section-number">6.3</span> Training Dynamics</a></li>
+  </ul></li>
+  <li><a href="#sec-sampling" id="toc-sec-sampling" class="nav-link" data-scroll-target="#sec-sampling"><span class="header-section-number">7</span> DDPM Sampling with DiT</a>
+  <ul class="collapse">
+  <li><a href="#same-algorithm-different-denoiser" id="toc-same-algorithm-different-denoiser" class="nav-link" data-scroll-target="#same-algorithm-different-denoiser"><span class="header-section-number">7.1</span> Same Algorithm, Different Denoiser</a></li>
+  <li><a href="#class-conditional-generation" id="toc-class-conditional-generation" class="nav-link" data-scroll-target="#class-conditional-generation"><span class="header-section-number">7.2</span> Class-Conditional Generation</a></li>
+  </ul></li>
+  <li><a href="#sec-comparison" id="toc-sec-comparison" class="nav-link" data-scroll-target="#sec-comparison"><span class="header-section-number">8</span> DiT vs U-Net: Head-to-Head</a></li>
+  <li><a href="#sec-full-picture" id="toc-sec-full-picture" class="nav-link" data-scroll-target="#sec-full-picture"><span class="header-section-number">9</span> Putting It All Together</a></li>
+  <li><a href="#whats-next" id="toc-whats-next" class="nav-link" data-scroll-target="#whats-next">What’s Next?</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -239,18 +308,230 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-
-<p>In this series we build a Diffusion Transformer (DiT) from scratch, covering every building block from the ground up. The tutorial is split into five parts that progressively assemble the full generative pipeline.</p>
-<section id="table-of-contents" class="level2">
-<h2 class="anchored" data-anchor-id="table-of-contents">Table of Contents</h2>
+<nav id="TOC-body" role="doc-toc">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#sec-motivation" id="toc-sec-motivation"><span class="header-section-number">1</span> Why DiT?</a>
+  <ul>
+  <li><a href="#the-limits-of-u-net-for-diffusion" id="toc-the-limits-of-u-net-for-diffusion"><span class="header-section-number">1.1</span> The Limits of U-Net for Diffusion</a></li>
+  <li><a href="#transformers-scale-better" id="toc-transformers-scale-better"><span class="header-section-number">1.2</span> Transformers Scale Better</a></li>
+  <li><a href="#dit-in-context" id="toc-dit-in-context"><span class="header-section-number">1.3</span> DiT in Context</a></li>
+  </ul></li>
+  <li><a href="#sec-patch-embed" id="toc-sec-patch-embed"><span class="header-section-number">2</span> From Images to Tokens: Patch Embedding</a>
+  <ul>
+  <li><a href="#patchifying-an-image" id="toc-patchifying-an-image"><span class="header-section-number">2.1</span> Patchifying an Image</a></li>
+  <li><a href="#positional-encoding-for-images" id="toc-positional-encoding-for-images"><span class="header-section-number">2.2</span> Positional Encoding for Images</a></li>
+  </ul></li>
+  <li><a href="#sec-conditioning" id="toc-sec-conditioning"><span class="header-section-number">3</span> Conditioning: Timestep &amp; Class Label</a>
+  <ul>
+  <li><a href="#recap-adaln-from-part-3" id="toc-recap-adaln-from-part-3"><span class="header-section-number">3.1</span> Recap — adaLN from Part 3</a></li>
+  <li><a href="#timestep-embedding" id="toc-timestep-embedding"><span class="header-section-number">3.2</span> Timestep Embedding</a></li>
+  <li><a href="#label-embedding" id="toc-label-embedding"><span class="header-section-number">3.3</span> Label Embedding</a></li>
+  <li><a href="#fusing-both-signals" id="toc-fusing-both-signals"><span class="header-section-number">3.4</span> Fusing Both Signals</a></li>
+  </ul></li>
+  <li><a href="#sec-dit-block" id="toc-sec-dit-block"><span class="header-section-number">4</span> The DiT Block</a>
+  <ul>
+  <li><a href="#adaln-zero-explained" id="toc-adaln-zero-explained"><span class="header-section-number">4.1</span> adaLN-Zero Explained</a></li>
+  <li><a href="#block-architecture" id="toc-block-architecture"><span class="header-section-number">4.2</span> Block Architecture</a></li>
+  <li><a href="#stacking-blocks" id="toc-stacking-blocks"><span class="header-section-number">4.3</span> Stacking Blocks</a></li>
+  </ul></li>
+  <li><a href="#sec-full-dit" id="toc-sec-full-dit"><span class="header-section-number">5</span> The Full DiT Architecture</a>
+  <ul>
+  <li><a href="#end-to-end-forward-pass" id="toc-end-to-end-forward-pass"><span class="header-section-number">5.1</span> End-to-End Forward Pass</a></li>
+  <li><a href="#final-layer-unpatchify" id="toc-final-layer-unpatchify"><span class="header-section-number">5.2</span> Final Layer &amp; Unpatchify</a></li>
+  <li><a href="#code-complete-dit-module" id="toc-code-complete-dit-module"><span class="header-section-number">5.3</span> Code: Complete <code>DiT</code> Module</a></li>
+  </ul></li>
+  <li><a href="#sec-training" id="toc-sec-training"><span class="header-section-number">6</span> Training on FashionMNIST</a>
+  <ul>
+  <li><a href="#setup-configuration" id="toc-setup-configuration"><span class="header-section-number">6.1</span> Setup &amp; Configuration</a></li>
+  <li><a href="#reusing-the-ddpm-training-loop" id="toc-reusing-the-ddpm-training-loop"><span class="header-section-number">6.2</span> Reusing the DDPM Training Loop</a></li>
+  <li><a href="#training-dynamics" id="toc-training-dynamics"><span class="header-section-number">6.3</span> Training Dynamics</a></li>
+  </ul></li>
+  <li><a href="#sec-sampling" id="toc-sec-sampling"><span class="header-section-number">7</span> DDPM Sampling with DiT</a>
+  <ul>
+  <li><a href="#same-algorithm-different-denoiser" id="toc-same-algorithm-different-denoiser"><span class="header-section-number">7.1</span> Same Algorithm, Different Denoiser</a></li>
+  <li><a href="#class-conditional-generation" id="toc-class-conditional-generation"><span class="header-section-number">7.2</span> Class-Conditional Generation</a></li>
+  </ul></li>
+  <li><a href="#sec-comparison" id="toc-sec-comparison"><span class="header-section-number">8</span> DiT vs U-Net: Head-to-Head</a></li>
+  <li><a href="#sec-full-picture" id="toc-sec-full-picture"><span class="header-section-number">9</span> Putting It All Together</a></li>
+  <li><a href="#whats-next" id="toc-whats-next">What’s Next?</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements">Acknowledgements</a></li>
+  <li><a href="#references" id="toc-references">References</a></li>
+  </ul>
+</nav>
+<a class="oc-colab-btn" href="https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.ipynb" target="_blank" rel="noopener">
+  <span class="oc-colab-btn-back" aria-hidden="true">
+    <span class="oc-colab-btn-back-eyebrow">forward pass →</span>
+    <svg class="oc-colab-btn-net" viewbox="0 0 230 76" aria-hidden="true"></svg>
+  </span>
+  <span class="oc-colab-btn-front">
+    <svg class="oc-colab-btn-glyph" viewbox="0 0 32 32" aria-hidden="true">
+      <circle cx="11" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+      <circle cx="21" cy="16" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+      <circle cx="16" cy="16" r="2.6" fill="currentColor"></circle>
+      <polygon points="14.5,13.4 14.5,18.6 19,16" fill="var(--bg-raised)"></polygon>
+    </svg>
+    <span class="oc-colab-btn-text">
+      <span class="oc-colab-btn-front-eyebrow">interactive notebook</span>
+      <span class="oc-colab-btn-title">Open in Colab</span>
+    </span>
+    <span class="oc-colab-btn-arrow">↗</span>
+  </span>
+</a>
+<p>This is the sixth and final entry in our series building a Diffusion Transformer (DiT) from scratch. The prior posts assembled every piece we need:</p>
 <ol type="1">
-<li><p><a href="../../../../posts/tutorials/deep_learning/transformer/transformer.html"><strong>Transformer Architecture</strong></a> — Multi-head self-attention, feed-forward blocks, layer normalization, and residual connections. The foundation that everything else builds on.</p></li>
-<li><p><a href="../../../../posts/tutorials/deep_learning/autoencoder/autoencoder.html"><strong>Autoencoder Architecture</strong></a> — Convolutional encoder and decoder that compress pixel-space images into a compact latent representation and reconstruct them back. This separates “what the image looks like” from “how to generate it”.</p></li>
-<li><p><a href="../../../../posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html"><strong>Class-Conditional VAE</strong></a> — Conditioning a VAE on class labels so the decoder knows <em>what</em> to generate while the latent code encodes <em>how</em>. Implements spatial concatenation and adaLN conditioning — the same mechanism used by DiT.</p></li>
-<li><p><a href="../../../../posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html"><strong>The Diffusion Paradigm</strong></a> — Forward noising process, noise schedules (linear and cosine), the reparameterization trick, and DDPM reverse sampling. How we turn the generation problem into a denoising problem.</p></li>
-<li><p><strong>ViT: Vision Transformer</strong> — Patch embedding, positional encoding, and the full Vision Transformer. Adapting the transformer architecture to operate on images by treating them as sequences of patches.</p></li>
-<li><p><strong>DiT: Diffusion Transformer</strong> <em>(current entry)</em> — Adaptive Layer Norm (adaLN), timestep and label conditioning, DiT blocks, and the complete latent-space denoising network. Putting it all together to generate FashionMNIST images.</p></li>
+<li><a href="../../../../posts/tutorials/deep_learning/transformer/transformer.html"><strong>Transformer Architecture</strong></a> — multi-head self-attention, feed-forward blocks, layer norm, residual connections</li>
+<li><a href="../../../../posts/tutorials/deep_learning/autoencoder/autoencoder.html"><strong>Autoencoder Architecture</strong></a> — compressing images into a compact latent space</li>
+<li><a href="../../../../posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html"><strong>Class-Conditional VAE</strong></a> — adaLN conditioning so a decoder knows <em>what</em> to generate</li>
+<li><a href="../../../../posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html"><strong>The Diffusion Paradigm</strong></a> — forward noising, noise schedules, DDPM reverse sampling</li>
 </ol>
+<p>In this post we close the loop: we take the DDPM training loop from Part 4 and swap the U-Net denoiser for a full Diffusion Transformer <span class="citation" data-cites="peebles2023scalable">(<a href="#ref-peebles2023scalable" role="doc-biblioref">Peebles and Xiao 2023</a>)</span>. The result is a class-conditional generative model on FashionMNIST that produces noticeably sharper samples and scales more cleanly.</p>
+<section id="sec-motivation" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sec-motivation"><span class="header-section-number">1</span> Why DiT?</h2>
+<section id="the-limits-of-u-net-for-diffusion" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="the-limits-of-u-net-for-diffusion"><span class="header-section-number">1.1</span> The Limits of U-Net for Diffusion</h3>
+<p>TODO</p>
+</section>
+<section id="transformers-scale-better" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="transformers-scale-better"><span class="header-section-number">1.2</span> Transformers Scale Better</h3>
+<p>TODO</p>
+</section>
+<section id="dit-in-context" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="dit-in-context"><span class="header-section-number">1.3</span> DiT in Context</h3>
+<p>TODO</p>
+</section>
+</section>
+<section id="sec-patch-embed" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="sec-patch-embed"><span class="header-section-number">2</span> From Images to Tokens: Patch Embedding</h2>
+<section id="patchifying-an-image" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="patchifying-an-image"><span class="header-section-number">2.1</span> Patchifying an Image</h3>
+<p>TODO</p>
+</section>
+<section id="positional-encoding-for-images" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="positional-encoding-for-images"><span class="header-section-number">2.2</span> Positional Encoding for Images</h3>
+<p>TODO</p>
+<div id="patch-embed" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: PatchEmbed module</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-conditioning" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="sec-conditioning"><span class="header-section-number">3</span> Conditioning: Timestep &amp; Class Label</h2>
+<section id="recap-adaln-from-part-3" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="recap-adaln-from-part-3"><span class="header-section-number">3.1</span> Recap — adaLN from Part 3</h3>
+<p>TODO</p>
+</section>
+<section id="timestep-embedding" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="timestep-embedding"><span class="header-section-number">3.2</span> Timestep Embedding</h3>
+<p>TODO</p>
+</section>
+<section id="label-embedding" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="label-embedding"><span class="header-section-number">3.3</span> Label Embedding</h3>
+<p>TODO</p>
+</section>
+<section id="fusing-both-signals" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="fusing-both-signals"><span class="header-section-number">3.4</span> Fusing Both Signals</h3>
+<p>TODO</p>
+<div id="conditioning-modules" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: TimestepEmbedder, LabelEmbedder, fusion</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-dit-block" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sec-dit-block"><span class="header-section-number">4</span> The DiT Block</h2>
+<section id="adaln-zero-explained" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="adaln-zero-explained"><span class="header-section-number">4.1</span> adaLN-Zero Explained</h3>
+<p>TODO</p>
+</section>
+<section id="block-architecture" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="block-architecture"><span class="header-section-number">4.2</span> Block Architecture</h3>
+<p>TODO</p>
+</section>
+<section id="stacking-blocks" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="stacking-blocks"><span class="header-section-number">4.3</span> Stacking Blocks</h3>
+<p>TODO</p>
+<div id="dit-block" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: DiTBlock module</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-full-dit" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="sec-full-dit"><span class="header-section-number">5</span> The Full DiT Architecture</h2>
+<section id="end-to-end-forward-pass" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="end-to-end-forward-pass"><span class="header-section-number">5.1</span> End-to-End Forward Pass</h3>
+<p>TODO</p>
+</section>
+<section id="final-layer-unpatchify" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="final-layer-unpatchify"><span class="header-section-number">5.2</span> Final Layer &amp; Unpatchify</h3>
+<p>TODO</p>
+</section>
+<section id="code-complete-dit-module" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="code-complete-dit-module"><span class="header-section-number">5.3</span> Code: Complete <code>DiT</code> Module</h3>
+<div id="dit-full" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: full DiT module</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-training" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="sec-training"><span class="header-section-number">6</span> Training on FashionMNIST</h2>
+<section id="setup-configuration" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="setup-configuration"><span class="header-section-number">6.1</span> Setup &amp; Configuration</h3>
+<div id="0607762e" class="cell">
+<details class="code-fold">
+<summary>Imports and hyperparameters</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: imports, config</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="reusing-the-ddpm-training-loop" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="reusing-the-ddpm-training-loop"><span class="header-section-number">6.2</span> Reusing the DDPM Training Loop</h3>
+<p>TODO</p>
+<div id="training-loop" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: training loop</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="training-dynamics" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="training-dynamics"><span class="header-section-number">6.3</span> Training Dynamics</h3>
+<p>TODO</p>
+</section>
+</section>
+<section id="sec-sampling" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="sec-sampling"><span class="header-section-number">7</span> DDPM Sampling with DiT</h2>
+<section id="same-algorithm-different-denoiser" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="same-algorithm-different-denoiser"><span class="header-section-number">7.1</span> Same Algorithm, Different Denoiser</h3>
+<p>TODO</p>
+</section>
+<section id="class-conditional-generation" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="class-conditional-generation"><span class="header-section-number">7.2</span> Class-Conditional Generation</h3>
+<div id="sampling" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: sampling loop + 10-class grid</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-comparison" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="sec-comparison"><span class="header-section-number">8</span> DiT vs U-Net: Head-to-Head</h2>
+<p>TODO</p>
+</section>
+<section id="sec-full-picture" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="sec-full-picture"><span class="header-section-number">9</span> Putting It All Together</h2>
+<p>TODO</p>
+</section>
+<section id="whats-next" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="whats-next">What’s Next?</h2>
+<p>TODO</p>
+</section>
+<section id="acknowledgements" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>This tutorial was researched, written, and illustrated by <a href="https://github.com/miguelalexanderdiaz">Miguel Chitiva Diaz</a>.</p>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-peebles2023scalable" class="csl-entry" role="listitem">
+Peebles, William, and Saining Xiao. 2023. <span>“Scalable Diffusion Models with Transformers.”</span> <em>arXiv Preprint arXiv:2212.09748</em>.
+</div>
+</div>
 
 
 <!-- -->
@@ -258,6 +539,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script src="../../../../assets/dragon_theme/corkboard.js"></script>
+<script src="../../../../assets/dragon_theme/colab-btn.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -709,58 +992,213 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Diffusion Transformer (DiT)"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Building a Diffusion Transformer from Scratch for Image Generation"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Miguel Chitiva Diaz"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2026-02-24"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [diffusion, transformer, deep-learning, generative-models]</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 3</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>In this series we build a Diffusion Transformer (DiT) from scratch, covering</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>every building block from the ground up. The tutorial is split into five parts</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>that progressively assemble the full generative pipeline.</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table of Contents</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">**Transformer Architecture**</span><span class="co">](../transformer/transformer.qmd)</span> — Multi-head</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>   self-attention, feed-forward blocks, layer normalization, and residual</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>   connections. The foundation that everything else builds on.</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">**Autoencoder Architecture**</span><span class="co">](../autoencoder/autoencoder.qmd)</span> — Convolutional encoder and decoder that</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>   compress pixel-space images into a compact latent representation and</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>   reconstruct them back. This separates "what the image looks like" from</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>   "how to generate it".</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="co">[</span><span class="ot">**Class-Conditional VAE**</span><span class="co">](../class_conditional_vae/class_conditional_vae.qmd)</span> —</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>   Conditioning a VAE on class labels so the decoder knows *what* to generate</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>   while the latent code encodes *how*. Implements spatial concatenation and</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>   adaLN conditioning — the same mechanism used by DiT.</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="co">[</span><span class="ot">**The Diffusion Paradigm**</span><span class="co">](../the_diffusion_paradigm/the_diffusion_paradigm.qmd)</span> — Forward noising process, noise schedules</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>   (linear and cosine), the reparameterization trick, and DDPM reverse</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>   sampling. How we turn the generation problem into a denoising problem.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**ViT: Vision Transformer** — Patch embedding, positional encoding, and</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>   the full Vision Transformer. Adapting the transformer architecture to</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>   operate on images by treating them as sequences of patches.</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>**DiT: Diffusion Transformer** *(current entry)* — Adaptive Layer Norm</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>   (adaLN), timestep and label conditioning, DiT blocks, and the complete</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>   latent-space denoising network. Putting it all together to generate</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>   FashionMNIST images.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="an">title:</span><span class="co"> "Diffusion Transformer (DiT)"</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="an">subtitle:</span><span class="co"> "Building a Diffusion Transformer from Scratch for Image Generation"</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="an">author:</span><span class="co"> "Miguel Chitiva Diaz"</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="an">date:</span><span class="co"> "2026-02-24"</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="an">categories:</span><span class="co"> [diffusion, transformer, deep-learning, generative-models]</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="co"># image: assets/thumb.svg  # TODO: author thumbnail for the DiT post</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="an">format:</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">  html:</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">    toc: true</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">    toc-depth: 3</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">    toc-location: left-body</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">    toc-title: "Table of Contents"</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">    number-sections: true</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co">    code-fold: true</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">    code-tools: true</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">    highlight-style: atom-one</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">    code-block-bg: true</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">    code-copy: hover</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="co">---</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a></span>
+<span id="cb8-24"><a href="#cb8-24"></a>{{&lt; colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.ipynb" &gt;}}</span>
+<span id="cb8-25"><a href="#cb8-25"></a></span>
+<span id="cb8-26"><a href="#cb8-26"></a>This is the sixth and final entry in our series building a Diffusion Transformer</span>
+<span id="cb8-27"><a href="#cb8-27"></a>(DiT) from scratch. The prior posts assembled every piece we need:</span>
+<span id="cb8-28"><a href="#cb8-28"></a></span>
+<span id="cb8-29"><a href="#cb8-29"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">**Transformer Architecture**</span><span class="co">](../transformer/transformer.qmd)</span> — multi-head</span>
+<span id="cb8-30"><a href="#cb8-30"></a>   self-attention, feed-forward blocks, layer norm, residual connections</span>
+<span id="cb8-31"><a href="#cb8-31"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">**Autoencoder Architecture**</span><span class="co">](../autoencoder/autoencoder.qmd)</span> — compressing</span>
+<span id="cb8-32"><a href="#cb8-32"></a>   images into a compact latent space</span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="ss">3. </span><span class="co">[</span><span class="ot">**Class-Conditional VAE**</span><span class="co">](../class_conditional_vae/class_conditional_vae.qmd)</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a>   — adaLN conditioning so a decoder knows *what* to generate</span>
+<span id="cb8-35"><a href="#cb8-35"></a><span class="ss">4. </span><span class="co">[</span><span class="ot">**The Diffusion Paradigm**</span><span class="co">](../the_diffusion_paradigm/the_diffusion_paradigm.qmd)</span></span>
+<span id="cb8-36"><a href="#cb8-36"></a>   — forward noising, noise schedules, DDPM reverse sampling</span>
+<span id="cb8-37"><a href="#cb8-37"></a></span>
+<span id="cb8-38"><a href="#cb8-38"></a>In this post we close the loop: we take the DDPM training loop from Part 4 and</span>
+<span id="cb8-39"><a href="#cb8-39"></a>swap the U-Net denoiser for a full Diffusion Transformer <span class="co">[</span><span class="ot">@peebles2023scalable</span><span class="co">]</span>.</span>
+<span id="cb8-40"><a href="#cb8-40"></a>The result is a class-conditional generative model on FashionMNIST that</span>
+<span id="cb8-41"><a href="#cb8-41"></a>produces noticeably sharper samples and scales more cleanly.</span>
+<span id="cb8-42"><a href="#cb8-42"></a></span>
+<span id="cb8-43"><a href="#cb8-43"></a><span class="fu">## Why DiT? {#sec-motivation}</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a></span>
+<span id="cb8-45"><a href="#cb8-45"></a><span class="fu">### The Limits of U-Net for Diffusion</span></span>
+<span id="cb8-46"><a href="#cb8-46"></a></span>
+<span id="cb8-47"><a href="#cb8-47"></a>TODO</span>
+<span id="cb8-48"><a href="#cb8-48"></a></span>
+<span id="cb8-49"><a href="#cb8-49"></a><span class="fu">### Transformers Scale Better</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a></span>
+<span id="cb8-51"><a href="#cb8-51"></a>TODO</span>
+<span id="cb8-52"><a href="#cb8-52"></a></span>
+<span id="cb8-53"><a href="#cb8-53"></a><span class="fu">### DiT in Context</span></span>
+<span id="cb8-54"><a href="#cb8-54"></a></span>
+<span id="cb8-55"><a href="#cb8-55"></a>TODO</span>
+<span id="cb8-56"><a href="#cb8-56"></a></span>
+<span id="cb8-57"><a href="#cb8-57"></a><span class="fu">## From Images to Tokens: Patch Embedding {#sec-patch-embed}</span></span>
+<span id="cb8-58"><a href="#cb8-58"></a></span>
+<span id="cb8-59"><a href="#cb8-59"></a><span class="fu">### Patchifying an Image</span></span>
+<span id="cb8-60"><a href="#cb8-60"></a></span>
+<span id="cb8-61"><a href="#cb8-61"></a>TODO</span>
+<span id="cb8-62"><a href="#cb8-62"></a></span>
+<span id="cb8-63"><a href="#cb8-63"></a><span class="fu">### Positional Encoding for Images</span></span>
+<span id="cb8-64"><a href="#cb8-64"></a></span>
+<span id="cb8-65"><a href="#cb8-65"></a>TODO</span>
+<span id="cb8-66"><a href="#cb8-66"></a></span>
+<span id="cb8-69"><a href="#cb8-69"></a><span class="in">```{python}</span></span>
+<span id="cb8-70"><a href="#cb8-70"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-71"><a href="#cb8-71"></a><span class="co">#| label: patch-embed</span></span>
+<span id="cb8-72"><a href="#cb8-72"></a></span>
+<span id="cb8-73"><a href="#cb8-73"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: PatchEmbed module</span></span>
+<span id="cb8-74"><a href="#cb8-74"></a><span class="in">```</span></span>
+<span id="cb8-75"><a href="#cb8-75"></a></span>
+<span id="cb8-76"><a href="#cb8-76"></a><span class="fu">## Conditioning: Timestep &amp; Class Label {#sec-conditioning}</span></span>
+<span id="cb8-77"><a href="#cb8-77"></a></span>
+<span id="cb8-78"><a href="#cb8-78"></a><span class="fu">### Recap — adaLN from Part 3</span></span>
+<span id="cb8-79"><a href="#cb8-79"></a></span>
+<span id="cb8-80"><a href="#cb8-80"></a>TODO</span>
+<span id="cb8-81"><a href="#cb8-81"></a></span>
+<span id="cb8-82"><a href="#cb8-82"></a><span class="fu">### Timestep Embedding</span></span>
+<span id="cb8-83"><a href="#cb8-83"></a></span>
+<span id="cb8-84"><a href="#cb8-84"></a>TODO</span>
+<span id="cb8-85"><a href="#cb8-85"></a></span>
+<span id="cb8-86"><a href="#cb8-86"></a><span class="fu">### Label Embedding</span></span>
+<span id="cb8-87"><a href="#cb8-87"></a></span>
+<span id="cb8-88"><a href="#cb8-88"></a>TODO</span>
+<span id="cb8-89"><a href="#cb8-89"></a></span>
+<span id="cb8-90"><a href="#cb8-90"></a><span class="fu">### Fusing Both Signals</span></span>
+<span id="cb8-91"><a href="#cb8-91"></a></span>
+<span id="cb8-92"><a href="#cb8-92"></a>TODO</span>
+<span id="cb8-93"><a href="#cb8-93"></a></span>
+<span id="cb8-96"><a href="#cb8-96"></a><span class="in">```{python}</span></span>
+<span id="cb8-97"><a href="#cb8-97"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-98"><a href="#cb8-98"></a><span class="co">#| label: conditioning-modules</span></span>
+<span id="cb8-99"><a href="#cb8-99"></a></span>
+<span id="cb8-100"><a href="#cb8-100"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: TimestepEmbedder, LabelEmbedder, fusion</span></span>
+<span id="cb8-101"><a href="#cb8-101"></a><span class="in">```</span></span>
+<span id="cb8-102"><a href="#cb8-102"></a></span>
+<span id="cb8-103"><a href="#cb8-103"></a><span class="fu">## The DiT Block {#sec-dit-block}</span></span>
+<span id="cb8-104"><a href="#cb8-104"></a></span>
+<span id="cb8-105"><a href="#cb8-105"></a><span class="fu">### adaLN-Zero Explained</span></span>
+<span id="cb8-106"><a href="#cb8-106"></a></span>
+<span id="cb8-107"><a href="#cb8-107"></a>TODO</span>
+<span id="cb8-108"><a href="#cb8-108"></a></span>
+<span id="cb8-109"><a href="#cb8-109"></a><span class="fu">### Block Architecture</span></span>
+<span id="cb8-110"><a href="#cb8-110"></a></span>
+<span id="cb8-111"><a href="#cb8-111"></a>TODO</span>
+<span id="cb8-112"><a href="#cb8-112"></a></span>
+<span id="cb8-113"><a href="#cb8-113"></a><span class="fu">### Stacking Blocks</span></span>
+<span id="cb8-114"><a href="#cb8-114"></a></span>
+<span id="cb8-115"><a href="#cb8-115"></a>TODO</span>
+<span id="cb8-116"><a href="#cb8-116"></a></span>
+<span id="cb8-119"><a href="#cb8-119"></a><span class="in">```{python}</span></span>
+<span id="cb8-120"><a href="#cb8-120"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-121"><a href="#cb8-121"></a><span class="co">#| label: dit-block</span></span>
+<span id="cb8-122"><a href="#cb8-122"></a></span>
+<span id="cb8-123"><a href="#cb8-123"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: DiTBlock module</span></span>
+<span id="cb8-124"><a href="#cb8-124"></a><span class="in">```</span></span>
+<span id="cb8-125"><a href="#cb8-125"></a></span>
+<span id="cb8-126"><a href="#cb8-126"></a><span class="fu">## The Full DiT Architecture {#sec-full-dit}</span></span>
+<span id="cb8-127"><a href="#cb8-127"></a></span>
+<span id="cb8-128"><a href="#cb8-128"></a><span class="fu">### End-to-End Forward Pass</span></span>
+<span id="cb8-129"><a href="#cb8-129"></a></span>
+<span id="cb8-130"><a href="#cb8-130"></a>TODO</span>
+<span id="cb8-131"><a href="#cb8-131"></a></span>
+<span id="cb8-132"><a href="#cb8-132"></a><span class="fu">### Final Layer &amp; Unpatchify</span></span>
+<span id="cb8-133"><a href="#cb8-133"></a></span>
+<span id="cb8-134"><a href="#cb8-134"></a>TODO</span>
+<span id="cb8-135"><a href="#cb8-135"></a></span>
+<span id="cb8-136"><a href="#cb8-136"></a><span class="fu">### Code: Complete `DiT` Module</span></span>
+<span id="cb8-137"><a href="#cb8-137"></a></span>
+<span id="cb8-140"><a href="#cb8-140"></a><span class="in">```{python}</span></span>
+<span id="cb8-141"><a href="#cb8-141"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-142"><a href="#cb8-142"></a><span class="co">#| label: dit-full</span></span>
+<span id="cb8-143"><a href="#cb8-143"></a></span>
+<span id="cb8-144"><a href="#cb8-144"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: full DiT module</span></span>
+<span id="cb8-145"><a href="#cb8-145"></a><span class="in">```</span></span>
+<span id="cb8-146"><a href="#cb8-146"></a></span>
+<span id="cb8-147"><a href="#cb8-147"></a><span class="fu">## Training on FashionMNIST {#sec-training}</span></span>
+<span id="cb8-148"><a href="#cb8-148"></a></span>
+<span id="cb8-149"><a href="#cb8-149"></a><span class="fu">### Setup &amp; Configuration</span></span>
+<span id="cb8-150"><a href="#cb8-150"></a></span>
+<span id="cb8-153"><a href="#cb8-153"></a><span class="in">```{python}</span></span>
+<span id="cb8-154"><a href="#cb8-154"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb8-155"><a href="#cb8-155"></a><span class="co">#| code-summary: "Imports and hyperparameters"</span></span>
+<span id="cb8-156"><a href="#cb8-156"></a></span>
+<span id="cb8-157"><a href="#cb8-157"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: imports, config</span></span>
+<span id="cb8-158"><a href="#cb8-158"></a><span class="in">```</span></span>
+<span id="cb8-159"><a href="#cb8-159"></a></span>
+<span id="cb8-160"><a href="#cb8-160"></a><span class="fu">### Reusing the DDPM Training Loop</span></span>
+<span id="cb8-161"><a href="#cb8-161"></a></span>
+<span id="cb8-162"><a href="#cb8-162"></a>TODO</span>
+<span id="cb8-163"><a href="#cb8-163"></a></span>
+<span id="cb8-166"><a href="#cb8-166"></a><span class="in">```{python}</span></span>
+<span id="cb8-167"><a href="#cb8-167"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-168"><a href="#cb8-168"></a><span class="co">#| label: training-loop</span></span>
+<span id="cb8-169"><a href="#cb8-169"></a></span>
+<span id="cb8-170"><a href="#cb8-170"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: training loop</span></span>
+<span id="cb8-171"><a href="#cb8-171"></a><span class="in">```</span></span>
+<span id="cb8-172"><a href="#cb8-172"></a></span>
+<span id="cb8-173"><a href="#cb8-173"></a><span class="fu">### Training Dynamics</span></span>
+<span id="cb8-174"><a href="#cb8-174"></a></span>
+<span id="cb8-175"><a href="#cb8-175"></a>TODO</span>
+<span id="cb8-176"><a href="#cb8-176"></a></span>
+<span id="cb8-177"><a href="#cb8-177"></a><span class="fu">## DDPM Sampling with DiT {#sec-sampling}</span></span>
+<span id="cb8-178"><a href="#cb8-178"></a></span>
+<span id="cb8-179"><a href="#cb8-179"></a><span class="fu">### Same Algorithm, Different Denoiser</span></span>
+<span id="cb8-180"><a href="#cb8-180"></a></span>
+<span id="cb8-181"><a href="#cb8-181"></a>TODO</span>
+<span id="cb8-182"><a href="#cb8-182"></a></span>
+<span id="cb8-183"><a href="#cb8-183"></a><span class="fu">### Class-Conditional Generation</span></span>
+<span id="cb8-184"><a href="#cb8-184"></a></span>
+<span id="cb8-187"><a href="#cb8-187"></a><span class="in">```{python}</span></span>
+<span id="cb8-188"><a href="#cb8-188"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-189"><a href="#cb8-189"></a><span class="co">#| label: sampling</span></span>
+<span id="cb8-190"><a href="#cb8-190"></a></span>
+<span id="cb8-191"><a href="#cb8-191"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: sampling loop + 10-class grid</span></span>
+<span id="cb8-192"><a href="#cb8-192"></a><span class="in">```</span></span>
+<span id="cb8-193"><a href="#cb8-193"></a></span>
+<span id="cb8-194"><a href="#cb8-194"></a><span class="fu">## DiT vs U-Net: Head-to-Head {#sec-comparison}</span></span>
+<span id="cb8-195"><a href="#cb8-195"></a></span>
+<span id="cb8-196"><a href="#cb8-196"></a>TODO</span>
+<span id="cb8-197"><a href="#cb8-197"></a></span>
+<span id="cb8-198"><a href="#cb8-198"></a><span class="fu">## Putting It All Together {#sec-full-picture}</span></span>
+<span id="cb8-199"><a href="#cb8-199"></a></span>
+<span id="cb8-200"><a href="#cb8-200"></a>TODO</span>
+<span id="cb8-201"><a href="#cb8-201"></a></span>
+<span id="cb8-202"><a href="#cb8-202"></a><span class="fu">## What's Next? {.unnumbered}</span></span>
+<span id="cb8-203"><a href="#cb8-203"></a></span>
+<span id="cb8-204"><a href="#cb8-204"></a>TODO</span>
+<span id="cb8-205"><a href="#cb8-205"></a></span>
+<span id="cb8-206"><a href="#cb8-206"></a><span class="fu">## Acknowledgements {.unnumbered}</span></span>
+<span id="cb8-207"><a href="#cb8-207"></a></span>
+<span id="cb8-208"><a href="#cb8-208"></a>This tutorial was researched, written, and illustrated by</span>
+<span id="cb8-209"><a href="#cb8-209"></a><span class="co">[</span><span class="ot">Miguel Chitiva Diaz</span><span class="co">](https://github.com/miguelalexanderdiaz)</span>.</span>
+<span id="cb8-210"><a href="#cb8-210"></a></span>
+<span id="cb8-211"><a href="#cb8-211"></a><span class="fu">## References {.unnumbered}</span></span>
+<span id="cb8-212"><a href="#cb8-212"></a></span>
+<span id="cb8-213"><a href="#cb8-213"></a>::: {#refs}</span>
+<span id="cb8-214"><a href="#cb8-214"></a>:::</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2025, The Overfitting Club by Miguel Chitiva Diaz</p>
+<p>2025-2026, The Overfitting Club by Miguel Chitiva Diaz</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -768,7 +1206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club">
       <i class="bi bi-github" role="img">
 </i> 
     </a>

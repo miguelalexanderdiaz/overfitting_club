@@ -1,0 +1,52 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — callouts
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Callouts — Dragon flavored ─────────────────────────────── */
+.callout {
+  background: var(--bg-raised) !important;
+  border: 1px solid var(--rule) !important;
+  border-left: 2px solid var(--d-orange) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.callout .callout-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--rule) !important;
+  padding: 10px 18px !important;
+}
+.callout .callout-title,
+.callout .callout-header * {
+  font-family: var(--f-mono) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--d-orange) !important;
+  font-weight: 500 !important;
+}
+.callout .callout-body,
+.callout .callout-body-container {
+  font-family: var(--f-serif) !important;
+  font-size: 15.5px !important;
+  line-height: 1.7 !important;
+  color: var(--d-paper) !important;
+  padding: 14px 18px !important;
+}
+.callout-note       { border-left-color: var(--d-orange) !important; }
+.callout-note .callout-title,
+.callout-note .callout-header * { color: var(--d-orange) !important; }
+.callout-warning    { border-left-color: var(--d-red) !important; }
+.callout-warning .callout-title,
+.callout-warning .callout-header * { color: var(--d-red) !important; }
+.callout-tip,
+.callout-important,
+.callout-caution    { border-left-color: var(--d-aqua) !important; }
+.callout-tip .callout-title,
+.callout-tip .callout-header *,
+.callout-important .callout-title,
+.callout-important .callout-header * { color: var(--d-aqua) !important; }
+
+.callout .callout-icon,
+.callout .callout-icon-container { color: inherit !important; }
+

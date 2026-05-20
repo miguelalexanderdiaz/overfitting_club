@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="/site_libs/quarto-html/quarto-syntax-highlighting-dark-6f6599830d51be977da3b6af758f8eff.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="/site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="/site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="/site_libs/bootstrap/bootstrap-adadc4986083cdbaae7d8d976a2c0f22.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="/site_libs/bootstrap/bootstrap-6eff262b207abe810aa1dea570e9bf21.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,6 +72,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="/assets/styles.css">
+<link rel="stylesheet" href="/assets/about.css">
 <meta property="og:title" content="Page Not Found | The Overfitting Club">
 <meta property="og:site_name" content="The Overfitting Club">
 <meta name="twitter:title" content="Page Not Found | The Overfitting Club">
@@ -125,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -147,12 +148,10 @@ ul.task-list li input[type="checkbox"] {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-layout-custom page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
 <!-- main -->
-<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -174,289 +173,427 @@ ul.task-list li input[type="checkbox"] {
 
 
 <style>
-  .page-404 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    padding: 2rem 1rem;
-  }
-
-  /* Floating particles */
-  .page-404::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image:
-      radial-gradient(1.5px 1.5px at 10% 20%, rgba(34,211,238,0.3) 50%, transparent 50%),
-      radial-gradient(1px 1px at 30% 65%, rgba(139,92,246,0.25) 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 55% 15%, rgba(34,211,238,0.2) 50%, transparent 50%),
-      radial-gradient(1px 1px at 75% 80%, rgba(139,92,246,0.3) 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 85% 35%, rgba(34,211,238,0.25) 50%, transparent 50%),
-      radial-gradient(1px 1px at 20% 85%, rgba(139,92,246,0.2) 50%, transparent 50%),
-      radial-gradient(1.5px 1.5px at 65% 50%, rgba(34,211,238,0.15) 50%, transparent 50%),
-      radial-gradient(1px 1px at 45% 90%, rgba(139,92,246,0.2) 50%, transparent 50%);
-    animation: drift 20s ease-in-out infinite alternate;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  @keyframes drift {
-    0%   { transform: translate(0, 0); }
-    100% { transform: translate(-15px, -20px); }
-  }
-
-  .page-404 > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* SVG Chart */
-  .loss-chart {
-    max-width: 500px;
-    width: 100%;
-    margin-bottom: 1.5rem;
-  }
-
-  /* Curve starts hidden, JS drives the draw */
-  .loss-curve {
-    transition: none;
-  }
-
-  /* 404 glow pulse after animation ends */
-  .text-404-glow-pulse {
-    animation: pulse-glow 2.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.3; }
-    50%      { opacity: 0.6; }
-  }
-
-  /* Axis tick animation */
-  .axis-element {
-    opacity: 0;
-    animation: fade-in 0.6s ease-out forwards;
-  }
-
-  @keyframes fade-in {
-    to { opacity: 1; }
-  }
-
-  /* Message */
-  .error-headline {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #eaf2ff;
-    letter-spacing: 0.4px;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.35), 0 4px 12px rgba(0,0,0,0.25);
-    margin: 0 0 0.5rem 0;
-    opacity: 0;
-    animation: fade-in 0.8s ease-out 4.2s forwards;
-  }
-
-  .error-subtext {
-    font-size: 1.05rem;
-    color: rgba(234,242,255,0.6);
-    margin: 0 0 2rem 0;
-    opacity: 0;
-    animation: fade-in 0.8s ease-out 4.5s forwards;
-  }
-
-  .error-subtext code {
-    color: #22d3ee;
-    background: rgba(34,211,238,0.1);
-    padding: 0.15em 0.4em;
-    border-radius: 4px;
-    font-size: 0.95em;
-  }
-
-  /* Home button */
-  .home-btn {
-    display: inline-block;
-    padding: 0.7rem 1.8rem;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #22d3ee, #8b5cf6);
-    color: #fff !important;
-    font-weight: 600;
-    text-decoration: none !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    opacity: 0;
-    animation: fade-in 0.8s ease-out 4.8s forwards;
-  }
-
-  .home-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(34,211,238,0.3), 0 3px 10px rgba(139,92,246,0.2);
+  :root {
+    --rule-soft: rgba(197,201,197,0.08);
   }
 
   /* Hide default quarto title block */
   #title-block-header { display: none; }
+
+  .stage-404 {
+    min-height: calc(100vh - 68px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px 120px;
+    position: relative;
+  }
+
+  /* letterpress card */
+  .err-card {
+    width: 100%;
+    max-width: 960px;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    padding: 28px 0;
+  }
+
+  /* corner ornaments */
+  .err-corner {
+    position: absolute;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--fg-faint);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .err-corner.tl { top: -32px; left: 0; }
+  .err-corner.tr { top: -32px; right: 0; text-align: right; }
+  .err-corner.bl { bottom: -36px; left: 0; }
+  .err-corner.br { bottom: -36px; right: 0; text-align: right; }
+
+  /* the chart frame */
+  .err-chart-frame {
+    border: 1px solid var(--rule);
+    background: var(--d-ink-0);
+    padding: 14px 18px 18px;
+    position: relative;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  }
+  .err-chart-head {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--f-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .err-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  /* marginalia hand-note */
+  .err-margin-note {
+    position: absolute;
+    font-family: var(--f-hand);
+    color: var(--d-orange);
+    line-height: 1.1;
+    transform: rotate(-4deg);
+    pointer-events: none;
+    z-index: 3;
+  }
+  .err-arrow {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* fade-in keyframes */
+  @keyframes err-fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .err-f1 { opacity: 0; animation: err-fade-up 0.7s var(--ease) 4.2s forwards; }
+  .err-f2 { opacity: 0; animation: err-fade-up 0.7s var(--ease) 4.4s forwards; }
+  .err-f3 { opacity: 0; animation: err-fade-up 0.7s var(--ease) 4.7s forwards; }
+  .err-f4 { opacity: 0; animation: err-fade-up 0.7s var(--ease) 5.0s forwards; }
+  .err-f5 { opacity: 0; animation: err-fade-up 0.7s var(--ease) 5.3s forwards; }
+
+  /* Back button */
+  .err-back-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent;
+    border: 1px solid var(--d-orange);
+    padding: 12px 22px;
+    color: var(--d-orange) !important;
+    font-family: var(--f-display);
+    font-size: 16px;
+    font-style: italic;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  }
+  .err-back-btn:hover {
+    background: var(--d-orange);
+    color: var(--d-ink-0) !important;
+  }
+  .err-back-btn .err-arrow-g {
+    font-family: var(--f-hand);
+    font-size: 22px;
+    line-height: 0.8;
+  }
+
+  .err-quiet-link {
+    font-family: var(--f-serif);
+    font-size: 14px;
+    color: var(--d-aqua) !important;
+    text-decoration: underline !important;
+    text-decoration-color: rgba(142,164,162,0.35) !important;
+    text-underline-offset: 3px;
+  }
+  .err-quiet-link:hover { color: var(--d-paper) !important; }
+
+  .err-kicker {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--d-red);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .err-headline {
+    font-family: var(--f-display);
+    font-size: clamp(56px, 7vw, 96px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--fg);
+    margin: 0 0 18px;
+    font-variation-settings: 'opsz' 144, 'SOFT' 80;
+  }
+  .err-headline em {
+    font-family: var(--f-display);
+    font-style: italic;
+    color: var(--d-orange);
+    font-weight: 300;
+  }
+
+  .err-lede {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--d-old-white);
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+  .err-lede code {
+    font-style: normal;
+    font-family: var(--f-mono);
+    color: var(--d-yellow);
+    background: rgba(196,178,138,0.08);
+    padding: 0.1em 0.4em;
+    border: 1px solid rgba(196,178,138,0.18);
+    border-radius: 2px;
+    font-size: 0.9em;
+  }
+
+  .err-body {
+    font-family: var(--f-serif);
+    font-size: 15.5px;
+    line-height: 1.68;
+    color: var(--fg-dim);
+    margin-bottom: 32px;
+    max-width: 440px;
+  }
+
+  .err-inline-code {
+    font-family: var(--f-mono);
+    color: var(--d-yellow);
+    background: rgba(196,178,138,0.08);
+    padding: 0.1em 0.4em;
+    border: 1px solid rgba(196,178,138,0.18);
+    border-radius: 2px;
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 760px) {
+    .err-card { grid-template-columns: 1fr; gap: 48px; }
+    .stage-404 { padding: 60px 24px 100px; }
+    .err-corner.tr, .err-corner.br { text-align: left; right: auto; left: 0; }
+  }
 </style>
 
-<div class="page-404">
-  <svg class="loss-chart" viewbox="0 -10 500 370" xmlns="http://www.w3.org/2000/svg" overflow="visible">
-    <defs>
-      <lineargradient id="curveGrad" x1="0" y1="1" x2="1" y2="0">
-        <stop offset="0%" stop-color="#22d3ee"></stop>
-        <stop offset="100%" stop-color="#8b5cf6"></stop>
-      </lineargradient>
-      <!-- Animated flowing gradient using the site's color palette -->
-      <lineargradient id="curveGradAnim" gradientunits="userSpaceOnUse" x1="0" y1="0" x2="500" y2="0">
-        <stop offset="0%" stop-color="#22d3ee"><animate attributename="stop-color" values="#22d3ee;#8b5cf6;#a78bfa;#22d3ee" dur="4s" repeatcount="indefinite"></animate></stop>
-        <stop offset="25%" stop-color="#8b5cf6"><animate attributename="stop-color" values="#8b5cf6;#a78bfa;#22d3ee;#8b5cf6" dur="4s" repeatcount="indefinite"></animate></stop>
-        <stop offset="50%" stop-color="#a78bfa"><animate attributename="stop-color" values="#a78bfa;#22d3ee;#8b5cf6;#a78bfa" dur="4s" repeatcount="indefinite"></animate></stop>
-        <stop offset="75%" stop-color="#22d3ee"><animate attributename="stop-color" values="#22d3ee;#8b5cf6;#a78bfa;#22d3ee" dur="4s" repeatcount="indefinite"></animate></stop>
-        <stop offset="100%" stop-color="#8b5cf6"><animate attributename="stop-color" values="#8b5cf6;#a78bfa;#22d3ee;#8b5cf6" dur="4s" repeatcount="indefinite"></animate></stop>
-      </lineargradient>
-      <filter id="glow404" x="-50%" y="-50%" width="200%" height="200%">
-        <fegaussianblur stddeviation="6" result="blur"></fegaussianblur>
-        <femerge>
-          <femergenode in="blur"></femergenode>
-          <femergenode in="SourceGraphic"></femergenode>
-        </femerge>
-      </filter>
-      <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-        <fegaussianblur stddeviation="12"></fegaussianblur>
-      </filter>
-    </defs>
+<main class="stage-404">
+  <div class="err-card">
+    <!-- corner marks -->
+    <div class="err-corner tl err-f1">§ ERR · NO · 404</div>
+    <div class="err-corner tr err-f1">FILED <span style="color: var(--d-orange);">APR 24 · 2026</span></div>
+    <div class="err-corner bl err-f5">TRACE — <span style="color: var(--d-red);">page_not_found</span> @ router.ts:42</div>
+    <div class="err-corner br err-f5" style="color: var(--d-aqua);">try: <code class="err-inline-code" style="font-size: 10px;">cd ~ &amp;&amp; make post</code></div>
 
-    <!-- Y axis -->
-    <line class="axis-element" style="animation-delay:0.2s" x1="70" y1="30" x2="70" y2="290" stroke="rgba(234,242,255,0.25)" stroke-width="1.5"></line>
-    <!-- X axis -->
-    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="290" x2="460" y2="290" stroke="rgba(234,242,255,0.25)" stroke-width="1.5"></line>
+    <!-- LEFT: copy -->
+    <div>
+      <div class="err-f1 err-kicker">§ training diverged</div>
 
-    <!-- Y axis label -->
-    <text class="axis-element" style="animation-delay:0.4s" x="30" y="165" fill="rgba(234,242,255,0.45)" font-size="13" font-family="sans-serif" text-anchor="middle" transform="rotate(-90,30,165)">Loss</text>
+      <h1 class="err-f2 err-headline">Four<em>oh</em>four.</h1>
 
-    <!-- X axis label -->
-    <text class="axis-element" style="animation-delay:0.5s" x="265" y="325" fill="rgba(234,242,255,0.45)" font-size="13" font-family="sans-serif" text-anchor="middle">Epochs</text>
+      <div class="err-f3 err-lede">
+        The page you're looking for overfit to <code>/dev/null</code> — loss went to zero, generalization went with it.
+      </div>
 
-    <!-- Y tick marks -->
-    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="225" x2="70" y2="225" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="160" x2="70" y2="160" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.3s" x1="65" y1="95" x2="70" y2="95" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
+      <div class="err-f4 err-body">
+        No gradients survived. No checkpoint to restore. You could try the <a href="/" class="err-quiet-link">archive</a>, the <a href="/about.html" class="err-quiet-link">about page</a>, or just start again from the homepage.
+      </div>
 
-    <!-- X tick marks -->
-    <line class="axis-element" style="animation-delay:0.4s" x1="170" y1="290" x2="170" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.4s" x1="265" y1="290" x2="265" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.4s" x1="360" y1="290" x2="360" y2="295" stroke="rgba(234,242,255,0.2)" stroke-width="1"></line>
+      <div class="err-f5" style="display: flex; gap: 16px; align-items: center;">
+        <a href="/" class="err-back-btn">
+          <span class="err-arrow-g">↩</span>
+          <span>back to the archive</span>
+        </a>
+      </div>
+    </div>
 
-    <!-- Grid lines (subtle) -->
-    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="225" x2="460" y2="225" stroke="rgba(234,242,255,0.05)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="160" x2="460" y2="160" stroke="rgba(234,242,255,0.05)" stroke-width="1"></line>
-    <line class="axis-element" style="animation-delay:0.3s" x1="70" y1="95" x2="460" y2="95" stroke="rgba(234,242,255,0.05)" stroke-width="1"></line>
+    <!-- RIGHT: diverging loss chart -->
+    <div style="position: relative;">
+      <div class="err-margin-note err-f4" style="top: -34px; right: -10px; font-size: 26px;">
+        — the moment it gave up
+      </div>
+      <svg class="err-arrow err-f4" style="top: 0; right: 70px; width: 40px; height: 44px;" viewbox="0 0 40 44">
+        <path d="M 32 4 Q 22 16 14 28 L 18 32 M 14 28 L 12 22" stroke="var(--d-orange)" stroke-width="1.4" fill="none" stroke-linecap="round"></path>
+      </svg>
 
-    <!-- Noisy diverging loss curve (smooth spline) -->
-    <defs>
-      <path id="losspath" d="M 80,260
-           C 90,264 98,252 108,256
-           S 122,262 132,254
-           S 148,248 158,252
-           S 172,242 182,246
-           S 196,238 206,243
-           S 220,234 230,239
-           S 244,232 254,236
-           S 268,230 278,234
-           S 290,232 298,236
-           S 306,234 312,240
-           S 320,236 328,244
-           S 336,238 342,250
-           S 350,242 356,236
-           S 362,226 368,218
-           S 375,210 380,198
-           S 388,188 393,175
-           S 400,162 406,148
-           S 414,132 420,118
-           S 428,100 434,84
-           S 442,66 450,48"></path>
-    </defs>
+      <div class="err-chart-frame">
+        <div class="err-chart-head">
+          <span class="err-dot" style="background: var(--d-red);"></span>
+          <span class="err-dot" style="background: var(--d-yellow);"></span>
+          <span class="err-dot" style="background: var(--d-green);"></span>
+          <span style="margin-left: 4px;">train.py — epoch 404</span>
+          <span style="margin-left: auto; color: var(--d-red);">loss ↗ NaN</span>
+        </div>
 
-    <!-- Glow version (behind) -->
-    <use id="curveGlow" href="#losspath" fill="none" stroke="url(#curveGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.15" filter="url(#softGlow)"></use>
+        <svg viewbox="0 0 440 300" style="width: 100%; height: auto; display: block;" overflow="visible">
+          <defs>
+            <lineargradient id="err-divgrad" gradientunits="userSpaceOnUse" x1="40" y1="250" x2="420" y2="40">
+              <stop offset="0%" stop-color="#87A987"></stop>
+              <stop offset="35%" stop-color="#C4B28A"></stop>
+              <stop offset="65%" stop-color="#B6927B"></stop>
+              <stop offset="100%" stop-color="#C4746E"></stop>
+            </lineargradient>
+            <filter id="err-divglow" x="-50%" y="-50%" width="200%" height="200%">
+              <fegaussianblur stddeviation="6"></fegaussianblur>
+            </filter>
+            <filter id="err-softglow" x="-50%" y="-50%" width="200%" height="200%">
+              <fegaussianblur stddeviation="4"></fegaussianblur>
+            </filter>
+            <path id="err-divpath" d="M 50 220
+                 C 60 222 72 218 82 224
+                 S 98 232 108 226
+                 S 124 230 134 220
+                 S 150 214 160 208
+                 S 176 200 186 196
+                 S 202 190 212 188
+                 S 226 186 234 190
+                 S 246 200 252 214
+                 S 260 232 266 250
+                 S 276 260 282 240
+                 S 290 200 298 160
+                 S 308 110 316 80
+                 S 326 50 336 34
+                 S 350 22 360 18
+                 S 376 16 388 18
+                 S 404 22 416 28"></path>
+          </defs>
 
-    <!-- Main curve -->
-    <use id="curveMain" href="#losspath" fill="none" stroke="url(#curveGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></use>
+          <!-- paper grid lines -->
+          <g stroke="var(--d-ink-5)" stroke-width="0.5" opacity="0.5">
+            <line x1="40" y1="60" x2="420" y2="60" stroke-dasharray="2 4"></line>
+            <line x1="40" y1="120" x2="420" y2="120" stroke-dasharray="2 4"></line>
+            <line x1="40" y1="180" x2="420" y2="180" stroke-dasharray="2 4"></line>
+            <line x1="40" y1="240" x2="420" y2="240" stroke-dasharray="2 4"></line>
+          </g>
 
-    <!-- Animated rainbow curve (hidden until draw completes) -->
-    <use id="curveRainbow" href="#losspath" fill="none" stroke="url(#curveGradAnim)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0" style="transition: opacity 0.8s ease-in"></use>
-    <use id="curveRainbowGlow" href="#losspath" fill="none" stroke="url(#curveGradAnim)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0" filter="url(#softGlow)" style="transition: opacity 0.8s ease-in"></use>
+          <!-- axes -->
+          <g class="err-f1">
+            <line x1="40" y1="30" x2="40" y2="260" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.6"></line>
+            <line x1="40" y1="260" x2="420" y2="260" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.6"></line>
+            <line x1="36" y1="60" x2="40" y2="60" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+            <line x1="36" y1="120" x2="40" y2="120" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+            <line x1="36" y1="180" x2="40" y2="180" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+            <line x1="150" y1="260" x2="150" y2="264" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+            <line x1="260" y1="260" x2="260" y2="264" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+            <line x1="370" y1="260" x2="370" y2="264" stroke="var(--d-paper)" stroke-width="0.8" opacity="0.5"></line>
+          </g>
 
-    <!-- 404 text that follows the curve tip -->
-    <text id="label404glow" filter="url(#softGlow)" font-size="32" font-weight="800" font-family="sans-serif" text-anchor="middle" fill="#8b5cf6" opacity="0.4">404</text>
-    <text id="label404" filter="url(#glow404)" font-size="32" font-weight="800" font-family="sans-serif" text-anchor="middle" fill="#eaf2ff">404</text>
-  </svg>
+          <text x="26" y="145" fill="var(--fg-faint)" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle" transform="rotate(-90, 26, 145)" letter-spacing="2" class="err-f1">LOSS</text>
+          <text x="230" y="285" fill="var(--fg-faint)" font-family="JetBrains Mono, monospace" font-size="9" text-anchor="middle" letter-spacing="2" class="err-f1">EPOCHS</text>
+          <text x="34" y="262" fill="var(--fg-faint)" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="end" class="err-f1">0</text>
 
-  <script>
-  (function() {
-    const path = document.getElementById('losspath');
-    const curveMain = document.getElementById('curveMain');
-    const curveGlow = document.getElementById('curveGlow');
-    const label = document.getElementById('label404');
-    const labelGlow = document.getElementById('label404glow');
-    const totalLen = path.getTotalLength();
-    const duration = 4000;
+          <!-- glow underlay -->
+          <path id="err-dglow" d="M 50 220
+               C 60 222 72 218 82 224
+               S 98 232 108 226
+               S 124 230 134 220
+               S 150 214 160 208
+               S 176 200 186 196
+               S 202 190 212 188
+               S 226 186 234 190
+               S 246 200 252 214
+               S 260 232 266 250
+               S 276 260 282 240
+               S 290 200 298 160
+               S 308 110 316 80
+               S 326 50 336 34
+               S 350 22 360 18
+               S 376 16 388 18
+               S 404 22 416 28" fill="none" stroke="url(#err-divgrad)" stroke-width="5" opacity="0.35" stroke-linecap="round" filter="url(#err-softglow)"></path>
 
-    // Hide curves initially
-    [curveMain, curveGlow].forEach(function(el) {
-      el.style.strokeDasharray = totalLen;
-      el.style.strokeDashoffset = totalLen;
-    });
+          <!-- main stroke -->
+          <path id="err-dmain" d="M 50 220
+               C 60 222 72 218 82 224
+               S 98 232 108 226
+               S 124 230 134 220
+               S 150 214 160 208
+               S 176 200 186 196
+               S 202 190 212 188
+               S 226 186 234 190
+               S 246 200 252 214
+               S 260 232 266 250
+               S 276 260 282 240
+               S 290 200 298 160
+               S 308 110 316 80
+               S 326 50 336 34
+               S 350 22 360 18
+               S 376 16 388 18
+               S 404 22 416 28" fill="none" stroke="url(#err-divgrad)" stroke-width="2.4" stroke-linecap="round"></path>
 
-    // Position label at start
-    var startPt = path.getPointAtLength(0);
-    [label, labelGlow].forEach(function(el) {
-      el.setAttribute('x', startPt.x);
-      el.setAttribute('y', startPt.y - 22);
-    });
+          <!-- tip marker + 404 label -->
+          <g id="err-tip-group">
+            <circle id="err-tipdot" cx="0" cy="0" r="4.5" fill="var(--d-red)" filter="url(#err-divglow)"></circle>
+            <text id="err-tip404-glow" x="0" y="0" fill="var(--d-red)" font-family="Fraunces, serif" font-size="32" font-weight="300" font-style="italic" text-anchor="middle" opacity="0.45" filter="url(#err-softglow)">404</text>
+            <text id="err-tip404" x="0" y="0" fill="var(--fg)" font-family="Fraunces, serif" font-size="32" font-weight="300" font-style="italic" text-anchor="middle">404</text>
+          </g>
 
-    var startTime = null;
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+          <g class="err-f4">
+            <text x="344" y="62" fill="var(--d-red)" font-family="Caveat, cursive" font-size="18" text-anchor="middle" transform="rotate(-4, 344, 62)">loss → ∞</text>
+          </g>
+        </svg>
+      </div>
 
-    function animate(ts) {
-      if (!startTime) startTime = ts;
-      var raw = Math.min((ts - startTime) / duration, 1);
-      var t = easeOut(raw);
-      var drawn = t * totalLen;
+      <svg class="err-f5" style="width: 100%; height: 10px; margin-top: 8px;" viewbox="0 0 420 10" preserveaspectratio="none">
+        <path d="M 4 4 Q 100 8 200 4 T 416 6" stroke="var(--d-orange)" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.7"></path>
+      </svg>
 
-      // Draw curve
-      var offset = totalLen - drawn;
-      curveMain.style.strokeDashoffset = offset;
-      curveGlow.style.strokeDashoffset = offset;
+      <div class="err-f5" style="display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 10px; color: var(--fg-faint); letter-spacing: 0.14em; margin-top: 8px;">
+        <span>fig. err — <span style="color: var(--d-red);">the divergence, recorded</span></span>
+        <span>N = 404 STEPS</span>
+      </div>
+    </div>
+  </div>
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main>
 
-      // Move 404 label to curve tip
-      var pt = path.getPointAtLength(drawn);
-      label.setAttribute('x', pt.x);
-      label.setAttribute('y', pt.y - 22);
-      labelGlow.setAttribute('x', pt.x);
-      labelGlow.setAttribute('y', pt.y - 22);
+<script>
+(function () {
+  const path = document.getElementById('err-divpath');
+  const main = document.getElementById('err-dmain');
+  const glow = document.getElementById('err-dglow');
+  const dot  = document.getElementById('err-tipdot');
+  const lbl  = document.getElementById('err-tip404');
+  const lblG = document.getElementById('err-tip404-glow');
+  if (!path || !main || !glow) return;
+  const total = path.getTotalLength();
+  const dur = 3800;
 
-      if (raw < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        labelGlow.classList.add('text-404-glow-pulse');
-        // Fade in the animated rainbow gradient over the static curve
-        document.getElementById('curveRainbow').setAttribute('opacity', '1');
-        document.getElementById('curveRainbowGlow').setAttribute('opacity', '0.15');
-      }
+  [main, glow].forEach(el => {
+    el.style.strokeDasharray = total;
+    el.style.strokeDashoffset = total;
+  });
+
+  let t0 = null;
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function frame(ts) {
+    if (!t0) t0 = ts;
+    const raw = Math.min((ts - t0) / dur, 1);
+    const t = ease(raw);
+    const drawn = t * total;
+
+    main.style.strokeDashoffset = total - drawn;
+    glow.style.strokeDashoffset = total - drawn;
+
+    const p = path.getPointAtLength(drawn);
+    dot.setAttribute('cx', p.x);
+    dot.setAttribute('cy', p.y);
+    lbl.setAttribute('x', p.x + 24);
+    lbl.setAttribute('y', p.y - 12);
+    lblG.setAttribute('x', p.x + 24);
+    lblG.setAttribute('y', p.y - 12);
+
+    if (raw < 1) {
+      requestAnimationFrame(frame);
+    } else {
+      dot.animate([
+        { r: 4.5, opacity: 1 },
+        { r: 8,   opacity: 0.4 },
+        { r: 4.5, opacity: 1 },
+      ], { duration: 1800, iterations: Infinity, easing: 'ease-in-out' });
     }
-
-    requestAnimationFrame(animate);
-  })();
-  </script>
-
-  <h1 class="error-headline">Training diverged.</h1>
-  <p class="error-subtext">The page you're looking for overfit to <code>/dev/null</code>.</p>
-  <a href="/" class="home-btn">Back to Home</a>
-</div>
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+
+<script src="/assets/dragon_theme/corkboard.js"></script>
+<script src="/assets/dragon_theme/colab-btn.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -861,7 +998,7 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2025, The Overfitting Club by Miguel Chitiva Diaz</p>
+<p>2025-2026, The Overfitting Club by Miguel Chitiva Diaz</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -869,7 +1006,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club">
       <i class="bi bi-github" role="img">
 </i> 
     </a>

@@ -1,0 +1,160 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — Colab CTA ("Run me" button)
+ * Single canonical CTA used at the top of every technical post.
+ * Source design: design-system/project/dragon/colab-button.html
+ * ────────────────────────────────────────────────────────── */
+
+.oc-colab-btn {
+  display: inline-block;
+  position: relative;
+  width: 268px;
+  height: 64px;
+  margin: 6px 0 18px;
+  text-decoration: none !important;
+  cursor: pointer;
+  perspective: 600px;
+
+  /* Container is a positioning context only; cards do the work. */
+  &, &:hover, &:focus, &:visited { color: var(--fg); }
+}
+
+/* Back card — the AI flourish that peeks from behind. */
+.oc-colab-btn-back {
+  position: absolute;
+  inset: 0;
+  background: var(--d-ink-1);
+  border: 1px solid var(--d-orange);
+  border-left: 2px solid var(--d-orange);
+  overflow: hidden;
+  opacity: 0.55;
+  transform: translate(3px, 2px) rotate(0.6deg);
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.oc-colab-btn-back-eyebrow {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  transition: color 0.4s;
+}
+
+.oc-colab-btn-net {
+  position: absolute;
+  left: 14px;
+  top: 0;
+  width: 230px;
+  height: 76px;
+}
+
+/* Front card — the badge. */
+.oc-colab-btn-front {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--d-orange);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 18px 0 16px;
+  z-index: 2;
+  transform-origin: left center;
+  transform: translate(0, 0) rotate(0deg);
+  box-shadow: 0 1px 0 rgba(13, 12, 12, 0.4);
+  transition: transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+              border-color 0.3s,
+              box-shadow 0.3s;
+  /* Idle wiggle: 600ms wiggle ~every 7s. */
+  animation: oc-colab-wiggle 7s ease-in-out infinite;
+}
+
+.oc-colab-btn-glyph {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--d-orange);
+}
+
+.oc-colab-btn-text {
+  min-width: 0;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.oc-colab-btn-front-eyebrow {
+  font-family: var(--f-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: 4px;
+}
+
+.oc-colab-btn-title {
+  font-family: var(--f-display);
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--fg);
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+}
+
+.oc-colab-btn-arrow {
+  font-family: var(--f-mono);
+  font-size: 14px;
+  color: var(--d-orange);
+  margin-left: auto;
+  transform: translateX(0);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Hover state ─────────────────────────────────────────── */
+.oc-colab-btn:hover .oc-colab-btn-front,
+.oc-colab-btn:focus-visible .oc-colab-btn-front {
+  /* Cancel wiggle and slide+tilt away to reveal the back card. */
+  animation: none;
+  transform: translate(-12px, -6px) rotate(-3.5deg);
+  border-color: var(--d-orange);
+  box-shadow: 0 6px 20px -8px rgba(13, 12, 12, 0.6);
+}
+
+.oc-colab-btn:hover .oc-colab-btn-back,
+.oc-colab-btn:focus-visible .oc-colab-btn-back {
+  transform: translate(8px, 4px) rotate(0deg);
+  opacity: 1;
+}
+
+.oc-colab-btn:hover .oc-colab-btn-back-eyebrow,
+.oc-colab-btn:focus-visible .oc-colab-btn-back-eyebrow {
+  color: var(--d-orange);
+}
+
+.oc-colab-btn:hover .oc-colab-btn-arrow,
+.oc-colab-btn:focus-visible .oc-colab-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* ── Idle wiggle keyframes ───────────────────────────────────
+   600ms wiggle inside a 7s loop ⇒ rest 92% of the cycle. */
+@keyframes oc-colab-wiggle {
+  0%, 85.7%, 100% { transform: translate(0, 0) rotate(0deg); }
+  87.0%           { transform: translate(-1px, -2px) rotate(-2.5deg); }
+  90.0%           { transform: translate(1px, -1px) rotate(2deg); }
+  92.0%           { transform: translate(-1px, 0) rotate(-1.2deg); }
+  95.4%           { transform: translate(0, -0.5px) rotate(0.6deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-colab-btn-front { animation: none; }
+  .oc-colab-btn-back,
+  .oc-colab-btn-front,
+  .oc-colab-btn-arrow { transition: none; }
+}

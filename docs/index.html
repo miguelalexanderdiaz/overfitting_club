@@ -44,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-6f6599830d51be977da3b6af758f8eff.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-adadc4986083cdbaae7d8d976a2c0f22.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-6eff262b207abe810aa1dea570e9bf21.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-oc-listing .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
@@ -88,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-oc-listing'] = new List('listing-oc-listing', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -133,6 +133,7 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/about.css">
 <meta property="og:title" content=" The Overfitting Club – The Overfitting Club">
 <meta property="og:description" content="Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI.">
 <meta property="og:image" content="https://overfitting.club/posts/tutorials/deep_learning/the_diffusion_paradigm/assets/diffusion_thumbnail.svg">
@@ -190,7 +191,7 @@ window.Quarto = {
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -245,15 +246,78 @@ window.Quarto = {
 </header>
 
 
+<!--
+  Home-page corkboard markup (head). Wraps the listing — closing </div>
+  is in corkboard-tail.qmd. Styled by dragon_theme/partials/_home.scss.
+-->
+<div class="oc-home">
+<section class="oc-hero">
+  <div class="oc-hero-kicker">Field notes on machine learning</div>
+  <h1 class="oc-hero-title">The <em>Overfitting</em> Club</h1>
+  <div class="oc-hero-row">
+    <p class="oc-hero-lede">
+      Tutorials you can actually run, paper walk-throughs, and occasional
+      op-eds about the industry. Written in the margins by
+      <span class="name">Miguel Chitiva Diaz</span> — with
+      <em>calm, drama-free MLOps</em>.
+    </p>
+    <div class="oc-hero-aside">
+      <div class="oc-hero-ps">p.s. — GPUs don’t grow on trees&nbsp;(tragic)</div>
+      <svg class="oc-hero-arrow" viewbox="0 0 80 40" fill="none">
+        <path d="M 4 32 Q 30 8 70 18 M 64 10 L 72 18 L 62 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </div>
+  </div>
+</section>
 
+<section class="oc-corkboard">
+  <div class="oc-corkboard-head">
+    <div class="oc-kicker" id="oc-corkboard-kicker">§ The Corkboard</div>
+    <h2 class="oc-corkboard-title anchored" id="oc-corkboard-title">Pinned to the <em>corkboard</em></h2>
+    <div class="oc-corkboard-caption" id="oc-corkboard-caption">Drafts, experiments, half-thoughts. Filter by section, or by tag within.</div>
+  </div>
 
+  <div class="oc-tape-filter">
+    <div class="oc-tape-tabs" role="tablist">
+      <button class="oc-tape-tab is-active" type="button" data-section="all" data-tape="old-white" role="tab" aria-selected="true">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">All</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="thoughts" data-tape="yellow" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Thoughts</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="tutorials" data-tape="green" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Tutorials</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="papers" data-tape="red" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Papers</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <div class="oc-tape-spacer"></div>
+      <button class="oc-tape-clear" type="button" id="oc-tape-clear" hidden="">✕ clear filters</button>
+    </div>
+    <div class="oc-tape-tags" id="oc-tape-tags" hidden="">
+      <span class="oc-tape-tags-label">filter by tag —</span>
+    </div>
+  </div>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+  <div class="oc-empty-state" id="oc-empty-state" hidden="">
+    <div class="oc-empty-mark">nothing here yet —</div>
+    <div class="oc-empty-body">No posts match this combination. Try a different tag, or clear the filter.</div>
+    <button class="oc-empty-clear" type="button">Clear filters</button>
+  </div>
+</section>
+<div id="listing-oc-listing" class="quarto-listing quarto-listing-container-default">
 <div class="listing-actions-group">
    <div class="input-group input-group-sm quarto-listing-sort">
     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+    <select id="listing-oc-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-oc-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
       <option value="" disabled="" selected="" hidden="">Order By</option>
       <option value="index" data-direction="asc">Default</option>
       <option value="listing-title" data-direction="asc">
@@ -276,7 +340,7 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="ZGlmZnVzaW9uJTJDZGRwbSUyQ2RlZXAtbGVhcm5pbmclMkNnZW5lcmF0aXZlLW1vZGVscw==" data-listing-date-sort="1775192400000" data-listing-file-modified-sort="1775702378923" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="53" data-listing-word-count-sort="10586">
+<div class="quarto-post image-right" data-index="0" data-categories="ZGlmZnVzaW9uJTJDZGRwbSUyQ2RlZXAtbGVhcm5pbmclMkNnZW5lcmF0aXZlLW1vZGVscw==" data-listing-date-sort="1775192400000" data-listing-file-modified-sort="1777227195105" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="53" data-listing-word-count-sort="10587">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.html" class="no-external">
 
 <img loading="lazy" src="./posts/tutorials/deep_learning/the_diffusion_paradigm/assets/diffusion_thumbnail.svg" class="thumbnail-image">
@@ -315,7 +379,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="ZGVlcC1sZWFybmluZyUyQ3ZhZSUyQ2dlbmVyYXRpdmUtbW9kZWxzJTJDcHl0b3JjaA==" data-listing-date-sort="1774760400000" data-listing-file-modified-sort="1775702385073" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="49" data-listing-word-count-sort="9768">
+<div class="quarto-post image-right" data-index="1" data-categories="ZGVlcC1sZWFybmluZyUyQ3ZhZSUyQ2dlbmVyYXRpdmUtbW9kZWxzJTJDcHl0b3JjaA==" data-listing-date-sort="1774760400000" data-listing-file-modified-sort="1777227187125" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="49" data-listing-word-count-sort="9769">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.html" class="no-external">
 
 <img loading="lazy" src="./posts/tutorials/deep_learning/class_conditional_vae/assets/cvae_thumbnail.svg" class="thumbnail-image">
@@ -354,7 +418,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZGVlcC1sZWFybmluZyUyQ2F1dG9lbmNvZGVyJTJDdmFlJTJDcHl0b3JjaA==" data-listing-date-sort="1773032400000" data-listing-file-modified-sort="1775702391026" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="71" data-listing-word-count-sort="14067">
+<div class="quarto-post image-right" data-index="2" data-categories="ZGVlcC1sZWFybmluZyUyQ2F1dG9lbmNvZGVyJTJDdmFlJTJDcHl0b3JjaA==" data-listing-date-sort="1773032400000" data-listing-file-modified-sort="1777227150838" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="71" data-listing-word-count-sort="14068">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/autoencoder/autoencoder.html" class="no-external">
 
 <img loading="lazy" src="./posts/tutorials/deep_learning/autoencoder/assets/autoencoder_thumbnail.svg" class="thumbnail-image">
@@ -393,7 +457,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="ZGlmZnVzaW9uJTJDdHJhbnNmb3JtZXIlMkNkZWVwLWxlYXJuaW5nJTJDZ2VuZXJhdGl2ZS1tb2RlbHM=" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775250848104" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="234">
+<div class="quarto-post image-right" data-index="3" data-categories="ZGlmZnVzaW9uJTJDdHJhbnNmb3JtZXIlMkNkZWVwLWxlYXJuaW5nJTJDZ2VuZXJhdGl2ZS1tb2RlbHM=" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1777227162006" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="299">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -418,7 +482,7 @@ Miguel Chitiva Diaz
 
 </div>
 <div class="delink listing-description"><a href="./posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.html" class="no-external">
-In this series we build a Diffusion Transformer (DiT) from scratch, covering every building block from the ground up. The tutorial is split into five parts that…
+This is the sixth and final entry in our series building a Diffusion Transformer (DiT) from scratch. The prior posts assembled every piece we need:
 </a></div>
 </div>
 <div class="metadata">
@@ -432,7 +496,7 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="dHJhbnNmb3JtZXIlMkNhdHRlbnRpb24lMkNkZWVwLWxlYXJuaW5n" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1775702377676" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5738">
+<div class="quarto-post image-right" data-index="4" data-categories="dHJhbnNmb3JtZXIlMkNhdHRlbnRpb24lMkNkZWVwLWxlYXJuaW5n" data-listing-date-sort="1771909200000" data-listing-file-modified-sort="1777227169727" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="29" data-listing-word-count-sort="5739">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/transformer/transformer.html" class="no-external">
 
 <p class="card-img-top"><img src="posts/tutorials/deep_learning/transformer/assets/encoder_arch_simple.svg"  class="thumbnail-image card-img"/></p>
@@ -502,10 +566,10 @@ Miguel Chitiva Diaz
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="dGltZS1zZXJpZXMlMkN0ZW5zb3JmbG93JTJDbWFjaGluZS1sZWFybmluZw==" data-listing-date-sort="1624078800000" data-listing-file-modified-sort="1775243934288" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="683">
+<div class="quarto-post image-right" data-index="6" data-categories="dGltZS1zZXJpZXMlMkN0ZW5zb3JmbG93JTJDbWFjaGluZS1sZWFybmluZw==" data-listing-date-sort="1624078800000" data-listing-file-modified-sort="1777227176960" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="684">
 <div class="thumbnail"><a href="./posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf_files/figure-html/cell-7-output-1.png"  class="thumbnail-image card-img"/></p>
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
 </a></div>
 <div class="body">
@@ -541,7 +605,22 @@ Miguel Chitiva Diaz
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+</div>
+<!--
+  Home-page corkboard markup (tail). Closes the wrapping
+  <div class="oc-home"> opened in corkboard-head.qmd.
+-->
+<section class="oc-thanks">
+  <div class="oc-thanks-mark">— thanks for reading</div>
+</section>
+</div>
+
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script src="./assets/dragon_theme/corkboard.js"></script>
+<script src="./assets/dragon_theme/colab-btn.js"></script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -946,7 +1025,7 @@ Miguel Chitiva Diaz
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>2025, The Overfitting Club by Miguel Chitiva Diaz</p>
+<p>2025-2026, The Overfitting Club by Miguel Chitiva Diaz</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
@@ -954,7 +1033,7 @@ Miguel Chitiva Diaz
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/">
+    <a class="nav-link" href="https://github.com/miguelalexanderdiaz/overfitting_club">
       <i class="bi bi-github" role="img">
 </i> 
     </a>

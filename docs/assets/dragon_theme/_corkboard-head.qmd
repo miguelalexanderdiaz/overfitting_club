@@ -1,0 +1,72 @@
+<!--
+  Home-page corkboard markup (head). Wraps the listing — closing </div>
+  is in corkboard-tail.qmd. Styled by dragon_theme/partials/_home.scss.
+-->
+
+````{=html}
+<div class="oc-home">
+<section class="oc-hero">
+  <div class="oc-hero-kicker">Field notes on machine learning</div>
+  <h1 class="oc-hero-title">The <em>Overfitting</em> Club</h1>
+  <div class="oc-hero-row">
+    <p class="oc-hero-lede">
+      Tutorials you can actually run, paper walk-throughs, and occasional
+      op-eds about the industry. Written in the margins by
+      <span class="name">Miguel Chitiva Diaz</span> &mdash; with
+      <em>calm, drama-free MLOps</em>.
+    </p>
+    <div class="oc-hero-aside">
+      <div class="oc-hero-ps">p.s. &mdash; GPUs don&rsquo;t grow on trees&nbsp;(tragic)</div>
+      <svg class="oc-hero-arrow" viewBox="0 0 80 40" fill="none">
+        <path d="M 4 32 Q 30 8 70 18 M 64 10 L 72 18 L 62 22"
+              stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="oc-corkboard">
+  <div class="oc-corkboard-head">
+    <div class="oc-kicker" id="oc-corkboard-kicker">&sect; The Corkboard</div>
+    <h2 class="oc-corkboard-title" id="oc-corkboard-title">Pinned to the <em>corkboard</em></h2>
+    <div class="oc-corkboard-caption" id="oc-corkboard-caption">Drafts, experiments, half-thoughts. Filter by section, or by tag within.</div>
+  </div>
+
+  <div class="oc-tape-filter">
+    <div class="oc-tape-tabs" role="tablist">
+      <button class="oc-tape-tab is-active" type="button" data-section="all" data-tape="old-white" role="tab" aria-selected="true">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">All</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="thoughts" data-tape="yellow" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Thoughts</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="tutorials" data-tape="green" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Tutorials</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <button class="oc-tape-tab" type="button" data-section="papers" data-tape="red" role="tab" aria-selected="false">
+        <span class="oc-tape-strip" aria-hidden="true"></span>
+        <span class="oc-tape-label">Papers</span>
+        <span class="oc-tape-count">0 entries</span>
+      </button>
+      <div class="oc-tape-spacer"></div>
+      <button class="oc-tape-clear" type="button" id="oc-tape-clear" hidden>&#x2715; clear filters</button>
+    </div>
+    <div class="oc-tape-tags" id="oc-tape-tags" hidden>
+      <span class="oc-tape-tags-label">filter by tag &mdash;</span>
+    </div>
+  </div>
+
+  <div class="oc-empty-state" id="oc-empty-state" hidden>
+    <div class="oc-empty-mark">nothing here yet &mdash;</div>
+    <div class="oc-empty-body">No posts match this combination. Try a different tag, or clear the filter.</div>
+    <button class="oc-empty-clear" type="button">Clear filters</button>
+  </div>
+</section>
+````
