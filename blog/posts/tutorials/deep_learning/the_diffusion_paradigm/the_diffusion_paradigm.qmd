@@ -21,7 +21,7 @@ bibliography: references.bib
 jupyter: python3
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.ipynb)
+{{< colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/the_diffusion_paradigm/the_diffusion_paradigm.ipynb" >}}
 
 This is the fourth entry in our series building a
 [Diffusion Transformer (DiT) from scratch](../diffusion_transformer/diffusion_transformer.qmd).

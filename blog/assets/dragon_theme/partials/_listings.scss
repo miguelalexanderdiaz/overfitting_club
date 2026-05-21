@@ -1,0 +1,75 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — listings
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Listings (home, tutorials) ─────────────────────────────── */
+.quarto-listing .list .quarto-post,
+.quarto-listing .quarto-post {
+  background: var(--bg-raised);
+  border: 1px solid var(--rule);
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  position: relative;
+}
+.quarto-listing .quarto-post:hover {
+  transform: translateY(-2px);
+  border-color: var(--d-orange);
+}
+
+.quarto-listing .listing-title,
+.quarto-listing .quarto-post .title {
+  font-family: var(--f-display) !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  color: var(--fg) !important;
+  letter-spacing: -0.015em !important;
+  line-height: 1.15 !important;
+  margin-bottom: 8px;
+}
+.quarto-listing .listing-title a,
+.quarto-listing .quarto-post .title a {
+  color: var(--fg) !important;
+  text-decoration: none !important;
+}
+
+.quarto-listing .listing-subtitle,
+.quarto-listing .listing-description {
+  font-family: var(--f-serif) !important;
+  font-style: italic;
+  color: var(--d-old-white) !important;
+  font-size: 16px !important;
+}
+
+.quarto-listing .listing-date,
+.quarto-listing .listing-reading-time,
+.quarto-listing .listing-author {
+  font-family: var(--f-mono) !important;
+  font-size: 11px !important;
+  color: var(--fg-faint) !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.quarto-listing .listing-categories .listing-category {
+  background: transparent !important;
+  color: var(--d-aqua) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: 2px !important;
+  font-family: var(--f-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+
+/* Override the big hero title (home page) */
+.section-title-with-icon,
+h1.title .section-title-with-icon {
+  color: var(--fg) !important;
+  font-family: var(--f-display) !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.02em !important;
+  text-shadow: none !important;
+}
+

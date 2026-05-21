@@ -1,0 +1,120 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — code
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Code: inline + blocks ──────────────────────────────────── */
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--f-mono) !important;
+}
+
+p code,
+li code,
+td code {
+  color: var(--d-yellow) !important;
+  background: rgba(196,178,138,0.08) !important;
+  padding: 0.08em 0.38em;
+  border: 1px solid rgba(196,178,138,0.18);
+  border-radius: 2px;
+  font-size: 0.88em;
+}
+
+/* Jupyter .cell — Kanagawa code cell look */
+.cell {
+  background: var(--d-ink-0) !important;
+  border: 1px solid var(--rule) !important;
+  border-left: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+  padding: 0 !important;
+  margin: 24px 0 !important;
+  overflow: hidden;
+  position: relative;
+}
+
+.cell .sourceCode {
+  background: var(--d-ink-0) !important;
+  margin: 0 !important;
+}
+
+.cell pre,
+pre.sourceCode,
+div.sourceCode pre {
+  background: var(--d-ink-0) !important;
+  color: var(--fg) !important;
+  padding: 18px 22px !important;
+  font-size: 13.5px !important;
+  line-height: 1.72 !important;
+  font-family: var(--f-mono) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+
+.cell .cell-output {
+  background: var(--d-ink-1) !important;
+  border-top: 1px solid var(--rule) !important;
+  color: var(--fg-dim);
+  padding: 14px 22px !important;
+  margin-top: 0 !important;
+}
+
+.cell .cell-output pre {
+  background: transparent !important;
+  color: var(--fg-dim) !important;
+  font-size: 12.5px !important;
+}
+
+.cell details.code-fold > summary {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  padding: 10px 14px;
+  background: var(--d-ink-1);
+  border-bottom: 1px solid var(--rule);
+}
+
+.code-copy-button {
+  color: var(--fg-faint) !important;
+  background: var(--d-ink-4) !important;
+  border: 1px solid var(--rule) !important;
+}
+.code-copy-button:hover {
+  color: var(--fg) !important;
+  border-color: var(--d-orange) !important;
+}
+
+.btn.code-tools-button {
+  color: var(--fg-faint) !important;
+  background: transparent !important;
+  border-color: var(--rule) !important;
+}
+
+/* Kanagawa-ish syntax token remap over Pandoc's skylighting classes */
+.sourceCode .kw,
+.sourceCode .cf { color: var(--d-violet) !important; }   /* keywords / control */
+.sourceCode .fu,
+.sourceCode .bu { color: var(--d-blue) !important; }     /* functions / builtins */
+.sourceCode .st,
+.sourceCode .vs,
+.sourceCode .ss,
+.sourceCode .ch { color: var(--d-green-2) !important; }  /* strings */
+.sourceCode .dv,
+.sourceCode .bn,
+.sourceCode .fl,
+.sourceCode .dt { color: var(--d-pink) !important; }     /* numbers / types */
+.sourceCode .co,
+.sourceCode .do { color: var(--d-ash) !important; font-style: italic; }
+.sourceCode .va,
+.sourceCode .at { color: var(--d-yellow) !important; }
+.sourceCode .op { color: var(--d-red) !important; }
+.sourceCode .cn,
+.sourceCode .im { color: var(--d-aqua) !important; }
+.sourceCode .pp,
+.sourceCode .an { color: var(--d-orange) !important; }
+

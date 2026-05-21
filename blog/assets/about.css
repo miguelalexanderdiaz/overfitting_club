@@ -1,0 +1,373 @@
+/* ─────────────────────────────────────────────────────────────
+ * About page — shared structural CSS for both themes.
+ * Dragon palette is applied via dragon.css overrides; Neural
+ * falls back to the site's default accent colors.
+ *
+ * All rules are scoped under `.oc-about` so nothing here leaks
+ * into other pages. The About page's .qmd wraps its content in
+ * <div class="oc-about">...</div>.
+ * ───────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Caveat:wght@400..700&display=swap');
+
+/* Neural-palette defaults for about-page semantic tokens.
+   dragon.css overrides these inside html[data-theme="dragon"]. */
+.oc-about {
+  --oa-accent:   #a8c8f0;   /* warm/title accent (Dragon: orange) */
+  --oa-accent-2: #22d3ee;   /* cyan (Dragon: aqua) */
+  --oa-accent-3: #a78bfa;   /* lavender (Dragon: yellow) */
+  --oa-accent-4: #c4746e;   /* warning (Dragon: red) */
+  --oa-accent-5: #87a987;   /* ok (Dragon: green) */
+  --oa-ink:      #eaf2ff;   /* primary text */
+  --oa-ink-dim:  rgba(234,242,255,0.72);
+  --oa-ink-faint:rgba(234,242,255,0.45);
+  --oa-rule:     rgba(255,255,255,0.12);
+  --oa-raised:   rgba(255,255,255,0.04);
+  --oa-bg:       #0f172a;
+
+  --oa-serif:    'Source Serif 4','Iowan Old Style',Georgia,serif;
+  --oa-display:  'Fraunces','Source Serif 4',Georgia,serif;
+  --oa-hand:     'Caveat','Source Serif 4',cursive;
+  --oa-mono:     'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+
+  --oa-ease:     cubic-bezier(0.22, 1, 0.36, 1);
+  --oa-dur-fast: 180ms;
+  --oa-dur:      320ms;
+  --oa-dur-slow: 640ms;
+
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 40px 24px;
+  color: var(--oa-ink);
+  font-family: var(--oa-serif);
+}
+
+/* ─── Two-column grid ────────────────────────────────────────── */
+.oc-about-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .oc-about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .oc-about-left { position: static !important; }
+}
+
+.oc-about-left {
+  position: sticky;
+  top: 96px;
+}
+
+/* ─── Left column: letterhead ────────────────────────────────── */
+.oc-about-kicker {
+  font-family: var(--oa-mono);
+  font-size: 10px;
+  color: var(--oa-accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.oc-about-kicker::before {
+  content: "";
+  width: 28px; height: 1px;
+  background: var(--oa-accent);
+  display: inline-block;
+}
+
+.oc-about-name {
+  font-family: var(--oa-display);
+  font-size: clamp(48px, 6vw, 62px);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 0.94;
+  margin: 0 0 10px 0;
+  font-variation-settings: 'opsz' 144, 'SOFT' 90;
+  color: var(--oa-ink);
+}
+.oc-about-name em {
+  font-style: italic;
+  color: var(--oa-accent);
+  font-family: var(--oa-display);
+  font-weight: 300;
+}
+
+.oc-about-subname {
+  font-family: var(--oa-hand);
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--oa-accent-3);
+  transform: rotate(-2deg);
+  margin: 6px 0 28px 2px;
+  max-width: 260px;
+}
+.oc-about-subname .dim { color: var(--oa-ink-dim); }
+
+/* ─── Portrait with orbit ring ───────────────────────────────── */
+@keyframes oa-orbit { to { transform: rotate(360deg); } }
+@keyframes oa-pulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
+@keyframes oa-dash { to { stroke-dashoffset: -120; } }
+
+.oc-portrait-wrap {
+  position: relative;
+  width: 320px;
+  max-width: 100%;
+  aspect-ratio: 1/1;
+}
+.oc-portrait-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--oa-accent) 0deg,
+    transparent 40deg,
+    var(--oa-accent-2) 120deg,
+    transparent 160deg,
+    var(--oa-accent-3) 240deg,
+    transparent 280deg,
+    var(--oa-accent) 360deg
+  );
+  animation: oa-orbit 14s linear infinite;
+  filter: blur(0.5px);
+  opacity: 0.9;
+}
+.oc-portrait-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--oa-bg);
+  z-index: 1;
+}
+.oc-portrait-wrap > * { position: relative; z-index: 2; }
+
+.oc-portrait-photo {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(0,0,0,0.5);
+}
+.oc-portrait-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.85) contrast(1.02);
+  transition: transform var(--oa-dur-slow) var(--oa-ease),
+              filter var(--oa-dur-slow) var(--oa-ease);
+}
+.oc-portrait-wrap:hover .oc-portrait-photo img {
+  transform: scale(1.04);
+  filter: saturate(1) contrast(1.06);
+}
+
+.oc-portrait-svg {
+  position: absolute;
+  inset: -18px;
+  width: calc(100% + 36px);
+  height: calc(100% + 36px);
+  z-index: 3;
+  pointer-events: none;
+}
+.oc-portrait-svg .o1 { stroke-dasharray: 6 10; animation: oa-dash 12s linear infinite; }
+.oc-portrait-svg .o2 { stroke-dasharray: 2 7;  animation: oa-dash 20s linear infinite reverse; }
+
+.oc-planet {
+  position: absolute;
+  width: 0; height: 0;
+  top: 50%; left: 50%;
+  transform-origin: 0 0;
+}
+.oc-planet .ball {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  animation: oa-pulse 3s ease-in-out infinite;
+}
+.oc-planet.orbit-1 { animation: oa-orbit 18s linear infinite; }
+.oc-planet.orbit-2 { animation: oa-orbit 24s linear infinite reverse; }
+.oc-planet.orbit-3 { animation: oa-orbit 32s linear infinite; }
+
+/* ─── Pull quote under portrait ──────────────────────────────── */
+.oc-about-pullquote {
+  margin-top: 36px;
+  position: relative;
+  font-family: var(--oa-hand);
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--oa-ink-dim);
+  max-width: 360px;
+  transform: rotate(-1deg);
+}
+.oc-about-pullquote .qmark { color: var(--oa-accent); }
+.oc-about-pullquote .source {
+  font-family: var(--oa-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--oa-ink-faint);
+  margin-top: 6px;
+  text-transform: uppercase;
+  transform: rotate(1deg);
+}
+
+/* ─── Right column: structured sections ──────────────────────── */
+.oc-about-right { padding-top: 12px; min-width: 0; }
+
+.oc-letter-section {
+  position: relative;
+  margin-bottom: 40px;
+  padding-top: 6px;
+}
+.oc-letter-kicker {
+  font-family: var(--oa-mono);
+  font-size: 10px;
+  color: var(--oa-accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.oc-letter-heading {
+  font-family: var(--oa-display);
+  font-size: 26px;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--oa-ink);
+  font-variation-settings: 'opsz' 96, 'SOFT' 60;
+}
+.oc-letter-body {
+  font-family: var(--oa-serif);
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--oa-ink-dim);
+}
+.oc-letter-body em {
+  font-style: italic;
+  color: var(--oa-accent-2);
+}
+.oc-letter-body strong { color: var(--oa-ink); font-weight: 700; }
+
+/* ─── Washi tape (decorative top-right per section) ──────────── */
+.oc-washi {
+  position: absolute;
+  top: -22px; right: 0;
+  width: 62px; height: 22px;
+  opacity: 0.82;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+  transform: rotate(-8deg);
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.14) 0 3px, transparent 3px 9px);
+  background-blend-mode: multiply;
+}
+.oc-washi.y { background-color: var(--oa-accent-3); }
+.oc-washi.g { background-color: var(--oa-accent-5); }
+.oc-washi.r { background-color: var(--oa-accent-4); }
+.oc-washi.a { background-color: var(--oa-accent-2); }
+
+/* ─── Skill tags with hand-drawn hover notes ─────────────────── */
+.oc-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 10px;
+  padding-top: 6px;
+}
+.oc-skill {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  white-space: nowrap;
+  font-family: var(--oa-hand);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--oa-accent-2);
+  border-bottom: 1px dashed rgba(142,164,162,0.55);
+  padding-bottom: 1px;
+  margin-right: 4px;
+}
+.oc-skill.warm { color: var(--oa-accent); }
+.oc-skill.yellow { color: var(--oa-accent-3); }
+
+.oc-skill .oc-skill-note {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px) rotate(-1.5deg);
+  background: var(--oa-raised);
+  border: 1px solid var(--oa-rule);
+  padding: 8px 12px;
+  font-family: var(--oa-hand);
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--oa-ink-dim);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--oa-dur-fast) var(--oa-ease),
+              transform var(--oa-dur-fast) var(--oa-ease);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+  z-index: 20;
+}
+.oc-skill .oc-skill-note::after {
+  content: "";
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--oa-rule);
+}
+.oc-skill:hover .oc-skill-note {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) rotate(-1.5deg);
+}
+
+/* ─── Currently: accent blockquote + status line ─────────────── */
+.oc-current {
+  border-left: 2px solid var(--oa-accent);
+  padding-left: 16px;
+  margin-top: 4px;
+}
+.oc-status {
+  margin-top: 14px;
+  font-family: var(--oa-mono);
+  font-size: 11px;
+  color: var(--oa-ink-faint);
+  letter-spacing: 0.1em;
+}
+.oc-status .dot-g { color: var(--oa-accent-5); }
+.oc-status .dot-a { color: var(--oa-accent-2); }
+
+/* ─── Say hi row ─────────────────────────────────────────────── */
+.oc-sayhi {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.oc-sayhi a {
+  font-family: var(--oa-hand);
+  font-size: 26px;
+  color: var(--oa-accent-2);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--oa-accent-2);
+  padding-bottom: 2px;
+  transition: color var(--oa-dur-fast) var(--oa-ease),
+              border-color var(--oa-dur-fast) var(--oa-ease);
+}
+.oc-sayhi a:hover {
+  color: var(--oa-accent);
+  border-color: var(--oa-accent);
+}
+.oc-sayhi .sep { color: var(--oa-ink-faint); }
+
+.oc-arrow {
+  display: inline-block;
+  width: 64px; height: 32px;
+  color: var(--oa-accent);
+  flex-shrink: 0;
+}

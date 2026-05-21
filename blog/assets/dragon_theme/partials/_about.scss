@@ -1,0 +1,82 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — about
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── About page ─────────────────────────────────────────────── */
+.quarto-about-jolla .about-image {
+  border: 3px solid var(--d-orange) !important;
+  box-shadow: 0 0 24px rgba(182, 146, 123, 0.25), 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  filter: saturate(0.85) contrast(1.02);
+}
+
+.quarto-about-jolla .quarto-title h1 {
+  background: none !important;
+  -webkit-text-fill-color: var(--fg) !important;
+  color: var(--fg) !important;
+  font-family: var(--f-display) !important;
+  font-weight: 300 !important;
+}
+
+.quarto-about-jolla .content > p:first-child {
+  font-family: var(--f-serif) !important;
+  font-style: italic;
+  font-size: 20px !important;
+  color: var(--d-old-white) !important;
+  line-height: 1.5;
+}
+
+.quarto-about-jolla .content .level3 {
+  background: var(--bg-raised) !important;
+  border: 1px solid var(--rule) !important;
+  border-left: 2px solid var(--d-orange) !important;
+  border-radius: 0 !important;
+  max-width: 720px;
+}
+.quarto-about-jolla .content .level3:hover {
+  background: var(--bg-raised) !important;
+  border-left-color: var(--d-red) !important;
+}
+.quarto-about-jolla .content .level3 h3 {
+  font-family: var(--f-display) !important;
+  color: var(--d-aqua) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+.quarto-about-jolla .about-link {
+  background: transparent !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: 2px !important;
+  color: var(--d-blue) !important;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.quarto-about-jolla .about-link:hover {
+  background: transparent !important;
+  border-color: var(--d-orange) !important;
+  color: var(--d-orange) !important;
+  box-shadow: none !important;
+}
+.quarto-about-jolla .about-sep {
+  border-color: var(--rule) !important;
+}
+
+
+/* ─── About page: Dragon palette overrides ──────────────────── */
+.oc-about {
+  --oa-accent:   var(--d-orange);
+  --oa-accent-2: var(--d-aqua);
+  --oa-accent-3: var(--d-yellow);
+  --oa-accent-4: var(--d-red);
+  --oa-accent-5: var(--d-green);
+  --oa-ink:       var(--d-paper);
+  --oa-ink-dim:   var(--d-paper);
+  --oa-ink-faint: var(--d-ash);
+  --oa-rule:      var(--d-ink-5);
+  --oa-raised:    var(--d-ink-4);
+  --oa-bg:        var(--d-ink-3);
+}
+

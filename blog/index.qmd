@@ -2,6 +2,7 @@
 title: "<span class=\"section-title-with-icon\"><img src=\"assets/nn-animated.svg\" alt=\"logo\"/> The Overfitting Club</span>"
 description: "Deep learning tutorials, ML engineering insights, and practical guides on transformers, diffusion models, and edge AI."
 listing:
+  id: oc-listing
   contents: posts
   sort: "date desc"
   type: default
@@ -10,3 +11,10 @@ listing:
   filter-ui: true
 page-layout: full
 ---
+
+{{< include assets/dragon_theme/_corkboard-head.qmd >}}
+
+:::{#oc-listing}
+:::
+
+{{< include assets/dragon_theme/_corkboard-tail.qmd >}}

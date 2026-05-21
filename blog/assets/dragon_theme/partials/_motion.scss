@@ -1,0 +1,18 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — motion
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* Reduce motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-about * {
+    animation: none !important;
+  }
+}

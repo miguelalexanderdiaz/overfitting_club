@@ -1,0 +1,187 @@
+/* ──────────────────────────────────────────────────────────
+ * Dragon theme — base
+ * Auto-extracted from blog/assets/dragon.css. Edit here, not there.
+ * ────────────────────────────────────────────────────────── */
+
+/* ─── Global base ────────────────────────────────────────────── */
+body {
+  background: var(--bg) !important;
+  color: var(--fg) !important;
+}
+
+body {
+  font-family: var(--f-serif) !important;
+  font-feature-settings: "ss01", "onum" on, "liga" on, "kern" on;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.68;
+  position: relative;
+}
+
+/* Paper-grain overlay — the Dragon signature */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(1px 1px at 23% 12%,  rgba(197,201,197,1) 50%, transparent 51%),
+    radial-gradient(1px 1px at 67% 48%,  rgba(197,201,197,1) 50%, transparent 51%),
+    radial-gradient(1px 1px at 41% 77%,  rgba(197,201,197,1) 50%, transparent 51%),
+    radial-gradient(1px 1px at 88% 23%,  rgba(197,201,197,1) 50%, transparent 51%),
+    radial-gradient(1px 1px at 13% 62%,  rgba(197,201,197,1) 50%, transparent 51%);
+  background-size: 260px 260px, 180px 180px, 320px 320px, 220px 220px, 290px 290px;
+}
+#quarto-content,
+main,
+.navbar,
+.nav-footer { position: relative; z-index: 1; }
+
+/* ─── Selection ──────────────────────────────────────────────── */
+::selection {
+  background: rgba(139,164,176,0.30);
+  color: var(--fg);
+}
+
+/* ─── Typography: body paragraphs ────────────────────────────── */
+main p,
+main li,
+main blockquote {
+  font-family: var(--f-serif);
+  font-size: 17.5px;
+  line-height: 1.72;
+  color: var(--d-paper);
+}
+
+main em,
+main i {
+  color: var(--d-old-white);
+  font-style: italic;
+}
+
+main strong,
+main b {
+  color: var(--fg);
+  font-weight: 700;
+}
+
+a {
+  color: var(--d-blue);
+  text-decoration: underline;
+  text-decoration-color: rgba(139,164,176,0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--dur-fast) var(--ease);
+}
+a:hover {
+  color: var(--d-aqua);
+  text-decoration-color: var(--d-aqua);
+}
+
+/* ─── Headings ───────────────────────────────────────────────── */
+h1,
+.h1,
+.quarto-title h1,
+.quarto-title .title {
+  font-family: var(--f-display) !important;
+  font-weight: 300 !important;
+  color: var(--fg) !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.02 !important;
+  font-variation-settings: 'opsz' 144, 'SOFT' 90;
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-text-fill-color: var(--fg) !important;
+  font-size: clamp(38px, 5.2vw, 64px);
+}
+
+h2 {
+  font-family: var(--f-display) !important;
+  font-weight: 500 !important;
+  color: var(--fg) !important;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  margin: 48px 0 16px;
+  font-size: 32px;
+}
+
+h3 {
+  font-family: var(--f-display) !important;
+  font-weight: 500 !important;
+  color: var(--d-aqua) !important;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+  font-size: 22px;
+  margin: 32px 0 10px;
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--f-serif) !important;
+  font-weight: 600 !important;
+  color: var(--d-aqua) !important;
+  letter-spacing: 0.01em;
+}
+
+/* Subtitle below the title */
+.subtitle,
+.subtitle.lead {
+  font-family: var(--f-serif) !important;
+  font-style: italic;
+  font-size: 20px !important;
+  line-height: 1.45;
+  color: var(--d-old-white) !important;
+  max-width: 620px;
+}
+
+/* Header section numbers — quieter */
+.header-section-number {
+  font-family: var(--f-mono);
+  color: var(--fg-faint);
+  font-weight: 400;
+  font-size: 0.7em;
+  letter-spacing: 0.1em;
+  margin-right: 0.5em;
+}
+
+/* Title block meta (author / date / reading time) */
+.quarto-title-meta-heading {
+  font-family: var(--f-mono) !important;
+  font-size: 10px !important;
+  color: var(--d-orange) !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+}
+.quarto-title-meta-contents,
+.quarto-title-meta-contents p,
+.quarto-title-meta-contents a {
+  font-family: var(--f-mono) !important;
+  font-size: 12px !important;
+  color: var(--fg-dim) !important;
+  letter-spacing: 0.04em;
+}
+
+/* Title block banner: flatten gradient/background */
+.quarto-title-banner {
+  background: transparent !important;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Categories chips on post */
+.quarto-categories .quarto-category {
+  background: transparent !important;
+  color: var(--d-aqua) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: 2px !important;
+  font-family: var(--f-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+.quarto-categories .quarto-category:hover {
+  border-color: var(--d-orange) !important;
+  color: var(--d-orange) !important;
+}

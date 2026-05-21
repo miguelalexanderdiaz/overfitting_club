@@ -4,43 +4,197 @@ subtitle: "Building a Diffusion Transformer from Scratch for Image Generation"
 author: "Miguel Chitiva Diaz"
 date: "2026-02-24"
 categories: [diffusion, transformer, deep-learning, generative-models]
+# image: assets/thumb.svg  # TODO: author thumbnail for the DiT post
 format:
   html:
     toc: true
     toc-depth: 3
-    code-fold: false
+    toc-location: left-body
+    toc-title: "Table of Contents"
+    number-sections: true
+    code-fold: true
     code-tools: true
+    highlight-style: atom-one
+    code-block-bg: true
+    code-copy: hover
+jupyter: python3
+bibliography: references.bib
 ---
 
-In this series we build a Diffusion Transformer (DiT) from scratch, covering
-every building block from the ground up. The tutorial is split into five parts
-that progressively assemble the full generative pipeline.
+{{< colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/diffusion_transformer/diffusion_transformer.ipynb" >}}
 
-## Table of Contents
+This is the sixth and final entry in our series building a Diffusion Transformer
+(DiT) from scratch. The prior posts assembled every piece we need:
 
-1. [**Transformer Architecture**](../transformer/transformer.qmd) — Multi-head
-   self-attention, feed-forward blocks, layer normalization, and residual
-   connections. The foundation that everything else builds on.
+1. [**Transformer Architecture**](../transformer/transformer.qmd) — multi-head
+   self-attention, feed-forward blocks, layer norm, residual connections
+2. [**Autoencoder Architecture**](../autoencoder/autoencoder.qmd) — compressing
+   images into a compact latent space
+3. [**Class-Conditional VAE**](../class_conditional_vae/class_conditional_vae.qmd)
+   — adaLN conditioning so a decoder knows *what* to generate
+4. [**The Diffusion Paradigm**](../the_diffusion_paradigm/the_diffusion_paradigm.qmd)
+   — forward noising, noise schedules, DDPM reverse sampling
 
-2. [**Autoencoder Architecture**](../autoencoder/autoencoder.qmd) — Convolutional encoder and decoder that
-   compress pixel-space images into a compact latent representation and
-   reconstruct them back. This separates "what the image looks like" from
-   "how to generate it".
+In this post we close the loop: we take the DDPM training loop from Part 4 and
+swap the U-Net denoiser for a full Diffusion Transformer [@peebles2023scalable].
+The result is a class-conditional generative model on FashionMNIST that
+produces noticeably sharper samples and scales more cleanly.
 
-3. [**Class-Conditional VAE**](../class_conditional_vae/class_conditional_vae.qmd) —
-   Conditioning a VAE on class labels so the decoder knows *what* to generate
-   while the latent code encodes *how*. Implements spatial concatenation and
-   adaLN conditioning — the same mechanism used by DiT.
+## Why DiT? {#sec-motivation}
 
-4. [**The Diffusion Paradigm**](../the_diffusion_paradigm/the_diffusion_paradigm.qmd) — Forward noising process, noise schedules
-   (linear and cosine), the reparameterization trick, and DDPM reverse
-   sampling. How we turn the generation problem into a denoising problem.
+### The Limits of U-Net for Diffusion
 
-5. **ViT: Vision Transformer** — Patch embedding, positional encoding, and
-   the full Vision Transformer. Adapting the transformer architecture to
-   operate on images by treating them as sequences of patches.
+TODO
 
-6. **DiT: Diffusion Transformer** *(current entry)* — Adaptive Layer Norm
-   (adaLN), timestep and label conditioning, DiT blocks, and the complete
-   latent-space denoising network. Putting it all together to generate
-   FashionMNIST images.
+### Transformers Scale Better
+
+TODO
+
+### DiT in Context
+
+TODO
+
+## From Images to Tokens: Patch Embedding {#sec-patch-embed}
+
+### Patchifying an Image
+
+TODO
+
+### Positional Encoding for Images
+
+TODO
+
+```{python}
+#| code-fold: false
+#| label: patch-embed
+
+# TODO: PatchEmbed module
+```
+
+## Conditioning: Timestep & Class Label {#sec-conditioning}
+
+### Recap — adaLN from Part 3
+
+TODO
+
+### Timestep Embedding
+
+TODO
+
+### Label Embedding
+
+TODO
+
+### Fusing Both Signals
+
+TODO
+
+```{python}
+#| code-fold: false
+#| label: conditioning-modules
+
+# TODO: TimestepEmbedder, LabelEmbedder, fusion
+```
+
+## The DiT Block {#sec-dit-block}
+
+### adaLN-Zero Explained
+
+TODO
+
+### Block Architecture
+
+TODO
+
+### Stacking Blocks
+
+TODO
+
+```{python}
+#| code-fold: false
+#| label: dit-block
+
+# TODO: DiTBlock module
+```
+
+## The Full DiT Architecture {#sec-full-dit}
+
+### End-to-End Forward Pass
+
+TODO
+
+### Final Layer & Unpatchify
+
+TODO
+
+### Code: Complete `DiT` Module
+
+```{python}
+#| code-fold: false
+#| label: dit-full
+
+# TODO: full DiT module
+```
+
+## Training on FashionMNIST {#sec-training}
+
+### Setup & Configuration
+
+```{python}
+#| code-fold: true
+#| code-summary: "Imports and hyperparameters"
+
+# TODO: imports, config
+```
+
+### Reusing the DDPM Training Loop
+
+TODO
+
+```{python}
+#| code-fold: false
+#| label: training-loop
+
+# TODO: training loop
+```
+
+### Training Dynamics
+
+TODO
+
+## DDPM Sampling with DiT {#sec-sampling}
+
+### Same Algorithm, Different Denoiser
+
+TODO
+
+### Class-Conditional Generation
+
+```{python}
+#| code-fold: false
+#| label: sampling
+
+# TODO: sampling loop + 10-class grid
+```
+
+## DiT vs U-Net: Head-to-Head {#sec-comparison}
+
+TODO
+
+## Putting It All Together {#sec-full-picture}
+
+TODO
+
+## What's Next? {.unnumbered}
+
+TODO
+
+## Acknowledgements {.unnumbered}
+
+This tutorial was researched, written, and illustrated by
+[Miguel Chitiva Diaz](https://github.com/miguelalexanderdiaz).
+
+## References {.unnumbered}
+
+::: {#refs}
+:::

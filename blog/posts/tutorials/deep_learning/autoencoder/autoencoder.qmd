@@ -23,7 +23,7 @@ resources:
 jupyter: python3
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/autoencoder/autoencoder.ipynb)
+{{< colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/autoencoder/autoencoder.ipynb" >}}
 
 This is the second entry in our series building a
 [Diffusion Transformer (DiT) from scratch](../diffusion_transformer/diffusion_transformer.qmd).

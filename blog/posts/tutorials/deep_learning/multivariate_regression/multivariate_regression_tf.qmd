@@ -12,7 +12,7 @@ format:
     code-tools: true
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.ipynb)
+{{< colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/quarto_blog/blob/main/blog/posts/tutorials/deep_learning/multivariate_regression/multivariate_regression_tf.ipynb" >}}
 
 In this post, we will explore how to perform multivariate regression with TensorFlow to predict sunspot activity. We'll use a comprehensive approach that includes feature engineering, time series analysis, and deep learning to forecast sunspot counts.
 

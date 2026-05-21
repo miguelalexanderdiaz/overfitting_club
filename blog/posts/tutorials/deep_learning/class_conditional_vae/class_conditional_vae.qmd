@@ -21,7 +21,7 @@ bibliography: references.bib
 jupyter: python3
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.ipynb)
+{{< colab-btn href="https://colab.research.google.com/github/miguelalexanderdiaz/overfitting_club/blob/main/blog/posts/tutorials/deep_learning/class_conditional_vae/class_conditional_vae.ipynb" >}}
 
 This is a companion to our
 [Autoencoder Architecture](../autoencoder/autoencoder.qmd) tutorial.
