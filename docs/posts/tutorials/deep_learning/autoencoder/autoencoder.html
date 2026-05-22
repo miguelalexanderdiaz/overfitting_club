@@ -640,7 +640,7 @@ Figure&nbsp;3: The autoencoder as a pair of functions. The encoder <span class="
 <section id="our-running-dataset-fashionmnist" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="our-running-dataset-fashionmnist"><span class="header-section-number">1.1</span> Our Running Dataset: FashionMNIST</h3>
 <p>Throughout this tutorial we use <strong>FashionMNIST</strong> <span class="citation" data-cites="bank2023autoencoders">(<a href="#ref-bank2023autoencoders" role="doc-biblioref">Bank, Koenigstein, and Giryes 2023</a>)</span>: 70,000 grayscale images of clothing items at 28×28 resolution, split into 10 classes (T-shirt, trouser, pullover, dress, coat, sandal, shirt, sneaker, bag, ankle boot). It’s small enough to train on a laptop in seconds, visual enough to inspect reconstructions by eye, and varied enough to challenge a bottleneck.</p>
-<div id="de074bee" class="cell">
+<div id="c3c0ba05" class="cell">
 <details class="code-fold">
 <summary>Setup: imports and configuration</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -695,7 +695,7 @@ Figure&nbsp;3: The autoencoder as a pair of functions. The encoder <span class="
 <span id="cb1-50"><a href="#cb1-50"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="fe6fbc51" class="cell">
+<div id="5fe552ea" class="cell">
 <details class="code-fold">
 <summary>Load FashionMNIST and create dataloaders</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>transform <span class="op">=</span> transforms.Compose([transforms.ToTensor()])</span>
@@ -720,7 +720,7 @@ Figure&nbsp;3: The autoencoder as a pair of functions. The encoder <span class="
 <span id="cb2-20"><a href="#cb2-20"></a>console.<span class="bu">print</span>(t)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="32f406c3" class="cell">
+<div id="1e3d649f" class="cell">
 <details class="code-fold">
 <summary>Display a sample grid of FashionMNIST images</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Grab one batch and pick 20 samples (2 per class)</span></span>
@@ -914,7 +914,7 @@ Figure&nbsp;4: Animated overview of the autoencoder bottleneck. Data flows from 
 </figcaption>
 </figure>
 </div>
-<div id="70f338e4" class="cell">
+<div id="11aabe94" class="cell">
 <details class="code-fold">
 <summary>LinearAutoencoder model definition</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>LATENT_DIM <span class="op">=</span> <span class="dv">49</span></span>
@@ -966,7 +966,7 @@ Figure&nbsp;4: Animated overview of the autoencoder bottleneck. Data flows from 
 <span id="cb4-47"><a href="#cb4-47"></a>              <span class="ss">f"[bold]Compression:[/bold] 784 → </span><span class="sc">{</span>LATENT_DIM<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span><span class="dv">784</span><span class="op">/</span>LATENT_DIM<span class="sc">:.1f}</span><span class="ss">×)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="09ce1c85" class="cell">
+<div id="4185f6b1" class="cell">
 <details class="code-fold">
 <summary>Train the linear autoencoder</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>EPOCHS_FC <span class="op">=</span> EPOCHS</span>
@@ -1011,7 +1011,7 @@ Figure&nbsp;4: Animated overview of the autoencoder bottleneck. Data flows from 
 <span id="cb5-40"><a href="#cb5-40"></a>console.<span class="bu">print</span>(<span class="ss">f"[bold green]Final train loss:[/bold green] </span><span class="sc">{</span>fc_history[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="d5d295b9" class="cell">
+<div id="0d5f8c81" class="cell">
 <details class="code-fold">
 <summary>Reconstructions: original vs.&nbsp;linear autoencoder output</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>fc_ae.<span class="bu">eval</span>()</span>
@@ -1063,7 +1063,7 @@ Figure&nbsp;4: Animated overview of the autoencoder bottleneck. Data flows from 
 </details>
 </div>
 <p>An interesting connection: a <strong>linear</strong> autoencoder trained with MSE loss learns exactly the same subspace as PCA <span class="citation" data-cites="hinton2006reducing">(<a href="#ref-hinton2006reducing" role="doc-biblioref">Hinton and Salakhutdinov 2006</a>)</span>. Our nonlinear version (with ReLU activations) can capture richer structure, but the principle is the same — find the most important directions in the data. So what does this 49-dimensional latent space actually look like? We can project it down to 2D with t-SNE and color each point by its class.</p>
-<div id="015f8afc" class="cell">
+<div id="6272835a" class="cell">
 <details class="code-fold">
 <summary>t-SNE projection of the FC autoencoder latent space</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
@@ -1347,7 +1347,7 @@ Figure&nbsp;5: Fully connected autoencoders flatten the spatial structure of ima
 <p>Each spatial position in a convolutional feature map summarizes a local patch of the input — not unlike how Vision Transformers (ViTs) split images into patch tokens. The key idea is the same: represent images as a collection of local features rather than a flat bag of pixels.</p>
 </div>
 </div>
-<div id="b7d2b2f5" class="cell">
+<div id="57867d8b" class="cell">
 <details class="code-fold">
 <summary>ConvAutoencoder model definition</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">class</span> ConvAutoencoder(nn.Module):</span>
@@ -1403,7 +1403,7 @@ Figure&nbsp;5: Fully connected autoencoders flatten the spatial structure of ima
 <span id="cb8-51"><a href="#cb8-51"></a>              <span class="ss">f"(FC had </span><span class="sc">{</span>fc_params<span class="sc">:,}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="13d87cbd" class="cell">
+<div id="e3e23739" class="cell">
 <details class="code-fold">
 <summary>Train the convolutional autoencoder</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>EPOCHS_CONV <span class="op">=</span> EPOCHS</span>
@@ -1451,7 +1451,7 @@ Figure&nbsp;5: Fully connected autoencoders flatten the spatial structure of ima
 <span id="cb9-43"><a href="#cb9-43"></a>              <span class="ss">f"(FC was </span><span class="sc">{</span>fc_history[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.6f}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="2639517e" class="cell">
+<div id="f5955080" class="cell">
 <details class="code-fold">
 <summary>Reconstructions: FC vs.&nbsp;Convolutional autoencoder</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>conv_ae.<span class="bu">eval</span>()</span>
@@ -1497,7 +1497,7 @@ Figure&nbsp;5: Fully connected autoencoders flatten the spatial structure of ima
 </div>
 <p>The convolutional autoencoder should produce noticeably sharper reconstructions — edges are crisper and fine details like shirt patterns and shoe shapes are better preserved. By respecting the spatial structure of images, the network spends its capacity learning <em>what</em> to encode rather than <em>where</em> things are.</p>
 <p>How does the convolutional latent space compare to the FC one? Let’s project both into 2D with t-SNE side by side.</p>
-<div id="63f1ebb7" class="cell">
+<div id="fd202d11" class="cell">
 <details class="code-fold">
 <summary>t-SNE projection of FC vs.&nbsp;Conv latent spaces</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Encode full test set with the conv autoencoder</span></span>
@@ -2114,7 +2114,7 @@ p(\mathbf{x} \mid \mathbf{z}) = \mathcal{N}(\hat{\mathbf{x}},\; \sigma^2 \mathbf
 <section id="implementation" class="level3" data-number="4.8">
 <h3 data-number="4.8" class="anchored" data-anchor-id="implementation"><span class="header-section-number">4.8</span> Implementation</h3>
 <p>Every piece of the VAE maps directly to a line of code. The encoder outputs <span class="math inline">\(\boldsymbol{\mu}\)</span> and <span class="math inline">\(\log \sigma^2\)</span> (two linear heads), the reparameterization trick samples <span class="math inline">\(\mathbf{z}\)</span>, and the decoder reconstructs. The loss is the <span class="math inline">\(-\text{ELBO}\)</span>: MSE reconstruction + KL divergence.</p>
-<div id="7ecaf8f0" class="cell">
+<div id="80e7e9e3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">class</span> VAE(nn.Module):</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    <span class="co">"""Convolutional VAE: 1×28×28 → q(z|x) = N(μ, σ²) → 1×28×28."""</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a></span>
@@ -2161,7 +2161,7 @@ p(\mathbf{x} \mid \mathbf{z}) = \mathcal{N}(\hat{\mathbf{x}},\; \sigma^2 \mathbf
 <span id="cb12-44"><a href="#cb12-44"></a>        <span class="cf">return</span> x_hat, mu, log_var, z</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The loss function translates the <span class="math inline">\(-\text{ELBO}\)</span> directly. Both terms are averaged over their respective dimensions — per-pixel MSE for reconstruction, per-dimension KL for regularization — and then combined with a weight <span class="math inline">\(\beta\)</span> that controls the trade-off. This is the <strong>β-VAE</strong> <span class="citation" data-cites="kingma2013auto">(<a href="#ref-kingma2013auto" role="doc-biblioref">Kingma and Welling 2013</a>)</span> formulation:</p>
-<div id="5966a39d" class="cell">
+<div id="a4628267" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>KL_WEIGHT_VAE <span class="op">=</span> <span class="fl">0.0005</span>  <span class="co"># β — balances reconstruction vs. regularity</span></span>
 <span id="cb13-2"><a href="#cb13-2"></a></span>
 <span id="cb13-3"><a href="#cb13-3"></a><span class="kw">def</span> vae_loss(x, x_hat, mu, log_var, beta<span class="op">=</span>KL_WEIGHT_VAE):</span>
@@ -2227,7 +2227,7 @@ p(\mathbf{x} \mid \mathbf{z}) = \mathcal{N}(\hat{\mathbf{x}},\; \sigma^2 \mathbf
 <p>We intentionally sit at the reconstruction end of this spectrum. Our goal in this tutorial is to understand how autoencoders work, not to build the best generator. The trade-off is real: with a low <span class="math inline">\(\beta\)</span>, each class ends up in its own latent cluster far from <span class="math inline">\(\mathcal{N}(\mathbf{0}, \mathbf{I})\)</span>, and sampling from the prior lands in dead zones. We’ll see this in the <a href="#sec-generation">Generation</a> section, and address it in a follow-up post on class-conditional VAEs where generation is the primary objective and a higher <span class="math inline">\(\beta\)</span> is warranted.</p>
 </div>
 </div>
-<div id="671fa042" class="cell">
+<div id="c2ef8dbf" class="cell">
 <details class="code-fold">
 <summary>Instantiate the VAE and inspect architecture</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>vae <span class="op">=</span> VAE().to(DEVICE)</span>
@@ -2257,7 +2257,7 @@ p(\mathbf{x} \mid \mathbf{z}) = \mathcal{N}(\hat{\mathbf{x}},\; \sigma^2 \mathbf
 <span id="cb14-25"><a href="#cb14-25"></a>              <span class="ss">f"(Conv AE had </span><span class="sc">{</span><span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> conv_ae.parameters())<span class="sc">:,}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="d99a8ad0" class="cell">
+<div id="7ecc878e" class="cell">
 <details class="code-fold">
 <summary>Train the VAE</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>EPOCHS_VAE <span class="op">=</span> EPOCHS</span>
@@ -2591,7 +2591,7 @@ Figure&nbsp;8: Inside a ResNet block. The input <strong>x</strong> is split into
 </section>
 <section id="training" class="level3" data-number="5.2">
 <h3 data-number="5.2" class="anchored" data-anchor-id="training"><span class="header-section-number">5.2</span> Training</h3>
-<div id="dab993fb" class="cell">
+<div id="61e64d87" class="cell">
 <details class="code-fold">
 <summary>ResNet block, encoder, decoder, and ResNetVAE model definition</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">class</span> ResNetBlock(nn.Module):</span>
@@ -2774,7 +2774,7 @@ Figure&nbsp;8: Inside a ResNet block. The input <strong>x</strong> is split into
 <li>The <strong>decoder has no access to encoder features</strong> — it receives only the sampled latent. This means we can decode any latent vector, whether it came from encoding a real image or was sampled from the prior.</li>
 <li>The <strong>decoder is deeper</strong> than the encoder (3 ResBlocks per level vs.&nbsp;2), giving it extra capacity to reconstruct fine details without skip connections.</li>
 </ul>
-<div id="f2ac8b41" class="cell">
+<div id="bd500514" class="cell">
 <details class="code-fold">
 <summary>Train the ResNet VAE</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>EPOCHS_RESNET <span class="op">=</span> EPOCHS</span>
@@ -2839,7 +2839,7 @@ Figure&nbsp;8: Inside a ResNet block. The input <strong>x</strong> is split into
 <section id="reconstructions" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="reconstructions"><span class="header-section-number">6.1</span> Reconstructions</h3>
 <p>The deeper architecture with residual connections should produce sharper reconstructions than our simpler Conv VAE.</p>
-<div id="090e1421" class="cell">
+<div id="924188fc" class="cell">
 <details class="code-fold">
 <summary>Side-by-side reconstruction comparison — all four models</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>resnet_vae.<span class="bu">eval</span>()</span>
@@ -3164,7 +3164,7 @@ Figure&nbsp;9: The VAE’s latent space is smooth and continuous. Nearby points 
 <p>Varying one dimension at a time only probes a thin slice of the latent space along a coordinate axis. Cross-class interpolation walks a <strong>diagonal path through all dimensions at once</strong>, which is far more likely to cross the empty regions between clusters. It’s a harder test — and exactly the kind of operation that matters for generation, where we want the <em>entire</em> latent space to be meaningful.</p>
 </div>
 </div>
-<div id="a8d579a4" class="cell">
+<div id="b19f48c5" class="cell">
 <details class="code-fold">
 <summary>Cross-class latent interpolation (Conv Autoencoder)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>conv_ae.<span class="bu">eval</span>()</span>
@@ -3212,7 +3212,7 @@ Figure&nbsp;9: The VAE’s latent space is smooth and continuous. Nearby points 
 <span id="cb19-43"><a href="#cb19-43"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="40d7c675" class="cell">
+<div id="69b800eb" class="cell">
 <details class="code-fold">
 <summary>Cross-class latent interpolation (VAE)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>vae.<span class="bu">eval</span>()</span>
@@ -3251,7 +3251,7 @@ Figure&nbsp;9: The VAE’s latent space is smooth and continuous. Nearby points 
 <span id="cb20-34"><a href="#cb20-34"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="7be2295d" class="cell">
+<div id="377c8ab5" class="cell">
 <details class="code-fold">
 <summary>Cross-class latent interpolation (ResNet VAE)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>resnet_vae.<span class="bu">eval</span>()</span>
@@ -3478,7 +3478,7 @@ Figure&nbsp;10: A deterministic autoencoder’s latent space has visible gaps be
 <section id="sampling-from-the-prior" class="level3" data-number="8.1">
 <h3 data-number="8.1" class="anchored" data-anchor-id="sampling-from-the-prior"><span class="header-section-number">8.1</span> Sampling from the prior</h3>
 <p>Our ResNet VAE can decode <em>any</em> latent vector — so let’s try generating new images by sampling <span class="math inline">\(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span> and passing it straight through the decoder.</p>
-<div id="8839b001" class="cell">
+<div id="57566d58" class="cell">
 <details class="code-fold">
 <summary>Generate new images by sampling z ~ N(0, I)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>resnet_vae.<span class="bu">eval</span>()</span>
@@ -3724,7 +3724,7 @@ Figure&nbsp;11: Instead of sampling from the global prior <span class="math inli
 </figcaption>
 </figure>
 </div>
-<div id="caf42262" class="cell">
+<div id="78688cef" class="cell">
 <details class="code-fold">
 <summary>Compute per-class latent statistics and sample</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>resnet_vae.<span class="bu">eval</span>()</span>

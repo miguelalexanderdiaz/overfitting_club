@@ -25,5 +25,13 @@
     var hide = document.getElementById("quarto-hide-all-code");
     if (show) show.addEventListener("click", toggleAll(true));
     if (hide) hide.addEventListener("click", toggleAll(false));
+
+    // Move the source-view modal to <body> so it isn't trapped inside an
+    // ancestor stacking context (which would let modal-backdrop overlay the
+    // close button and block scrolling).
+    var modal = document.getElementById("quarto-embedded-source-code-modal");
+    if (modal && modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
   });
 })();

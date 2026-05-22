@@ -282,14 +282,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In this post, we will explore how to perform multivariate regression with TensorFlow to predict sunspot activity. We’ll use a comprehensive approach that includes feature engineering, time series analysis, and deep learning to forecast sunspot counts.</p>
 <section id="configuration" class="level2">
 <h2 class="anchored" data-anchor-id="configuration">Configuration</h2>
-<div id="4df63ce2" class="cell">
+<div id="b29838f2" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>window_size <span class="op">=</span> <span class="dv">60</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>batch_size <span class="op">=</span> <span class="dv">256</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="imports" class="level2">
 <h2 class="anchored" data-anchor-id="imports">Imports</h2>
-<div id="1c275b39" class="cell">
+<div id="1fdcecc6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> os</span>
 <span id="cb2-2"><a href="#cb2-2"></a>os.environ[<span class="st">"TF_CPP_MIN_LOG_LEVEL"</span>] <span class="op">=</span> <span class="st">"3"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-22"><a href="#cb2-22"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> layers, Model, callbacks, losses</span>
 <span id="cb2-23"><a href="#cb2-23"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="47b374e2" class="cell">
+<div id="2e7bab51" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>physical_devices <span class="op">=</span> tf.config.list_physical_devices(<span class="st">'GPU'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="cf">if</span> physical_devices:</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    tf.config.experimental.set_memory_growth(physical_devices[<span class="dv">0</span>], enable<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -322,7 +322,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="download-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="download-the-dataset">Download the Dataset</h2>
-<div id="ca32b39c" class="cell">
+<div id="fdf669ba" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Load the sunspots dataset from Kaggle</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a>df <span class="op">=</span> kagglehub.dataset_load(</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    KaggleDatasetAdapter.PANDAS,</span>
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-preprocessing-scaling" class="level2">
 <h2 class="anchored" data-anchor-id="data-preprocessing-scaling">Data Preprocessing &amp; Scaling</h2>
-<div id="e95f3c4a" class="cell">
+<div id="87c69ddb" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>df <span class="op">=</span> df.drop(df.columns[<span class="dv">0</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>df <span class="op">=</span> df.sort_values(<span class="st">'Date'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{df.columns[<span class="dv">0</span>]: <span class="st">'date'</span>, df.columns[<span class="dv">1</span>]: <span class="st">'sunspots'</span>})</span>
@@ -346,11 +346,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="dataset-exploration" class="level2">
 <h2 class="anchored" data-anchor-id="dataset-exploration">Dataset Exploration</h2>
-<div id="03e5a430" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="ce77ee44" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>graphs <span class="op">=</span> df.plot(grid<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>), fontsize<span class="op">=</span><span class="dv">10</span>, subplots<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb6-2"><a href="#cb6-2"></a>[x.legend(prop<span class="op">=</span>{<span class="st">'size'</span>: <span class="dv">15</span>}) <span class="cf">for</span> x <span class="kw">in</span> graphs]<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1e67611c" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="bdbeadfb" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>f <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>))</span>
 <span id="cb7-2"><a href="#cb7-2"></a>ax1 <span class="op">=</span> f.add_subplot(<span class="dv">121</span>)</span>
 <span id="cb7-3"><a href="#cb7-3"></a>ax2 <span class="op">=</span> f.add_subplot(<span class="dv">122</span>)</span>
@@ -363,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-10"><a href="#cb7-10"></a>plt.tight_layout()</span>
 <span id="cb7-11"><a href="#cb7-11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2905dde9" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="97a7a528" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>f <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>))</span>
 <span id="cb8-2"><a href="#cb8-2"></a>ax1 <span class="op">=</span> f.add_subplot(<span class="dv">121</span>)</span>
 <span id="cb8-3"><a href="#cb8-3"></a>ax2 <span class="op">=</span> f.add_subplot(<span class="dv">122</span>)</span>
@@ -376,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10"></a>plt.tight_layout()</span>
 <span id="cb8-11"><a href="#cb8-11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="7c068593" class="cell">
+<div id="6b0bd3fa" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>lag_pos_corr <span class="op">=</span> np.argmax([df[<span class="st">'normalized_sunspots'</span>].autocorr(lag<span class="op">=</span>x) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">110</span>, <span class="dv">130</span>, <span class="dv">1</span>)])</span>
 <span id="cb9-2"><a href="#cb9-2"></a>lag_pos_corr <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">110</span>, <span class="dv">130</span>, <span class="dv">1</span>))[lag_pos_corr]</span>
 <span id="cb9-3"><a href="#cb9-3"></a></span>
@@ -386,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-7"><a href="#cb9-7"></a><span class="bu">print</span>(<span class="ss">f"Seasonal max correlation: </span><span class="sc">{</span>lag_pos_corr<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb9-8"><a href="#cb9-8"></a><span class="bu">print</span>(<span class="ss">f"Seasonal min correlation: </span><span class="sc">{</span>lag_neg_corr<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="60865c5b" class="cell">
+<div id="a71f488e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>lag_pos_corr <span class="op">=</span> np.argmax([df[<span class="st">'normalized_sunspots'</span>].autocorr(lag<span class="op">=</span>x) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">110</span>, <span class="dv">130</span>, <span class="dv">1</span>) ])</span>
 <span id="cb10-2"><a href="#cb10-2"></a>lag_pos_corr <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">110</span>, <span class="dv">130</span>, <span class="dv">1</span>))[lag_pos_corr]</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="feature-engineering">Feature Engineering</h2>
 <section id="create-moving-averages" class="level3">
 <h3 class="anchored" data-anchor-id="create-moving-averages">Create Moving Averages</h3>
-<div id="bf792ad8" class="cell">
+<div id="624b71d4" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Create moving averages over several time windows</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a>df[<span class="st">'MA(t-4)_sunspots'</span>] <span class="op">=</span> df[<span class="st">'normalized_sunspots'</span>].rolling(window<span class="op">=</span><span class="dv">5</span>).mean()</span>
 <span id="cb11-3"><a href="#cb11-3"></a>df[<span class="st">'MA(t-10)_sunspots'</span>] <span class="op">=</span> df[<span class="st">'normalized_sunspots'</span>].rolling(window<span class="op">=</span><span class="dv">11</span>).mean()</span>
@@ -411,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="remove-seasonality-and-create-new-features" class="level3">
 <h3 class="anchored" data-anchor-id="remove-seasonality-and-create-new-features">Remove Seasonality and Create New Features</h3>
-<div id="f8de4a0f" class="cell">
+<div id="d39d4913" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Create seasonal features</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a>pos_season <span class="op">=</span> df[<span class="dv">0</span>:<span class="bu">len</span>(df)<span class="op">-</span>lag_pos_corr][<span class="st">'normalized_sunspots'</span>].values <span class="op">-</span> df[lag_pos_corr:][<span class="st">'normalized_sunspots'</span>].values</span>
 <span id="cb12-3"><a href="#cb12-3"></a>df[<span class="st">'pos_season'</span>] <span class="op">=</span> np.concatenate([np.array([np.nan]<span class="op">*</span>(<span class="bu">len</span>(df)<span class="op">-</span><span class="bu">len</span>(pos_season))), pos_season])</span>
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="split-trainvalidation-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="split-trainvalidation-dataset">Split Train/Validation Dataset</h2>
-<div id="1c61260e" class="cell">
+<div id="d8683a9d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>train_df <span class="op">=</span> df[<span class="dv">0</span>:<span class="dv">3000</span>]</span>
 <span id="cb13-2"><a href="#cb13-2"></a>val_df <span class="op">=</span> df[<span class="dv">3000</span>:]</span>
 <span id="cb13-3"><a href="#cb13-3"></a></span>
@@ -437,14 +437,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="check-multivariate-features" class="level3">
 <h3 class="anchored" data-anchor-id="check-multivariate-features">Check Multivariate Features</h3>
-<div id="e7180952" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="699157fe" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>val_df[val_df.columns[<span class="op">-</span><span class="dv">7</span>:]].plot(figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>), fontsize<span class="op">=</span><span class="dv">10</span>, grid<span class="op">=</span><span class="va">True</span>).legend(prop<span class="op">=</span>{<span class="st">'size'</span>: <span class="dv">15</span>})<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
 <section id="naïve-predictions-using-only-the-created-features" class="level2">
 <h2 class="anchored" data-anchor-id="naïve-predictions-using-only-the-created-features">Naïve Predictions using only the created features</h2>
-<div id="9d325230" class="cell">
+<div id="93715621" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="cf">for</span> col <span class="kw">in</span> val_df.columns[<span class="op">-</span><span class="dv">6</span>:]:</span>
 <span id="cb15-2"><a href="#cb15-2"></a>    <span class="bu">print</span>(<span class="ss">f"MAE using only '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">' = </span><span class="sc">{</span>mean_absolute_error(val_df[<span class="st">'normalized_sunspots'</span>], val_df[col])<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -453,7 +453,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="create-tensorflow-model-and-dataset">Create TensorFlow Model and Dataset</h2>
 <section id="create-windowed-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="create-windowed-dataset">Create Windowed Dataset</h3>
-<div id="6d60dd85" class="cell">
+<div id="20928a44" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>train_ds  <span class="op">=</span> tf.data.Dataset.from_tensor_slices(train_df[train_df.columns[<span class="op">-</span><span class="dv">7</span>:]])</span>
 <span id="cb16-2"><a href="#cb16-2"></a>val_ds  <span class="op">=</span> tf.data.Dataset.from_tensor_slices(val_df[val_df.columns[<span class="op">-</span><span class="dv">7</span>:]])</span>
 <span id="cb16-3"><a href="#cb16-3"></a></span>
@@ -470,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="create-the-model-cnn-rnn" class="level3">
 <h3 class="anchored" data-anchor-id="create-the-model-cnn-rnn">Create the model (CNN + RNN)</h3>
-<div id="5bd3da23" class="cell">
+<div id="1233bc6a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>inputs <span class="op">=</span> layers.Input(shape<span class="op">=</span>(window_size,<span class="dv">7</span>))</span>
 <span id="cb17-2"><a href="#cb17-2"></a>x <span class="op">=</span> layers.Conv1D(filters<span class="op">=</span><span class="dv">32</span>, kernel_size<span class="op">=</span><span class="dv">10</span>, padding<span class="op">=</span><span class="st">'causal'</span>)(inputs)</span>
 <span id="cb17-3"><a href="#cb17-3"></a>x <span class="op">=</span> layers.Conv1D(filters<span class="op">=</span><span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">2</span>)(x)</span>
@@ -482,17 +482,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb17-9"><a href="#cb17-9"></a>model <span class="op">=</span> Model(inputs, x)</span>
 <span id="cb17-10"><a href="#cb17-10"></a>model.summary()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d90556db" class="cell">
+<div id="3cd2f0b5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>model.<span class="bu">compile</span>(loss<span class="op">=</span>losses.Huber(), optimizer<span class="op">=</span><span class="st">'adam'</span>, metrics<span class="op">=</span>[<span class="st">'mae'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a86ad73c" class="cell">
+<div id="21135dbd" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>early_stop <span class="op">=</span> callbacks.EarlyStopping(monitor<span class="op">=</span><span class="st">'val_mae'</span>, min_delta<span class="op">=</span><span class="fl">1e-3</span>, patience<span class="op">=</span><span class="dv">30</span>, mode<span class="op">=</span><span class="st">'min'</span>, restore_best_weights<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb19-2"><a href="#cb19-2"></a>checkpoint <span class="op">=</span> callbacks.ModelCheckpoint(<span class="ss">f'models/sunspots.model.keras'</span>, monitor<span class="op">=</span><span class="st">'mae'</span>, save_best_only<span class="op">=</span><span class="va">True</span>, mode<span class="op">=</span><span class="st">'min'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="267975e7" class="cell">
+<div id="d8f6b2aa" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>history <span class="op">=</span> model.fit(train_ds, validation_data<span class="op">=</span>val_ds, epochs<span class="op">=</span><span class="dv">100</span>, callbacks<span class="op">=</span>[early_stop, checkpoint], verbose<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="62f40c60" class="cell">
+<div id="c26dfb9c" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>y_true <span class="op">=</span> []</span>
 <span id="cb21-2"><a href="#cb21-2"></a>y_pred <span class="op">=</span> []</span>
 <span id="cb21-3"><a href="#cb21-3"></a><span class="cf">for</span> elem <span class="kw">in</span> val_ds:</span>
@@ -507,7 +507,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb21-12"><a href="#cb21-12"></a><span class="bu">print</span>(<span class="st">'val_MAE:'</span>, mean_absolute_error(y_true, y_pred))</span>
 <span id="cb21-13"><a href="#cb21-13"></a>err <span class="op">=</span> y_true <span class="op">-</span> y_pred</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cd3b6661" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="9ade1081" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>f <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>))</span>
 <span id="cb22-2"><a href="#cb22-2"></a>ax1 <span class="op">=</span> f.add_subplot(<span class="dv">211</span>)</span>
 <span id="cb22-3"><a href="#cb22-3"></a>ax2 <span class="op">=</span> f.add_subplot(<span class="dv">212</span>)</span>
@@ -526,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="error-analysis" class="level1">
 <h1>Error Analysis</h1>
-<div id="24b52e16" class="cell">
+<div id="baa70012" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>n_experiments <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a>y_true <span class="op">=</span> []</span>
 <span id="cb23-3"><a href="#cb23-3"></a>y_pred <span class="op">=</span> []</span>
@@ -541,17 +541,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb23-12"><a href="#cb23-12"></a>y_true <span class="op">=</span> np.concatenate(y_true, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb23-13"><a href="#cb23-13"></a>y_pred <span class="op">=</span> np.concatenate(y_pred, axis<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1229be1f" class="cell">
+<div id="1af57d10" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>quantiles <span class="op">=</span> np.quantile(y_pred, [<span class="fl">0.5</span>,<span class="fl">0.25</span>,<span class="fl">0.75</span>,<span class="fl">0.05</span>,<span class="fl">0.95</span>], axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb24-2"><a href="#cb24-2"></a>quantiles <span class="op">=</span> scaler.inverse_transform(quantiles)</span>
 <span id="cb24-3"><a href="#cb24-3"></a>quantiles.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="af9fd0a2" class="cell">
+<div id="d5e301d7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>y_true_tr <span class="op">=</span> scaler.inverse_transform(np.expand_dims(y_true, axis<span class="op">=-</span><span class="dv">1</span>))</span>
 <span id="cb25-2"><a href="#cb25-2"></a>y_pred_tr <span class="op">=</span> np.expand_dims(quantiles[<span class="dv">0</span>], axis<span class="op">=-</span><span class="dv">1</span>)</span>
 <span id="cb25-3"><a href="#cb25-3"></a>err <span class="op">=</span> (y_true_tr <span class="op">-</span> y_pred_tr).squeeze()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="a80345d9" class="cell" data-fig-width="14" data-fig-height="7">
+<div id="c4afbbbf" class="cell" data-fig-width="14" data-fig-height="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>f <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">7</span>))</span>
 <span id="cb26-2"><a href="#cb26-2"></a>ax1 <span class="op">=</span> f.add_subplot(<span class="dv">211</span>)</span>
 <span id="cb26-3"><a href="#cb26-3"></a>ax2 <span class="op">=</span> f.add_subplot(<span class="dv">212</span>)</span>

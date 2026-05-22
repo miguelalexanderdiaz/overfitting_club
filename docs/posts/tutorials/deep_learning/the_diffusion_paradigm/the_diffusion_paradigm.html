@@ -438,7 +438,7 @@ window.Quarto = {
 <p>Diffusion models produce <strong>sharper, more diverse</strong> samples than VAEs because the iterative chain can correct mistakes over many steps — no single forward pass needs to be perfect. The cost is <strong>inference speed</strong>: generating one image requires running the network <span class="math inline">\(T\)</span> times (typically <span class="math inline">\(T = 1000\)</span>), compared to a single decoder pass in a VAE. Much of modern diffusion research (DDIM, distillation, consistency models) focuses on closing this speed gap without sacrificing quality.</p>
 </div>
 </div>
-<div id="64b907e3" class="cell">
+<div id="fe9878e0" class="cell">
 <details class="code-fold">
 <summary>Setup: imports and configuration</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -482,7 +482,7 @@ window.Quarto = {
 <span id="cb1-39"><a href="#cb1-39"></a>console.<span class="bu">print</span>(<span class="ss">f"Device: </span><span class="sc">{</span>DEVICE<span class="sc">}</span><span class="ss"> | T = </span><span class="sc">{</span>T<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="419a57f0" class="cell">
+<div id="82a5e5aa" class="cell">
 <details class="code-fold">
 <summary>Load FashionMNIST</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>transform <span class="op">=</span> transforms.Compose([</span>
@@ -517,7 +517,7 @@ window.Quarto = {
 (1 - \bar{\alpha}_t)\,\mathbf{I}\Big)
 \tag{2}\]</span></span></p>
 <p>The mean shrinks toward zero while the variance grows toward one — the image is gradually replaced by noise:</p>
-<div id="6572611a" class="cell">
+<div id="0ffcea0f" class="cell">
 <details class="code-fold">
 <summary>Mean and variance of q(x_t | x_0) over time</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>_betas <span class="op">=</span> torch.linspace(<span class="fl">1e-4</span>, <span class="fl">0.02</span>, T).numpy()</span>
@@ -602,7 +602,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Let’s implement the schedule and <code>q_sample</code> in code.</p>
-<div id="a9745b97" class="cell">
+<div id="b896dc08" class="cell">
 <details class="code-fold">
 <summary>Linear noise schedule and q_sample</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> linear_beta_schedule(T, beta_start<span class="op">=</span><span class="fl">1e-4</span>, beta_end<span class="op">=</span><span class="fl">0.02</span>):</span>
@@ -631,7 +631,7 @@ window.Quarto = {
 </details>
 </div>
 <p>Now let’s see the forward process in action on a real image.</p>
-<div id="3b18f580" class="cell">
+<div id="fc40d2df" class="cell">
 <details class="code-fold">
 <summary>Visualize the forward process at selected timesteps</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Pick a single image</span></span>
@@ -705,7 +705,7 @@ f(t) = \cos^2\!\left(\frac{t/T + s}{1 + s} \cdot \frac{\pi}{2}\right)
 </section>
 <section id="comparing-schedules" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="comparing-schedules"><span class="header-section-number">3.3</span> Comparing Schedules</h3>
-<div id="70e08281" class="cell">
+<div id="a6be48ea" class="cell">
 <details class="code-fold">
 <summary>Cosine schedule and comparison</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">def</span> cosine_beta_schedule(T, s<span class="op">=</span><span class="fl">0.008</span>):</span>
@@ -730,7 +730,7 @@ f(t) = \cos^2\!\left(\frac{t/T + s}{1 + s} \cdot \frac{\pi}{2}\right)
 <span id="cb6-20"><a href="#cb6-20"></a>alpha_bar <span class="op">=</span> alpha_bar_cosine</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="f3edf772" class="cell">
+<div id="f6e9041f" class="cell">
 <details class="code-fold">
 <summary>ᾱ_t comparison: linear vs cosine</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>t_range <span class="op">=</span> np.arange(T)</span>
@@ -760,7 +760,7 @@ f(t) = \cos^2\!\left(\frac{t/T + s}{1 + s} \cdot \frac{\pi}{2}\right)
 </div>
 <p>The cosine curve stays higher for longer — the image retains meaningful structure well past the midpoint — then drops smoothly to zero at <span class="math inline">\(t = T\)</span>. The linear schedule, by contrast, has already crushed <span class="math inline">\(\bar{\alpha}_t\)</span> close to zero by <span class="math inline">\(t \approx 700\)</span>.</p>
 <p>We can see the difference on a real image:</p>
-<div id="f5acab00" class="cell">
+<div id="6b1efe56" class="cell">
 <details class="code-fold">
 <summary>Noising comparison: linear vs cosine</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>timesteps_cmp <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">250</span>, <span class="dv">500</span>, <span class="dv">750</span>, <span class="dv">999</span>]</span>
@@ -1052,7 +1052,7 @@ L_{\text{simple}} = \mathbb{E}_{t,\,\mathbf{x}_0,\,\boldsymbol{\varepsilon}}\!\B
 <p>We turned a complex variational inference problem into supervised learning on random noise. At each training step, we pick a random timestep, add known noise to a training image, and train the network to predict that noise. No adversarial training, no complex latent inference — just denoising.</p>
 </div>
 </div>
-<div id="d028600b" class="cell">
+<div id="b09d269b" class="cell">
 <details class="code-fold">
 <summary>The DDPM training step</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">def</span> ddpm_train_step(model, x_0, alpha_bar, optimizer):</span>
@@ -1107,7 +1107,7 @@ L_{\text{simple}} = \mathbb{E}_{t,\,\mathbf{x}_0,\,\boldsymbol{\varepsilon}}\!\B
 \text{emb}(t) = \text{MLP}\!\big(\text{SinusoidalPE}(t)\big) \in \mathbb{R}^{d_\text{emb}}
 \]</span></p>
 <p>This embedding is then injected into every residual block of the U-Net. The same sinusoidal timestep encoding will reappear in the DiT (Part 6).</p>
-<div id="ef51268f" class="cell">
+<div id="2205bd74" class="cell">
 <details class="code-fold">
 <summary>Sinusoidal timestep embedding</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">class</span> SinusoidalPE(nn.Module):</span>
@@ -1176,7 +1176,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <p><img src="assets/upsample_comparison.svg" class="img-fluid"></p>
 </div>
 </div>
-<div id="db3dc7b5" class="cell">
+<div id="a5001821" class="cell">
 <details class="code-fold">
 <summary>Building blocks: ResBlock, AttnBlock, up/down</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">class</span> ResBlock(nn.Module):</span>
@@ -1229,7 +1229,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <span id="cb11-48"><a href="#cb11-48"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="b9fefa8d" class="cell">
+<div id="594250c9" class="cell">
 <details class="code-fold">
 <summary>Class-conditional U-Net</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">class</span> CondUNet(nn.Module):</span>
@@ -1333,7 +1333,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <span id="cb12-99"><a href="#cb12-99"></a>        <span class="cf">return</span> <span class="va">self</span>.out(F.silu(<span class="va">self</span>.out_norm(h)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="220482c5" class="cell">
+<div id="03564d85" class="cell">
 <details class="code-fold">
 <summary>Model summary</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>model <span class="op">=</span> CondUNet(in_ch<span class="op">=</span><span class="dv">1</span>, ch<span class="op">=</span><span class="dv">64</span>).to(DEVICE)</span>
@@ -1456,7 +1456,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <section id="diffusion-utilities" class="level3" data-number="7.1">
 <h3 data-number="7.1" class="anchored" data-anchor-id="diffusion-utilities"><span class="header-section-number">7.1</span> Diffusion Utilities</h3>
 <p>Before training, we bundle all the precomputed schedule tensors into a single object and add a helper for the DDPM reverse step. This keeps the training and sampling code clean.</p>
-<div id="8212c393" class="cell">
+<div id="8e66bad6" class="cell">
 <details class="code-fold">
 <summary>DiffusionSchedule — precomputed tensors</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">class</span> DiffusionSchedule:</span>
@@ -1493,7 +1493,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <p>with decay <span class="math inline">\(\gamma = 0.999\)</span>. Because <span class="math inline">\((1 - \gamma)\)</span> is small, each individual step barely changes the shadow — it effectively averages over the last <span class="math inline">\(\frac{1}{1 - \gamma} = 1{,}000\)</span> updates. The shadow weights are smoother, more stable, and produce sharper samples. We only use them at sampling time; training continues on the original (non-averaged) weights.</p>
 <p>A useful rule of thumb: pick <span class="math inline">\(\gamma\)</span> so that <span class="math inline">\(\frac{1}{1-\gamma}\)</span> is a small fraction of your total training steps. The original DDPM paper uses <span class="math inline">\(\gamma = 0.9999\)</span> over ~800 K steps (a 1.25 % window). We use <span class="math inline">\(\gamma = 0.999\)</span> over ~47 K steps (a 2.1 % window) — scaling the window with the training budget keeps EMA’s effective smoothing proportional.</p>
 <p><strong>The cost.</strong> EMA <strong>doubles the memory</strong> for model parameters — we store two full copies of every weight tensor. For our small U-Net this is negligible, but for large-scale models (e.g.&nbsp;Stable Diffusion with ~860M parameters) the extra memory is significant. Despite this cost, EMA is used in virtually every diffusion model in practice because the quality improvement is substantial.</p>
-<div id="169c43f5" class="cell">
+<div id="64dbee34" class="cell">
 <details class="code-fold">
 <summary>EMA helper</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">class</span> EMA:</span>
@@ -1520,7 +1520,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 </section>
 <section id="training-loop" class="level3" data-number="7.3">
 <h3 data-number="7.3" class="anchored" data-anchor-id="training-loop"><span class="header-section-number">7.3</span> Training Loop</h3>
-<div id="c60802b2" class="cell">
+<div id="c1ddf638" class="cell">
 <details class="code-fold">
 <summary>Checkpoint helpers</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">def</span> save_checkpoint(name, model, optimizer, history, ema<span class="op">=</span><span class="va">None</span>):</span>
@@ -1541,7 +1541,7 @@ Figure&nbsp;1: Class-conditional U-Net architecture for DDPM on FashionMNIST. Ea
 <span id="cb16-16"><a href="#cb16-16"></a>    <span class="cf">return</span> <span class="va">None</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="81265894" class="cell">
+<div id="9d687eea" class="cell">
 <details class="code-fold">
 <summary>Train the class-conditional DDPM</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>optimizer <span class="op">=</span> optim.Adam(model.parameters(), lr<span class="op">=</span>LR)</span>
@@ -1641,7 +1641,7 @@ Figure&nbsp;2
 <p>DDPM uses <span class="math inline">\(T = 1000\)</span> steps. Each step only makes a tiny correction, which means the Gaussian approximation of the reverse process is accurate. Fewer steps would require each step to make larger corrections, violating the Gaussian assumption. Later work (DDIM <span class="citation" data-cites="song2020denoising">(<a href="#ref-song2020denoising" role="doc-biblioref">Song, Meng, and Ermon 2020</a>)</span>) showed how to skip steps and generate in as few as 10–50 steps by using a non-Markovian reverse process. We stick with the full 1000 steps here for conceptual clarity.</p>
 </div>
 </div>
-<div id="83056e96" class="cell">
+<div id="0af4a873" class="cell">
 <details class="code-fold">
 <summary>DDPM sampling loop</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="at">@torch.no_grad</span>()</span>

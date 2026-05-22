@@ -568,7 +568,7 @@ Figure&nbsp;2: Unconditional vs.&nbsp;conditional generation. In the cVAE, the c
 </section>
 <section id="setup" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="setup"><span class="header-section-number">2</span> Setup</h2>
-<div id="e1d0a7dd" class="cell">
+<div id="bf87dab8" class="cell">
 <details class="code-fold">
 <summary>Setup: imports, configuration, and data loading</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -644,7 +644,7 @@ Figure&nbsp;2: Unconditional vs.&nbsp;conditional generation. In the cVAE, the c
 <section id="the-base-architecture-resnet-vae-recap" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="the-base-architecture-resnet-vae-recap"><span class="header-section-number">3</span> The Base Architecture — ResNet VAE (Recap)</h2>
 <p>We reuse the ResNet VAE architecture from the autoencoder tutorial — ResNet blocks with GroupNorm and SiLU activations, self-attention in the mid-block, and a spatial latent of shape 1×7×7 (49 values). If you haven’t read that post, all you need to know is: it’s a VAE with residual connections that produces a 2D latent feature map instead of a flat vector.</p>
-<div id="11a779d7" class="cell">
+<div id="f6fe16c8" class="cell">
 <details class="code-fold">
 <summary>ResNet building blocks (unchanged from autoencoder tutorial)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">class</span> ResNetBlock(nn.Module):</span>
@@ -1517,7 +1517,7 @@ Figure&nbsp;5: Decoder side: the class label is embedded into a learned 1×7×7 
 <p>Decoder-only conditioning is a common simplification that works for generation, but sacrifices disentanglement. The proper CVAE formulation conditions both sides.</p>
 </div>
 </div>
-<div id="12df85a2" class="cell">
+<div id="1c0aad61" class="cell">
 <details class="code-fold">
 <summary>Spatial concat-conditioned ResNet VAE — full model definition</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">class</span> ClassSpatialMap(nn.Module):</span>
@@ -1642,7 +1642,7 @@ Figure&nbsp;5: Decoder side: the class label is embedded into a learned 1×7×7 
 <section id="training" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="training"><span class="header-section-number">4.1</span> Training</h3>
 <p>The training loop is nearly identical to the unconditional VAE — the only difference is that we pass <code>labels</code> to the model alongside images. The loss curve below tracks reconstruction (blue) and the weighted KL term (orange). We expect reconstruction loss to dominate early, with KL rising as the encoder learns to use the latent space rather than memorize inputs.</p>
-<div id="09493ceb" class="cell">
+<div id="d13d42b0" class="cell">
 <details class="code-fold">
 <summary>Train the Spatial cVAE</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>EPOCHS_CONCAT <span class="op">=</span> EPOCHS</span>
@@ -1700,7 +1700,7 @@ Figure&nbsp;5: Decoder side: the class label is embedded into a learned 1×7×7 
 <section id="results-conditional-generation" class="level3" data-number="4.2">
 <h3 data-number="4.2" class="anchored" data-anchor-id="results-conditional-generation"><span class="header-section-number">4.2</span> Results — Conditional Generation</h3>
 <p>Now the payoff: to generate a “Trouser”, we simply sample <span class="math inline">\(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span> and pass <span class="math inline">\(y = 1\)</span> (the trouser class index). No cherry-picking, no per-class statistics — the grid below shows 8 random samples per class. Look for two things: (1) do the generated items match the requested class? (2) is there variety within each row, or did the model collapse to a single prototype?</p>
-<div id="7127c555" class="cell">
+<div id="3df5249a" class="cell">
 <details class="code-fold">
 <summary>Conditional generation — 8 samples per class</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>spatial_cvae.<span class="bu">eval</span>()</span>
@@ -1737,7 +1737,7 @@ Figure&nbsp;5: Decoder side: the class label is embedded into a learned 1×7×7 
 <section id="latent-space-structure" class="level3" data-number="4.3">
 <h3 data-number="4.3" class="anchored" data-anchor-id="latent-space-structure"><span class="header-section-number">4.3</span> Latent Space Structure</h3>
 <p>With conditioning, the latent space should look different from the unconditional VAE. Since the decoder now receives the class label directly, <span class="math inline">\(\mathbf{z}\)</span> no longer needs to encode class identity — it can focus on intra-class variation (style, thickness, angle). The t-SNE plot should show less class separation.</p>
-<div id="8003c412" class="cell">
+<div id="0c7bf08f" class="cell">
 <details class="code-fold">
 <summary>t-SNE visualization of the Spatial cVAE latent space</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
@@ -2220,7 +2220,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 \text{adaLN}(\mathbf{h}, y) = \gamma(y) \odot \text{GroupNorm}(\mathbf{h}) + \beta(y)
 \]</span></p>
 <p>where <span class="math inline">\(\gamma(y)\)</span> and <span class="math inline">\(\beta(y)\)</span> are produced by an MLP that takes a class embedding as input. This is exactly the mechanism that DiT <span class="citation" data-cites="peebles2023scalable">(<a href="#ref-peebles2023scalable" role="doc-biblioref">Peebles and Xie 2023</a>)</span> uses for timestep and class conditioning — learning it here will make the DiT architecture feel familiar.</p>
-<div id="8955f02c" class="cell">
+<div id="7e73a497" class="cell">
 <details class="code-fold">
 <summary>adaLN ResNet block and full adaLN cVAE model</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">class</span> AdaLNResNetBlock(nn.Module):</span>
@@ -2415,7 +2415,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 <section id="training-1" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="training-1"><span class="header-section-number">6.1</span> Training</h3>
 <p>We train the adaLN cVAE with identical hyperparameters (<span class="math inline">\(\beta = 0.01\)</span>, 200 epochs) so the comparison is fair. The plot overlays both models’ reconstruction curves — any gap tells us whether modulating every normalization layer helps the network learn faster or converge to a better optimum than input-level concatenation.</p>
-<div id="173f87a5" class="cell">
+<div id="fbed24d8" class="cell">
 <details class="code-fold">
 <summary>Train the adaLN cVAE</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>EPOCHS_ADALN <span class="op">=</span> EPOCHS</span>
@@ -2471,7 +2471,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 <section id="results-conditional-generation-1" class="level3" data-number="6.2">
 <h3 data-number="6.2" class="anchored" data-anchor-id="results-conditional-generation-1"><span class="header-section-number">6.2</span> Results — Conditional Generation</h3>
 <p>Same experiment as before: 8 random samples per class from <span class="math inline">\(\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span>. Compare these with the spatial cVAE grid above — does adaLN produce sharper samples, better class fidelity, or more diversity?</p>
-<div id="e855cf21" class="cell">
+<div id="865951ed" class="cell">
 <details class="code-fold">
 <summary>adaLN cVAE — conditional generation (8 per class)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>adaln_cvae.<span class="bu">eval</span>()</span>
@@ -2508,7 +2508,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 <section id="latent-space-comparison" class="level3" data-number="6.3">
 <h3 data-number="6.3" class="anchored" data-anchor-id="latent-space-comparison"><span class="header-section-number">6.3</span> Latent Space Comparison</h3>
 <p>How does adaLN affect the geometry of the latent space? We plot t-SNE projections of both models’ encoder means side by side. If conditioning works well, the latent codes should mix across classes — the decoder knows the class from <span class="math inline">\(y\)</span>, so <span class="math inline">\(\mathbf{z}\)</span> doesn’t need class-specific clusters. A more “entangled” t-SNE (less color separation) is actually a <em>good</em> sign here: it means the model is using <span class="math inline">\(\mathbf{z}\)</span> for style, not class.</p>
-<div id="e3671ab4" class="cell">
+<div id="27ae6d00" class="cell">
 <details class="code-fold">
 <summary>t-SNE comparison: Spatial vs adaLN latent spaces</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>adaln_cvae.<span class="bu">eval</span>()</span>
@@ -2572,7 +2572,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 <section id="reconstruction-quality" class="level3" data-number="7.1">
 <h3 data-number="7.1" class="anchored" data-anchor-id="reconstruction-quality"><span class="header-section-number">7.1</span> Reconstruction Quality</h3>
 <p>Generation tests the decoder in isolation (random <span class="math inline">\(\mathbf{z}\)</span>), but reconstruction tests the full pipeline: encoder → latent → decoder. If one model reconstructs more faithfully, it’s extracting more information from the input. We feed the same 10 test images through both models:</p>
-<div id="e2d06af4" class="cell">
+<div id="e6f8857d" class="cell">
 <details class="code-fold">
 <summary>Reconstruction comparison: Spatial vs adaLN</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>spatial_cvae.<span class="bu">eval</span>()</span>
@@ -2617,7 +2617,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 <p><span class="math display">\[
 \mathbf{z}_t = (1 - t)\,\mathbf{z}_A + t\,\mathbf{z}_B, \qquad t \in [0, 1]
 \]</span></p>
-<div id="63b228e7" class="cell">
+<div id="bd778956" class="cell">
 <details class="code-fold">
 <summary>Intra-class interpolation — adaLN cVAE</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>adaln_cvae.<span class="bu">eval</span>()</span>
@@ -2808,7 +2808,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 
 </svg>
 </div>
-<div id="43fce04f" class="cell">
+<div id="b08ee259" class="cell">
 <details class="code-fold">
 <summary>Disentanglement grid: fix z, vary class (rows) vs.&nbsp;fix class, vary z (columns)</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>adaln_cvae.<span class="bu">eval</span>()</span>
@@ -2961,7 +2961,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 </svg>
 </div>
 <p>The second panel is the complement: each <strong>row</strong> is locked to a single class, and the columns show different random <span class="math inline">\(\mathbf{z}\)</span> vectors. This tests whether the latent space captures meaningful variation rather than collapsing. Look for diversity in each row — different angles, thicknesses, and details — while the garment type stays consistent.</p>
-<div id="1f4da358" class="cell">
+<div id="c61c04f8" class="cell">
 <details class="code-fold">
 <summary>Fix class, vary z — different styles within a class</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>fig2 <span class="op">=</span> make_subplots(</span>
@@ -3118,7 +3118,7 @@ Figure&nbsp;7: Adaptive Layer Norm. A class embedding is projected to per-layer 
 \mathbf{c}_{\text{blend}} = (1 - \alpha)\,\mathbf{c}_A + \alpha\,\mathbf{c}_B
 \]</span></p>
 <p>This asks the decoder to generate something that is, say, 60% sneaker and 40% ankle boot. Because the adaLN mechanism modulates every normalization layer through the embedding vector, a blended <span class="math inline">\(\mathbf{c}\)</span> smoothly interpolates the <em>class signal</em> itself — not just the pixel output. We pick pairs of semantically compatible categories (footwear, tops, bottoms) to see whether the model can invent plausible hybrids.</p>
-<div id="9e199493" class="cell">
+<div id="9ed7fbea" class="cell">
 <details class="code-fold">
 <summary>Class blending — interpolate between class embeddings</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>adaln_cvae.<span class="bu">eval</span>()</span>
