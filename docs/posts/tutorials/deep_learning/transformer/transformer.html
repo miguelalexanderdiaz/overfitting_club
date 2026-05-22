@@ -98,7 +98,7 @@ div.csl-indent {
 <link href="../../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-ed7b02c505130c056af654d032eb1860.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../../site_libs/bootstrap/bootstrap-0972aeae5f03a4a636dc5ddf66efd6f1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../../site_libs/bootstrap/bootstrap-4532ca7bc2e32eece04fd6c186cde444.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -834,7 +834,7 @@ Figure&nbsp;4: Self-attention intuition. The word “it” attends most strongly
 </div>
 <p>This is the core insight: <strong>self-attention lets each token gather information from the entire sequence</strong>, weighting nearby and distant tokens purely by relevance — not by distance. A word at position 1 can directly inform a word at position 7, with no information bottleneck.</p>
 <p>We will use this sentence as our running example throughout the post. But first, let’s see how raw text gets converted into something a model can actually work with.</p>
-<div id="b9e47554" class="cell">
+<div id="71076417" class="cell">
 <details class="code-fold">
 <summary>Setup: imports and configuration</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> math</span>
@@ -1313,7 +1313,7 @@ Figure&nbsp;6: The Transformer encoder architecture.
 </figure>
 </div>
 <p>Let’s implement this in PyTorch. We split the sentence into words, build a vocabulary mapping each unique token to an integer ID, and convert the full sequence into a tensor of IDs:</p>
-<div id="bb967e75" class="cell">
+<div id="02715150" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>sentence <span class="op">=</span> <span class="st">"The animal didn't cross the street because it was too tired"</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>tokens <span class="op">=</span> sentence.split()</span>
 <span id="cb2-3"><a href="#cb2-3"></a>vocab <span class="op">=</span> {tok: i <span class="cf">for</span> i, tok <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(<span class="bu">set</span>(tokens)))}</span>
@@ -1525,7 +1525,7 @@ Figure&nbsp;7: 2D projection of the embedding space showing semantic clusters.
 </div>
 <p>These vectors are <strong>learned</strong> during training. The model adjusts them so that tokens appearing in similar contexts drift towards similar regions of the embedding space.</p>
 <p>In PyTorch, <code>nn.Embedding</code> is exactly this lookup table — we pass in our token IDs and get back one dense vector per token:</p>
-<div id="6999609b" class="cell">
+<div id="8fb1e635" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>embedding_layer <span class="op">=</span> nn.Embedding(num_embeddings<span class="op">=</span><span class="bu">len</span>(vocab), embedding_dim<span class="op">=</span>d_model)</span>
 <span id="cb3-2"><a href="#cb3-2"></a>X_embed <span class="op">=</span> embedding_layer(token_ids)</span>
 <span id="cb3-3"><a href="#cb3-3"></a></span>
@@ -1750,7 +1750,7 @@ Figure&nbsp;8: Sinusoidal positional encodings across different dimensions.
 </div>
 </div>
 <p>Here is the sinusoidal formula translated directly into PyTorch. We generate the full <span class="math inline">\(\text{PE}\)</span> matrix and add it element-wise to our embeddings:</p>
-<div id="dd35821d" class="cell">
+<div id="b6cfa5d9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">def</span> sinusoidal_positional_encoding(seq_len: <span class="bu">int</span>, d_model: <span class="bu">int</span>) <span class="op">-&gt;</span> torch.Tensor:</span>
 <span id="cb4-2"><a href="#cb4-2"></a>    pe <span class="op">=</span> torch.zeros(seq_len, d_model)</span>
 <span id="cb4-3"><a href="#cb4-3"></a>    position <span class="op">=</span> torch.arange(seq_len, dtype<span class="op">=</span>torch.float32).unsqueeze(<span class="dv">1</span>)</span>
@@ -2363,7 +2363,7 @@ Figure&nbsp;12: Computing the final attention output as a weighted sum of value 
 </div>
 </div>
 <p>Let’s wire up the full self-attention pipeline in PyTorch — project into Q, K, V, compute scaled dot-product scores, apply softmax, and produce the weighted output:</p>
-<div id="1335d2c5" class="cell">
+<div id="a5a98021" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Linear projections</span></span>
 <span id="cb5-2"><a href="#cb5-2"></a>q_proj <span class="op">=</span> nn.Linear(d_model, d_model)</span>
 <span id="cb5-3"><a href="#cb5-3"></a>k_proj <span class="op">=</span> nn.Linear(d_model, d_model)</span>
@@ -2908,7 +2908,7 @@ Figure&nbsp;14: Attention heatmap showing the weights between all pairs of token
 </div>
 </div>
 <p>We can visualize the full <span class="math inline">\(N \times N\)</span> weight matrix as a heatmap using Plotly:</p>
-<div id="9a0f9854" class="cell">
+<div id="b16ca3fa" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>fig <span class="op">=</span> px.imshow(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    weights.detach().numpy(),</span>
 <span id="cb6-3"><a href="#cb6-3"></a>    x<span class="op">=</span>[<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(tokens)],</span>
@@ -3439,7 +3439,7 @@ Figure&nbsp;17: Different attention heads specialize in capturing different ling
 </div>
 </div>
 <p>Here’s multi-head attention in practice. We reuse the same projection weights but reshape into <code>[num_heads, N, head_dim]</code> so each head operates on its own subspace, then concatenate and project back:</p>
-<div id="1880e64e" class="cell">
+<div id="9910e64f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>num_heads <span class="op">=</span> <span class="dv">4</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a>head_dim <span class="op">=</span> d_model <span class="op">//</span> num_heads</span>
 <span id="cb7-3"><a href="#cb7-3"></a></span>
@@ -3816,7 +3816,7 @@ Figure&nbsp;19: Layer normalization process. The feature distributions for diffe
 </div>
 </div>
 <p>The residual connection is just an addition, and <code>nn.LayerNorm</code> handles the normalization. Notice how the mean snaps to ~0 and std to ~1 after LayerNorm:</p>
-<div id="929bcf4e" class="cell">
+<div id="4bb11e86" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>ln <span class="op">=</span> nn.LayerNorm(d_model)</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># 1. Residual connection: add MHA output back to input</span></span>
@@ -3997,7 +3997,7 @@ Figure&nbsp;20: The Position-Wise Feed-Forward Network. The 512-dimensional inpu
 </div>
 <p>Two linear layers with GELU in between — the first expands to <span class="math inline">\(4 \times
 d_{\text{model}}\)</span>, the second compresses back:</p>
-<div id="b9fa0a69" class="cell">
+<div id="f3ec46b8" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>hidden_dim <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span> d_model</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a>fc1 <span class="op">=</span> nn.Linear(d_model, hidden_dim)</span>
@@ -4139,7 +4139,7 @@ Figure&nbsp;21: The complete architecture of a single Transformer Encoder Block.
 </div>
 <p>By stacking these blocks, the model builds increasingly complex representations. The lower layers might learn basic syntax and local grammar, while the higher layers can resolve complex coreferences and understand deep semantic meaning.</p>
 <p>Finally, let’s wrap everything into clean <code>nn.Module</code> classes. The <code>TransformerEncoderBlock</code> chains attention → add &amp; norm → FFN → add &amp; norm, exactly mirroring the diagram above:</p>
-<div id="cf4e826d" class="cell">
+<div id="a73e0fd2" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">class</span> MultiHeadAttention(nn.Module):</span>
 <span id="cb10-2"><a href="#cb10-2"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, embed_dim: <span class="bu">int</span>, num_heads: <span class="bu">int</span>):</span>
 <span id="cb10-3"><a href="#cb10-3"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>

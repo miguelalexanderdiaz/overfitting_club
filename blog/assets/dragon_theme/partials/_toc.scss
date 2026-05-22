@@ -120,21 +120,41 @@ input.aa-Input {
   color: var(--fg) !important;
 }
 
-/* Source-view modal: make Bootstrap's btn-close visible on dark background */
+/* Source-view modal: dark-theme styling + scrollable body + visible close */
+.modal { z-index: 2000 !important; }
+.modal-backdrop { z-index: 1999 !important; }
+.modal-dialog {
+  max-width: min(960px, 92vw) !important;
+  margin: 4vh auto !important;
+}
+.modal-dialog-scrollable .modal-content {
+  max-height: 92vh !important;
+}
 .modal-content {
   background: var(--bg-raised) !important;
   color: var(--fg) !important;
   border: 1px solid var(--rule) !important;
+  border-radius: 6px !important;
+  overflow: hidden;
 }
 .modal-header,
 .modal-footer {
+  background: var(--d-ink-2) !important;
   border-color: var(--rule) !important;
+}
+.modal-title { color: var(--fg) !important; }
+.modal-dialog-scrollable .modal-body {
+  overflow-y: auto !important;
+  background: var(--d-ink-0) !important;
+}
+.modal-body .sourceCode,
+.modal-body pre.sourceCode {
+  background: var(--d-ink-0) !important;
+  max-height: none !important;
 }
 .modal .btn-close {
   filter: invert(1) grayscale(100%) brightness(2);
-  opacity: 0.85;
+  opacity: 0.9;
 }
-.modal .btn-close:hover {
-  opacity: 1;
-}
+.modal .btn-close:hover { opacity: 1; }
 
