@@ -15,14 +15,6 @@
       <span class="name">Miguel Chitiva Diaz</span> &mdash; with
       <em>calm, drama-free MLOps</em>.
     </p>
-    <div class="oc-hero-aside">
-      <div class="oc-hero-ps">p.s. &mdash; GPUs don&rsquo;t grow on trees&nbsp;(tragic)</div>
-      <svg class="oc-hero-arrow" viewBox="0 0 80 40" fill="none">
-        <path d="M 4 32 Q 30 8 70 18 M 64 10 L 72 18 L 62 22"
-              stroke="currentColor" stroke-width="1.6"
-              stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
   </div>
 </section>
 
